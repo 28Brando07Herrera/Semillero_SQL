@@ -1,7 +1,7 @@
 # Semillero SQL · AgroDB
 
 Base de datos para gestión agrícola, construida clase a clase.
-Todo el material del curso vive acá: diapositivas, scripts, ejercicios y entregas.
+Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entregas.
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (elegir SQLite)
@@ -10,11 +10,11 @@ Todo el material del curso vive acá: diapositivas, scripts, ejercicios y entreg
 
 ## Cómo se usa este repo
 
-| Si sos… | Hacés esto |
+| Si eres… | Haces esto |
 |---|---|
-| Alumno, quiero ver la clase | Entrás al link de diapositivas, o abrís `clases/NN-tema/slides.md` |
-| Alumno, quiero entregar | Hacés *fork* → rama → tu archivo en `entregas/` → *pull request*. Ver [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Alumno, estoy trabado | Abrís un *issue* con la plantilla **Duda**. No es penalizado: es parte del curso |
+| Alumno, quiero ver la clase | Entras al link de diapositivas, o abrís `clases/NN-tema/slides.md` |
+| Alumno, quiero entregar | Haces *fork* → rama → tu archivo en `entregas/` → *pull request*. Ver [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Alumno, estoy trabado | Abres un *issue* con la plantilla **Duda**. No es penalizado: es parte del curso |
 | Instructor | `clases/NN-tema/README.md` tiene la guía docente de cada sesión |
 
 ---
@@ -24,7 +24,7 @@ Todo el material del curso vive acá: diapositivas, scripts, ejercicios y entreg
 ```
 clases/         una carpeta por sesión: guía docente, diapositivas y ejercicio
 datos/          scripts .sql que hay que ejecutar antes de cada práctica
-entregas/       una carpeta por alumno, creada por ustedes vía pull request
+entregas/       una carpeta por alumno, creada vía pull request
 recursos/       chuletas de sintaxis y material de consulta
 proyecto-final/ enunciado y rúbrica
 cronograma.md   el plan completo hasta el 29 de agosto
