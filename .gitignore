@@ -1,6 +1,39 @@
+# =====================================================================
+# MATERIAL DEL INSTRUCTOR — no se publica
+# Vive en la carpeta local pero Git no lo rastrea.
+# =====================================================================
+docente/
+cronograma.md
+*_guia_docente.md
+*_solucion_docente.sql
+*_solucionario.*
+
+# Base con datos ya resueltos: subir SOLO cuando cierren las entregas
+# de la clase anterior. Comentar esta linea ese dia para publicarlo.
+datos/agrodb_clase4.sql
+
+# =====================================================================
+# BORRADORES Y TRABAJO EN CURSO
+# =====================================================================
+_borradores/
+*.borrador.*
+
+# =====================================================================
+# ARTEFACTOS
+# =====================================================================
 site/
 node_modules/
 *.db
 *.sqlite
+*.sqlite3
+
+# =====================================================================
+# SISTEMA OPERATIVO Y EDITORES
+# =====================================================================
 .DS_Store
+Thumbs.db
+desktop.ini
+~$*
+*.tmp
 .vscode/
+.idea/

@@ -27,7 +27,6 @@ datos/          scripts .sql que hay que ejecutar antes de cada práctica
 entregas/       una carpeta por alumno, creada vía pull request
 recursos/       chuletas de sintaxis y material de consulta
 proyecto-final/ enunciado y rúbrica
-cronograma.md   el plan completo hasta el 29 de agosto
 ```
 
 ---
@@ -43,8 +42,6 @@ cronograma.md   el plan completo hasta el 29 de agosto
 | 4 | 12 ago | INSERT / UPDATE / DELETE y transacciones | — |
 | 5 | 13 ago | Consultar el modelo propio | — |
 | 6 | 14 ago | Sensores: series de tiempo | — |
-
-El plan completo está en [cronograma.md](cronograma.md).
 
 ---
 
