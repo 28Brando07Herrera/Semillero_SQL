@@ -1,9 +1,9 @@
-# Curso de SQL · AgroDB
+# Semillero SQL · AgroDB
 
 Base de datos para gestión agrícola, construida clase a clase.
 Todo el material del curso vive acá: diapositivas, scripts, ejercicios y entregas.
 
-**Diapositivas online:** https://USUARIO.github.io/curso-sql-agrodb/
+**Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (elegir SQLite)
 
 ---
@@ -22,12 +22,12 @@ Todo el material del curso vive acá: diapositivas, scripts, ejercicios y entreg
 ## Estructura
 
 ```
-clases/        una carpeta por sesión: guía docente, diapositivas y ejercicio
-datos/         scripts .sql que hay que ejecutar antes de cada práctica
-entregas/      una carpeta por alumno, creada por ustedes vía pull request
-recursos/      chuletas de sintaxis y material de consulta
+clases/         una carpeta por sesión: guía docente, diapositivas y ejercicio
+datos/          scripts .sql que hay que ejecutar antes de cada práctica
+entregas/       una carpeta por alumno, creada por ustedes vía pull request
+recursos/       chuletas de sintaxis y material de consulta
 proyecto-final/ enunciado y rúbrica
-cronograma.md  el plan completo hasta el 29 de agosto
+cronograma.md   el plan completo hasta el 29 de agosto
 ```
 
 ---

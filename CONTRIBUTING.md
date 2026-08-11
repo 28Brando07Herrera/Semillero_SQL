@@ -7,8 +7,12 @@ Se entrega por *pull request*. La primera vez cuesta diez minutos; después son 
 1. Botón **Fork** arriba a la derecha. Te queda una copia del repo en tu cuenta.
 2. Clonás tu copia (o la editás directo desde la web de GitHub, también vale):
    ```bash
-   git clone https://github.com/TU-USUARIO/curso-sql-agrodb.git
-   cd curso-sql-agrodb
+   git clone https://github.com/TU-USUARIO/Semillero_SQL.git
+   cd Semillero_SQL
+   ```
+3. Conectás tu copia con el repo del curso, para poder traer las clases nuevas:
+   ```bash
+   git remote add upstream https://github.com/Negatix092/Semillero_SQL.git
    ```
 
 ## Cada entrega
@@ -35,19 +39,20 @@ Se entrega por *pull request*. La primera vez cuesta diez minutos; después son 
 
 4. **Pull request** hacia `main` de este repo. Completá la plantilla que aparece sola.
 
+## Antes del primer commit: tu identidad
+
+Si no configurás esto, tus commits aparecen a nombre de un correo interno que no existe y GitHub no los asocia a tu perfil:
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "el-correo-de-tu-cuenta-github@ejemplo.com"
+```
+
 ## Qué se revisa
 
 - Que el `.sql` corra **completo, de la primera línea a la última**, después de `datos/agrodb_nucleo.sql`.
 - Un solo archivo por entrega, dentro de tu carpeta.
 - No toques archivos de otras carpetas. Si tu PR modifica `entregas/otro-alumno/`, algo hiciste mal con las ramas.
-
-## Conectar tu fork con el repo del curso (una vez)
-
-```bash
-git remote add upstream https://github.com/USUARIO/curso-sql-agrodb.git
-```
-
-Así podés traer las clases nuevas con `git pull upstream main` sin perder tu trabajo.
 
 ## Errores frecuentes
 
@@ -56,3 +61,4 @@ Así podés traer las clases nuevas con `git pull upstream main` sin perder tu t
 | El PR muestra 40 archivos cambiados | Trabajaste sobre `main` desactualizado | `git pull upstream main` y rama nueva |
 | «nothing to commit» | Olvidaste el `git add` | `git add` de tu carpeta |
 | El PR toca archivos de otro | Rama creada desde la rama anterior | Volvé a `main` antes de `checkout -b` |
+| Warnings de `LF will be replaced by CRLF` | Estás en Windows | No es un error. Ignoralo |
