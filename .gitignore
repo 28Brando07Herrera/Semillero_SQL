@@ -12,6 +12,9 @@ cronograma.md
 *solucionario*
 *solucion_*
 
+# Documentacion operativa del instructor, no material del curso
+CLAUDE.md
+
 # Base con datos ya resueltos: subir SOLO cuando cierren las entregas
 # de la clase anterior. Comentar esta linea ese dia para publicarlo.
 #datos/agrodb_clase4.sql
