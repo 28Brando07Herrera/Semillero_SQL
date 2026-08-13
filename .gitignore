@@ -7,6 +7,10 @@ cronograma.md
 *_guia_docente.md
 *_solucion_docente.sql
 *_solucionario.*
+# Atrapa cualquier variante futura: notas_docente.md, clase07_docente.sql, etc.
+*docente*
+*solucionario*
+*solucion_*
 
 # Base con datos ya resueltos: subir SOLO cuando cierren las entregas
 # de la clase anterior. Comentar esta linea ese dia para publicarlo.
