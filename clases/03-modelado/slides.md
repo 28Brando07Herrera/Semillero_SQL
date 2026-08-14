@@ -36,7 +36,7 @@ footer: "Curso de SQL · AgroDB · Clase 3"
 
 ## Entidades, cardinalidad y la relación que no existe
 
-Clase 3 · 11 de agosto
+Clase 3 · 12 de agosto
 
 ---
 

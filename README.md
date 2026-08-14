@@ -38,10 +38,10 @@ proyecto-final/ enunciado y rúbrica
 | 1 | 4 ago | SELECT, WHERE, GROUP BY, JOIN, LEFT JOIN | — |
 | 2 | 5 ago | CASE, COALESCE, subconsultas, CTE, ventanas | — |
 | P1 | 6 ago | Proyecto 1 · diseñá tu propia base | — |
-| **3** | **11 ago** | **Del requerimiento al modelo · normalización y N:M** | [clase](clases/03-modelado/) |
-| 4 | 12 ago | INSERT / UPDATE / DELETE y transacciones | — |
-| 5 | 13 ago | Consultar el modelo propio | — |
-| 6 | 14 ago | Sensores: series de tiempo | — |
+| 3 | 12 ago | Del requerimiento al modelo · normalización y N:M | [clase](clases/03-modelado/) |
+| 4 | 13 ago | INSERT / UPDATE / DELETE y transacciones | [clase](clases/04-modificar-datos/) |
+| **5** | **14 ago** | **Consultar el modelo propio · JOIN, fan-out y LEFT JOIN** | [clase](clases/05-consultar-modelo/) |
+| 6 | 17 ago | Sensores: series de tiempo | — |
 
 ---
 
