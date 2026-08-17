@@ -1,0 +1,436 @@
+<meta charset="utf-8">
+<title>Resultados · Ejercicios 3 y 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fbfbfa;
+    --page:           #f4f4f2;
+    --text-primary:   #16324f;
+    --text-secondary: #4a5568;
+    --muted:          #8a99a8;
+    --grid:           #e4e6e2;
+    --baseline:       #c3c2b7;
+    --border:         rgba(22,50,79,0.12);
+    --series-1:       #00769b;  /* Ejercicio 3 */
+    --series-2:       #c88400;  /* Ejercicio 4 */
+    --accent:         #f2a104;
+    --radius:         10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1:      #161c22;
+      --page:           #0f1317;
+      --text-primary:   #f4f7fa;
+      --text-secondary: #b9c4d0;
+      --muted:          #8a99a8;
+      --grid:           #263039;
+      --baseline:       #3a464f;
+      --border:         rgba(244,247,250,0.12);
+      --series-1:       #0d93bf;
+      --series-2:       #b57808;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #161c22;
+    --page:           #0f1317;
+    --text-primary:   #f4f7fa;
+    --text-secondary: #b9c4d0;
+    --muted:          #8a99a8;
+    --grid:           #263039;
+    --baseline:       #3a464f;
+    --border:         rgba(244,247,250,0.12);
+    --series-1:       #0d93bf;
+    --series-2:       #b57808;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem 4rem;
+  }
+  .wrap { max-width: 60rem; margin: 0 auto; }
+
+  header { margin-bottom: 2rem; }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    margin: 0 0 .3rem;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: .5rem;
+    display: inline-block;
+  }
+  .sub { color: var(--text-secondary); margin: .4rem 0 0; max-width: 46rem; }
+
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h2 {
+    font-size: 1.05rem; margin: 0 0 .2rem; color: var(--text-primary);
+    letter-spacing: .01em;
+  }
+  .card .hint { color: var(--text-secondary); font-size: .87rem; margin: 0 0 1.2rem; }
+
+  /* ---------- KPI row ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .3rem; }
+  .kpi .value { font-size: 2.1rem; font-weight: 650; line-height: 1.1; }
+  .kpi .note { font-size: .8rem; color: var(--text-secondary); margin-top: .2rem; }
+
+  /* ---------- controles ---------- */
+  .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1.1rem; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: .85rem; padding: .35rem .9rem; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary);
+  }
+  .seg button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  /* ---------- leyenda ---------- */
+  .legend { display: flex; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: .85rem; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* ---------- grafico de columnas agrupadas ---------- */
+  .chart-scroll { overflow-x: auto; }
+  /* .plot aporta el aire de arriba para la etiqueta de las columnas de 100;
+     .cols queda sin padding para que grilla y barras midan contra lo mismo */
+  .plot { padding-top: 1.7rem; min-width: 520px; }
+  .cols { display: flex; align-items: flex-end; gap: 1.5rem; height: 260px;
+          border-bottom: 1px solid var(--baseline); position: relative; padding: 0 .25rem; }
+  .gridline { position: absolute; left: 0; right: 0; border-top: 1px solid var(--grid); pointer-events: none; }
+  .gridline span { position: absolute; left: 0; top: -.75em; font-size: .72rem; color: var(--muted);
+                   background: var(--surface-1); padding-right: .4rem; font-variant-numeric: tabular-nums; }
+  .group { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 100%; position: relative; z-index: 1; }
+  .bar { position: relative; width: 30px; border-radius: 4px 4px 0 0; cursor: default;
+         transition: filter .12s ease; }
+  .bar:hover, .bar:focus-visible { filter: brightness(1.12); outline: none; }
+  .bar .val { position: absolute; top: -1.35em; left: 50%; transform: translateX(-50%);
+              font-size: .78rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .xlabels { display: flex; gap: 1.5rem; min-width: 520px; padding: .5rem .25rem 0; }
+  .xlabels div { flex: 1; text-align: center; font-size: .85rem; color: var(--text-secondary); }
+
+  /* ---------- barras horizontales de rubrica ---------- */
+  .rows { display: grid; gap: .7rem; }
+  .row { display: grid; grid-template-columns: minmax(9rem, 15rem) 1fr auto; gap: .8rem; align-items: center; }
+  .row .name { font-size: .87rem; color: var(--text-secondary); }
+  .track { background: var(--grid); border-radius: 4px; height: 16px; position: relative; }
+  .fill { height: 100%; border-radius: 4px; background: var(--series-1); transition: width .35s ease; }
+  .row .pct { font-size: .85rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; min-width: 3.2rem; text-align: right; }
+  .row.weak .fill { background: var(--series-2); }
+
+  /* ---------- tooltip ---------- */
+  #tip {
+    position: fixed; pointer-events: none; opacity: 0; transition: opacity .1s;
+    background: var(--text-primary); color: var(--surface-1);
+    padding: .5rem .7rem; border-radius: 6px; font-size: .82rem; line-height: 1.45;
+    max-width: 15rem; z-index: 50;
+  }
+  #tip b { display: block; font-size: .88rem; margin-bottom: .15rem; }
+
+  /* ---------- tabla ---------- */
+  table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--grid); }
+  th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: 0; }
+  [hidden] { display: none !important; }
+
+  footer { color: var(--muted); font-size: .82rem; margin-top: 2.5rem; text-align: center; }
+  footer a { color: var(--series-1); }
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Resultados · Ejercicios 3 y 4</h1>
+  <p class="sub">
+    Semillero SQL · AgroDB. Cada entrega se <strong>ejecutó</strong> contra su script base en
+    SQLite y se comparó contra los puntos de control del enunciado, además de corregirse
+    con la rúbrica. Las notas se muestran con alias: cada uno sabe cuál es el suyo.
+  </p>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<section class="card">
+  <h2>Nota por alumno</h2>
+  <p class="hint">Pasá el mouse (o tocá) una columna para ver el detalle por criterio.</p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Ordenar">
+      <button type="button" data-sort="promedio" aria-pressed="true">Por promedio</button>
+      <button type="button" data-sort="alias" aria-pressed="false">Por alias</button>
+    </div>
+    <div class="seg" role="group" aria-label="Vista">
+      <button type="button" data-view="grafico" aria-pressed="true">Gráfico</button>
+      <button type="button" data-view="tabla" aria-pressed="false">Tabla</button>
+    </div>
+  </div>
+
+  <div id="vista-grafico">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i> Ejercicio 3 · modelado</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i> Ejercicio 4 · modificar datos</span>
+    </div>
+    <div class="chart-scroll">
+      <div class="plot"><div class="cols" id="cols"></div></div>
+      <div class="xlabels" id="xlabels"></div>
+    </div>
+  </div>
+
+  <div id="vista-tabla" hidden>
+    <table>
+      <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Promedio</th><th class="num">Δ</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Dónde se ganaron y se perdieron puntos</h2>
+  <p class="hint">
+    Promedio del curso en cada criterio de la rúbrica, como porcentaje del puntaje máximo.
+    En <span style="color:var(--series-2);font-weight:600">ámbar</span>, los criterios por
+    debajo del 75&nbsp;%: ahí es donde conviene volver.
+  </p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Ejercicio">
+      <button type="button" data-ej="3" aria-pressed="true">Ejercicio 3</button>
+      <button type="button" data-ej="4" aria-pressed="false">Ejercicio 4</button>
+    </div>
+  </div>
+  <div class="rows" id="rubrica"></div>
+  <p class="hint" id="rubrica-nota" style="margin:1.2rem 0 0"></p>
+</section>
+
+<section class="card">
+  <h2>Lo que hay que corregir del enunciado</h2>
+  <p class="hint" style="margin-bottom:.8rem">Esto no es una nota: es un error del material, y lo encontraron ustedes.</p>
+  <p style="margin:0 0 .8rem;font-size:.92rem">
+    El <strong>Punto de control 1</strong> del ejercicio 3 dice que la consulta de claves
+    foráneas debe devolver <strong>6 filas</strong>. Con el modelo que el propio enunciado
+    describe, devuelve <strong>4</strong>: <code>labores→siembras</code>,
+    <code>labor_insumo→labores</code>, <code>labor_insumo→insumos</code> y
+    <code>sensores→lotes</code>.
+  </p>
+  <p style="margin:0;font-size:.92rem">
+    <strong>Los cinco dieron 4.</strong> Dos lo marcaron por escrito y se negaron a inventar
+    una clave foránea de más para llegar al número. Esa es exactamente la conducta correcta:
+    cuando el resultado contradice la consigna, se documenta la discrepancia; no se fuerza
+    el dato para que coincida.
+  </p>
+</section>
+
+<footer>
+  Curso de SQL · AgroDB · corregido el 17 de agosto de 2026 ·
+  <a href="index.html">volver al índice</a>
+</footer>
+</div>
+
+<div id="tip" role="tooltip"></div>
+
+<script>
+// ===================================================================
+//  DATOS
+//  USAR_ALIAS = true  -> se muestran A-1 … A-5 (recomendado: la pagina
+//                        es publica y sin autenticacion).
+//  USAR_ALIAS = false -> se muestran los nombres del campo `nombre`.
+// ===================================================================
+const USAR_ALIAS = true;
+
+const ALUMNOS = [
+  { alias: "A-1", nombre: "Brando Herrera",  ej3: 100, ej4: 100 },
+  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100 },
+  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98 },
+  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59 },
+  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  38 },
+];
+
+// Punto extra de la rubrica (va aparte de los criterios; el total topea en 100)
+const EXTRA = {
+  "A-1": { 3: 5, 4: 5 },
+  "A-2": { 3: 3, 4: 5 },
+  "A-3": { 3: 2, 4: 5 },
+  "A-4": { 3: 4, 4: 0 },
+  "A-5": { 3: 4, 4: 0 },
+};
+
+// Detalle por criterio, para el tooltip. [obtenido, maximo]
+const DETALLE = {
+  "A-1": { 3: [["Diagnóstico",15,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",15,15],["Cierre",15,15]] },
+  "A-2": { 3: [["Diagnóstico",13,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",14,15],["Prueba de fuego",10,10],["Consultas",7,10],["Cierre",10,10]],
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]] },
+  "A-3": { 3: [["Diagnóstico",9,15],["Las 4 tablas",24,25],["Tabla puente",15,15],["Migración",3,15],["Prueba de fuego",1,10],["Consultas",8,10],["Cierre",9,10]],
+           4: [["Diagnóstico",19,20],["Arreglos",13,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]] },
+  "A-4": { 3: [["Diagnóstico",15,15],["Las 4 tablas",22,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
+           4: [["Diagnóstico",12,20],["Arreglos",14,15],["CASCADE",15,15],["Fusión urea",10,20],["Verificación",0,15],["Cierre",8,15]] },
+  "A-5": { 3: [["Diagnóstico",13,15],["Las 4 tablas",23,25],["Tabla puente",15,15],["Migración",7,15],["Prueba de fuego",0,10],["Consultas",7,10],["Cierre",9,10]],
+           4: [["Diagnóstico",0,20],["Arreglos",8,15],["CASCADE",7,15],["Fusión urea",18,20],["Verificación",5,15],["Cierre",0,15]] },
+};
+
+const CRITERIOS = {
+  3: ["Diagnóstico","Las 4 tablas","Tabla puente","Migración","Prueba de fuego","Consultas","Cierre"],
+  4: ["Diagnóstico","Arreglos","CASCADE","Fusión urea","Verificación","Cierre"],
+};
+
+const NOTA_RUBRICA = {
+  3: "La tabla puente salió perfecta en las cinco entregas: era el punto difícil del día y nadie lo falló. " +
+     "Lo que costó fue la migración y su verificación (D2): dos entregas no reprodujeron los costos originales, " +
+     "y en un caso el propio enunciado avisaba con 11 filas en «REVISAR».",
+  4: "«Verificación» es la parte E: los conteos finales y las dos demos. Es la más floja del ejercicio y no por " +
+     "dificultad — es la que se saltea cuando se acaba el tiempo. Justamente ahí estaba el error que a una entrega " +
+     "le habría avisado que los insumos duplicados seguían en el catálogo. " +
+     "Una entrega llegó como base de datos y no como script, así que sus criterios de texto puntúan 0 y arrastran el promedio.",
+};
+
+// ===================================================================
+//  RENDER
+// ===================================================================
+const etiqueta = a => USAR_ALIAS ? a.alias : a.nombre;
+const prom = a => (a.ej3 + a.ej4) / 2;
+const $ = s => document.querySelector(s);
+let orden = "promedio";
+
+// --- KPIs ---
+const media = k => (ALUMNOS.reduce((s, a) => s + a[k], 0) / ALUMNOS.length);
+$("#kpis").innerHTML = [
+  { label: "Entregas ej. 3", value: "5/5", note: "las cinco, completas" },
+  { label: "Entregas ej. 4", value: "5/5", note: "una fuera de formato" },
+  { label: "Promedio ej. 3", value: media("ej3").toFixed(1), note: "sobre 100" },
+  { label: "Promedio ej. 4", value: media("ej4").toFixed(1), note: "sobre 100" },
+].map(k => `<div class="kpi"><div class="label">${k.label}</div>
+   <div class="value">${k.value}</div><div class="note">${k.note}</div></div>`).join("");
+
+// --- grafico de columnas ---
+const MAXY = 100;
+function ordenados() {
+  const c = [...ALUMNOS];
+  if (orden === "promedio") c.sort((a, b) => prom(b) - prom(a));
+  else c.sort((a, b) => a.alias.localeCompare(b.alias));
+  return c;
+}
+
+function pintarColumnas() {
+  const datos = ordenados();
+  const cols = $("#cols");
+  cols.innerHTML = "";
+  // gridlines cada 25
+  for (let v = 0; v <= MAXY; v += 25) {
+    const g = document.createElement("div");
+    g.className = "gridline";
+    g.style.bottom = (v / MAXY * 100) + "%";
+    g.innerHTML = `<span>${v}</span>`;
+    cols.appendChild(g);
+  }
+  datos.forEach(a => {
+    const grupo = document.createElement("div");
+    grupo.className = "group";
+    [["ej3", 3, "var(--series-1)", "Ejercicio 3"], ["ej4", 4, "var(--series-2)", "Ejercicio 4"]]
+      .forEach(([campo, ej, color, titulo]) => {
+        const b = document.createElement("div");
+        b.className = "bar";
+        b.style.height = (a[campo] / MAXY * 100) + "%";
+        b.style.background = color;
+        b.tabIndex = 0;
+        b.setAttribute("role", "img");
+        b.setAttribute("aria-label", `${etiqueta(a)}, ${titulo}: ${a[campo]} sobre 100`);
+        b.innerHTML = `<span class="val">${a[campo]}</span>`;
+        const criterios = DETALLE[a.alias][ej];
+        const base = criterios.reduce((s, [, o]) => s + o, 0);
+        const extra = EXTRA[a.alias][ej];
+        const detalle = criterios.map(([n, o, m]) => `${n}: ${o}/${m}`).join("<br>");
+        const lineaExtra = extra ? `<br>Extra: +${extra}` : "";
+        const topado = base + extra > 100 ? ` <span style="opacity:.75">(tope 100)</span>` : "";
+        b.dataset.tip = `<b>${etiqueta(a)} · ${titulo}</b>${detalle}`
+          + `<br><span style="opacity:.75">Subtotal: ${base}/100</span>${lineaExtra}`
+          + `<br><b style="margin-top:.3rem">Total: ${a[campo]}/100</b>${topado}`;
+        grupo.appendChild(b);
+      });
+    cols.appendChild(grupo);
+  });
+  $("#xlabels").innerHTML = datos.map(a => `<div>${etiqueta(a)}</div>`).join("");
+}
+
+// --- tabla ---
+function pintarTabla() {
+  $("#tbody").innerHTML = ordenados().map(a => {
+    const d = a.ej4 - a.ej3;
+    const signo = d > 0 ? "+" : "";
+    return `<tr><td>${etiqueta(a)}</td><td class="num">${a.ej3}</td><td class="num">${a.ej4}</td>
+      <td class="num">${prom(a).toFixed(1)}</td><td class="num">${signo}${d}</td></tr>`;
+  }).join("");
+}
+
+// --- rubrica ---
+function pintarRubrica(ej) {
+  const cont = $("#rubrica");
+  cont.innerHTML = CRITERIOS[ej].map((crit, i) => {
+    let obt = 0, max = 0;
+    ALUMNOS.forEach(a => {
+      const fila = DETALLE[a.alias][ej][i];
+      obt += fila[1]; max += fila[2];
+    });
+    const pct = obt / max * 100;
+    const flojo = pct < 75 ? " weak" : "";
+    return `<div class="row${flojo}">
+      <div class="name">${crit}</div>
+      <div class="track"><div class="fill" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="pct">${pct.toFixed(0)} %</div>
+    </div>`;
+  }).join("");
+  $("#rubrica-nota").textContent = NOTA_RUBRICA[ej];
+}
+
+// --- tooltip ---
+const tip = $("#tip");
+function moverTip(e, el) {
+  tip.innerHTML = el.dataset.tip;
+  tip.style.opacity = "1";
+  const r = tip.getBoundingClientRect();
+  const x = (e.clientX ?? el.getBoundingClientRect().left) + 14;
+  const y = (e.clientY ?? el.getBoundingClientRect().top) + 14;
+  tip.style.left = Math.min(x, innerWidth - r.width - 10) + "px";
+  tip.style.top = Math.min(y, innerHeight - r.height - 10) + "px";
+}
+document.addEventListener("mousemove", e => {
+  const b = e.target.closest?.(".bar");
+  if (b) moverTip(e, b); else tip.style.opacity = "0";
+});
+document.addEventListener("focusin", e => {
+  const b = e.target.closest?.(".bar");
+  if (b) { const r = b.getBoundingClientRect(); moverTip({ clientX: r.left, clientY: r.top }, b); }
+});
+document.addEventListener("focusout", () => tip.style.opacity = "0");
+
+// --- controles ---
+document.querySelectorAll("[data-sort]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-sort]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  orden = btn.dataset.sort;
+  pintarColumnas(); pintarTabla();
+}));
+document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  const tabla = btn.dataset.view === "tabla";
+  $("#vista-tabla").hidden = !tabla;
+  $("#vista-grafico").hidden = tabla;
+}));
+document.querySelectorAll("[data-ej]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-ej]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  pintarRubrica(btn.dataset.ej);
+}));
+
+pintarColumnas();
+pintarTabla();
+pintarRubrica(3);
+</script>
