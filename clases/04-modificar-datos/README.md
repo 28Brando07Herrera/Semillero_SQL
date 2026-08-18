@@ -1,5 +1,5 @@
 # Clase 4 · Modificar datos sin romper nada
-**Miércoles 12 de agosto**
+**Jueves 13 de agosto**
 
 `INSERT`, `UPDATE`, `DELETE`, transacciones y qué le pasa a los datos relacionados cuando borrás una fila.
 

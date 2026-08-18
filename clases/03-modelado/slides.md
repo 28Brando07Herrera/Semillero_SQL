@@ -36,7 +36,7 @@ footer: "Curso de SQL · AgroDB · Clase 3"
 
 ## Entidades, cardinalidad y la relación que no existe
 
-Clase 3 · 11 de agosto
+Clase 3 · 12 de agosto
 
 ---
 
@@ -54,17 +54,13 @@ Hoy le ponemos método, nombre y reglas.
 
 # El contexto real
 
-La empresa está evaluando **SmartCultivo**: un sistema de gestión agrícola.
+Una empresa agrícola quiere dejar de gestionar sus fincas en planillas.
 
-| Concepto | Costo |
-|---|---|
-| Licencia estándar, 1 finca, 12 meses | USD 2.160 / año |
-| Instalación | USD 250 |
-| Estación de sensores | USD 3.950 |
+Cada supervisor lleva la suya, con sus propias columnas y sus propios nombres. Nadie sabe cuál es la buena.
 
-Nosotros no vamos a construir SmartCultivo.
+Nosotros no vamos a construir el sistema que reemplaza eso.
 
-**Vamos a construir la base de datos que hay debajo.**
+**Vamos a construir la base de datos que va debajo**, que es la parte donde ustedes van a trabajar de verdad.
 
 ---
 
@@ -82,8 +78,8 @@ Nosotros no vamos a construir SmartCultivo.
 
 De leer el requerimiento y subrayar.
 
-> *"Registre las actividades de campo, como la siembra, la fertilización, el control de plagas y la cosecha."*
-> — Módulo Labores, propuesta SmartCultivo
+> *"Hay que registrar cada actividad que se hace en el campo —siembra, fertilización, control de plagas, cosecha— con su fecha, quién la hizo y qué insumos usó."*
+> — Requerimiento de ejemplo, módulo Labores
 
 ---
 

@@ -39,6 +39,17 @@ jobs:
               --html --allow-local-files -o "site/$dir.html"
           done
 
+      # Paginas estaticas propias (no compiladas por Marp): cada
+      # clases/<algo>/index.html se publica como site/<algo>.html
+      - name: Copiar páginas estáticas
+        run: |
+          shopt -s nullglob
+          for f in clases/*/index.html; do
+            dir=$(basename "$(dirname "$f")")
+            echo "Copiando $f -> site/$dir.html"
+            cp "$f" "site/$dir.html"
+          done
+
       - name: Armar índice
         run: |
           {

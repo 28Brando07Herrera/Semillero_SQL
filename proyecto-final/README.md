@@ -2,9 +2,9 @@
 
 **Equipos de 2 o 3 · se anuncia el 26 de agosto · se defiende el 28**
 
-Cada equipo elige **tres módulos** del catálogo de SmartCultivo que todavía no modelamos y los incorpora al modelo existente:
+Cada equipo elige **tres módulos** del dominio agrícola que todavía no modelamos y los incorpora al modelo existente:
 
-`GIS` · `Calidad` · `Certificaciones` · `Muestras` · `Población` · `Auditoría` · `Producción`
+`Riego` · `Cosecha` · `Bodega e inventario` · `Sanidad vegetal` · `Maquinaria` · `Personal y jornales` · `Clima`
 
 ## Entregables
 

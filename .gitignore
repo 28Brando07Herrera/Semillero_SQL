@@ -7,10 +7,18 @@ cronograma.md
 *_guia_docente.md
 *_solucion_docente.sql
 *_solucionario.*
+# Atrapa cualquier variante futura: notas_docente.md, clase07_docente.sql, etc.
+*docente*
+*solucionario*
+*solucion_*
+
+# Documentacion operativa del instructor, no material del curso
+CLAUDE.md
 
 # Base con datos ya resueltos: subir SOLO cuando cierren las entregas
 # de la clase anterior. Comentar esta linea ese dia para publicarlo.
-datos/agrodb_clase4.sql
+#datos/agrodb_clase4.sql   <- publicado el 13/08 (cerraron entregas del ej. 3)
+#datos/agrodb_clase5.sql   <- publicado el 14/08 (cerraron entregas del ej. 4)
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO

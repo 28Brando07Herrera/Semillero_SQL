@@ -27,7 +27,7 @@ footer: "Curso de SQL · AgroDB · Clase 4"
 
 ## INSERT, UPDATE, DELETE y la red de seguridad
 
-Clase 4 · 12 de agosto
+Clase 4 · 13 de agosto
 
 ---
 
