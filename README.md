@@ -40,8 +40,9 @@ proyecto-final/ enunciado y rúbrica
 | P1 | 6 ago | Proyecto 1 · diseñá tu propia base | — |
 | 3 | 12 ago | Del requerimiento al modelo · normalización y N:M | [clase](clases/03-modelado/) |
 | 4 | 13 ago | INSERT / UPDATE / DELETE y transacciones | [clase](clases/04-modificar-datos/) |
-| **5** | **14 ago** | **Consultar el modelo propio · JOIN, fan-out y LEFT JOIN** | [clase](clases/05-consultar-modelo/) |
-| 6 | 17 ago | Sensores: series de tiempo | — |
+| 5 | 14 ago | Consultar el modelo propio · JOIN, fan-out y LEFT JOIN | [clase](clases/05-consultar-modelo/) |
+| 6 | 17 ago | Sensores: el tiempo como problema | [clase](clases/06-series-de-tiempo/) |
+| **7** | **18 ago** | **Funciones de ventana · rankings, `LAG` y medias móviles** | [clase](clases/07-funciones-ventana/) |
 
 ---
 

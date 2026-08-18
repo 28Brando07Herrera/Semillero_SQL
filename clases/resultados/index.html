@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Resultados · Ejercicios 3 y 4</title>
+<title>Resultados · Ejercicios 3, 4 y 5</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root {
@@ -14,6 +14,7 @@
     --border:         rgba(22,50,79,0.12);
     --series-1:       #00769b;  /* Ejercicio 3 */
     --series-2:       #c88400;  /* Ejercicio 4 */
+    --series-3:       #4b7f52;  /* Ejercicio 5 */
     --accent:         #f2a104;
     --radius:         10px;
   }
@@ -30,6 +31,7 @@
       --border:         rgba(244,247,250,0.12);
       --series-1:       #0d93bf;
       --series-2:       #b57808;
+      --series-3:       #6aa870;
     }
   }
   :root[data-theme="dark"] {
@@ -44,6 +46,7 @@
     --border:         rgba(244,247,250,0.12);
     --series-1:       #0d93bf;
     --series-2:       #b57808;
+    --series-3:       #6aa870;
   }
 
   * { box-sizing: border-box; }
@@ -106,19 +109,19 @@
   .chart-scroll { overflow-x: auto; }
   /* .plot aporta el aire de arriba para la etiqueta de las columnas de 100;
      .cols queda sin padding para que grilla y barras midan contra lo mismo */
-  .plot { padding-top: 1.7rem; min-width: 520px; }
+  .plot { padding-top: 1.7rem; min-width: 660px; }
   .cols { display: flex; align-items: flex-end; gap: 1.5rem; height: 260px;
           border-bottom: 1px solid var(--baseline); position: relative; padding: 0 .25rem; }
   .gridline { position: absolute; left: 0; right: 0; border-top: 1px solid var(--grid); pointer-events: none; }
   .gridline span { position: absolute; left: 0; top: -.75em; font-size: .72rem; color: var(--muted);
                    background: var(--surface-1); padding-right: .4rem; font-variant-numeric: tabular-nums; }
   .group { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 100%; position: relative; z-index: 1; }
-  .bar { position: relative; width: 30px; border-radius: 4px 4px 0 0; cursor: default;
+  .bar { position: relative; width: 26px; border-radius: 4px 4px 0 0; cursor: default;
          transition: filter .12s ease; }
   .bar:hover, .bar:focus-visible { filter: brightness(1.12); outline: none; }
   .bar .val { position: absolute; top: -1.35em; left: 50%; transform: translateX(-50%);
               font-size: .78rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-  .xlabels { display: flex; gap: 1.5rem; min-width: 520px; padding: .5rem .25rem 0; }
+  .xlabels { display: flex; gap: 1.5rem; min-width: 660px; padding: .5rem .25rem 0; }
   .xlabels div { flex: 1; text-align: center; font-size: .85rem; color: var(--text-secondary); }
 
   /* ---------- barras horizontales de rubrica ---------- */
@@ -153,7 +156,7 @@
 
 <div class="wrap">
 <header>
-  <h1>Resultados · Ejercicios 3 y 4</h1>
+  <h1>Resultados · Ejercicios 3, 4 y 5</h1>
   <p class="sub">
     Semillero SQL · AgroDB. Cada entrega se <strong>ejecutó</strong> contra su script base en
     SQLite y se comparó contra los puntos de control del enunciado, además de corregirse
@@ -181,6 +184,7 @@
     <div class="legend">
       <span><i class="swatch" style="background:var(--series-1)"></i> Ejercicio 3 · modelado</span>
       <span><i class="swatch" style="background:var(--series-2)"></i> Ejercicio 4 · modificar datos</span>
+      <span><i class="swatch" style="background:var(--series-3)"></i> Ejercicio 5 · consultas de negocio</span>
     </div>
     <div class="chart-scroll">
       <div class="plot"><div class="cols" id="cols"></div></div>
@@ -190,7 +194,7 @@
 
   <div id="vista-tabla" hidden>
     <table>
-      <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Promedio</th><th class="num">Δ</th></tr></thead>
+      <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Ej. 5</th><th class="num">Promedio</th><th class="num">Δ 5−4</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
@@ -207,10 +211,42 @@
     <div class="seg" role="group" aria-label="Ejercicio">
       <button type="button" data-ej="3" aria-pressed="true">Ejercicio 3</button>
       <button type="button" data-ej="4" aria-pressed="false">Ejercicio 4</button>
+      <button type="button" data-ej="5" aria-pressed="false">Ejercicio 5</button>
     </div>
   </div>
   <div class="rows" id="rubrica"></div>
   <p class="hint" id="rubrica-nota" style="margin:1.2rem 0 0"></p>
+</section>
+
+<section class="card">
+  <h2>La lección del ejercicio 5</h2>
+  <p class="hint" style="margin-bottom:.8rem">Esto no le baja la nota a nadie en particular: le pasó a tres de las cinco entregas.</p>
+  <p style="margin:0 0 .8rem;font-size:.92rem">
+    El enunciado pedía <em>probar</em> que los números entregados son ciertos. En varias
+    entregas el número anotado en el comentario es el que estaba <strong>en el enunciado</strong>,
+    no el que devolvió la consulta. Las consultas corrían sin error, así que nada avisó.
+  </p>
+  <p style="margin:0 0 .8rem;font-size:.92rem">
+    En dos casos la consulta estaba <strong>bien</strong> y lo único equivocado era el comentario.
+    En un tercero, el comentario decía «coincide exacto» sobre un número que no coincidía, y eso
+    tapó el error de la división entera de la parte D.
+  </p>
+  <p style="margin:0;font-size:.92rem">
+    De ahí sale la regla de la clase 7: <strong>un ranking sin la columna que cuenta las filas es
+    una opinión</strong>. Anotá lo que salió, no lo que esperabas.
+  </p>
+</section>
+
+<section class="card">
+  <h2>El <code>CAST</code> que no hace nada</h2>
+  <p style="margin:0;font-size:.92rem">
+    Para arreglar la división entera de la parte D, una entrega usó
+    <code>CAST(SUM(c.kg) AS NUMERIC) / l.hectareas</code>. Parece correcto y no lo es:
+    en SQLite <code>NUMERIC</code> es una <strong>afinidad</strong>, no un tipo, y si el valor ya
+    es entero lo deja entero. Lo que fuerza el punto flotante es <code>* 1.0</code> o
+    <code>CAST(... AS REAL)</code>. Vale recordarlo: es un arreglo que se lee bien, compila bien
+    y no cambia absolutamente nada.
+  </p>
 </section>
 
 <section class="card">
@@ -232,7 +268,7 @@
 </section>
 
 <footer>
-  Curso de SQL · AgroDB · corregido el 17 de agosto de 2026 ·
+  Curso de SQL · AgroDB · ejercicios 3 y 4 corregidos el 17 de agosto · ejercicio 5, el 18 de agosto de 2026 ·
   <a href="index.html">volver al índice</a>
 </footer>
 </div>
@@ -249,39 +285,45 @@
 const USAR_ALIAS = true;
 
 const ALUMNOS = [
-  { alias: "A-1", nombre: "Brando Herrera",  ej3: 100, ej4: 100 },
-  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100 },
-  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98 },
-  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59 },
-  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  38 },
+  { alias: "A-1", nombre: "Brando Herrera",   ej3: 100, ej4: 100, ej5:  97 },
+  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100, ej5: 100 },
+  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98, ej5:  90 },
+  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59, ej5:  99 },
+  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  38, ej5:  42 },
 ];
 
 // Punto extra de la rubrica (va aparte de los criterios; el total topea en 100)
 const EXTRA = {
-  "A-1": { 3: 5, 4: 5 },
-  "A-2": { 3: 3, 4: 5 },
-  "A-3": { 3: 2, 4: 5 },
-  "A-4": { 3: 4, 4: 0 },
-  "A-5": { 3: 4, 4: 0 },
+  "A-1": { 3: 5, 4: 5, 5: 5 },
+  "A-2": { 3: 3, 4: 5, 5: 5 },
+  "A-3": { 3: 2, 4: 5, 5: 5 },
+  "A-4": { 3: 4, 4: 0, 5: 0 },
+  "A-5": { 3: 4, 4: 0, 5: 5 },
 };
 
 // Detalle por criterio, para el tooltip. [obtenido, maximo]
 const DETALLE = {
   "A-1": { 3: [["Diagnóstico",15,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
-           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",15,15],["Cierre",15,15]] },
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",15,15],["Cierre",15,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",30,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",12,20],["Cierre",10,10]] },
   "A-2": { 3: [["Diagnóstico",13,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",14,15],["Prueba de fuego",10,10],["Consultas",7,10],["Cierre",10,10]],
-           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]] },
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",30,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",20,20],["Cierre",8,10]] },
   "A-3": { 3: [["Diagnóstico",9,15],["Las 4 tablas",24,25],["Tabla puente",15,15],["Migración",3,15],["Prueba de fuego",1,10],["Consultas",8,10],["Cierre",9,10]],
-           4: [["Diagnóstico",19,20],["Arreglos",13,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]] },
+           4: [["Diagnóstico",19,20],["Arreglos",13,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]],
+           5: [["Parte A",13,15],["Fan-out (B)",26,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",11,20],["Cierre",10,10]] },
   "A-4": { 3: [["Diagnóstico",15,15],["Las 4 tablas",22,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
-           4: [["Diagnóstico",12,20],["Arreglos",14,15],["CASCADE",15,15],["Fusión urea",10,20],["Verificación",0,15],["Cierre",8,15]] },
+           4: [["Diagnóstico",12,20],["Arreglos",14,15],["CASCADE",15,15],["Fusión urea",10,20],["Verificación",0,15],["Cierre",8,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",29,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",20,20],["Cierre",10,10]] },
   "A-5": { 3: [["Diagnóstico",13,15],["Las 4 tablas",23,25],["Tabla puente",15,15],["Migración",7,15],["Prueba de fuego",0,10],["Consultas",7,10],["Cierre",9,10]],
-           4: [["Diagnóstico",0,20],["Arreglos",8,15],["CASCADE",7,15],["Fusión urea",18,20],["Verificación",5,15],["Cierre",0,15]] },
+           4: [["Diagnóstico",0,20],["Arreglos",8,15],["CASCADE",7,15],["Fusión urea",18,20],["Verificación",5,15],["Cierre",0,15]],
+           5: [["Parte A",5,15],["Fan-out (B)",12,30],["LEFT JOIN (C)",6,20],["ON vs WHERE",0,5],["Parte D",7,20],["Cierre",7,10]] },
 };
 
 const CRITERIOS = {
   3: ["Diagnóstico","Las 4 tablas","Tabla puente","Migración","Prueba de fuego","Consultas","Cierre"],
   4: ["Diagnóstico","Arreglos","CASCADE","Fusión urea","Verificación","Cierre"],
+  5: ["Parte A","Fan-out (B)","LEFT JOIN (C)","ON vs WHERE","Parte D","Cierre"],
 };
 
 const NOTA_RUBRICA = {
@@ -292,23 +334,28 @@ const NOTA_RUBRICA = {
      "dificultad — es la que se saltea cuando se acaba el tiempo. Justamente ahí estaba el error que a una entrega " +
      "le habría avisado que los insumos duplicados seguían en el catálogo. " +
      "Una entrega llegó como base de datos y no como script, así que sus criterios de texto puntúan 0 y arrastran el promedio.",
+  5: "«Parte D» es la más floja y no por casualidad: ahí estaba la división entera. Dos entregas la resolvieron " +
+     "completa (corrieron la versión rota, listaron los tres lotes que fallan y corrigieron con «* 1.0»); una la " +
+     "intentó con CAST(... AS NUMERIC), que en SQLite no fuerza decimales y no arregla nada; y otra dio por " +
+     "corregido un número que su propia consulta no devolvía. El resto del ejercicio —el fan-out y los LEFT JOIN— " +
+     "salió muy bien: son las dos técnicas que ya están sólidas en el grupo.",
 };
 
 // ===================================================================
 //  RENDER
 // ===================================================================
 const etiqueta = a => USAR_ALIAS ? a.alias : a.nombre;
-const prom = a => (a.ej3 + a.ej4) / 2;
+const prom = a => (a.ej3 + a.ej4 + a.ej5) / 3;
 const $ = s => document.querySelector(s);
 let orden = "promedio";
 
 // --- KPIs ---
 const media = k => (ALUMNOS.reduce((s, a) => s + a[k], 0) / ALUMNOS.length);
 $("#kpis").innerHTML = [
-  { label: "Entregas ej. 3", value: "5/5", note: "las cinco, completas" },
-  { label: "Entregas ej. 4", value: "5/5", note: "una fuera de formato" },
+  { label: "Entregas ej. 5", value: "5/5", note: "una fuera de formato" },
   { label: "Promedio ej. 3", value: media("ej3").toFixed(1), note: "sobre 100" },
   { label: "Promedio ej. 4", value: media("ej4").toFixed(1), note: "sobre 100" },
+  { label: "Promedio ej. 5", value: media("ej5").toFixed(1), note: "sobre 100" },
 ].map(k => `<div class="kpi"><div class="label">${k.label}</div>
    <div class="value">${k.value}</div><div class="note">${k.note}</div></div>`).join("");
 
@@ -336,7 +383,8 @@ function pintarColumnas() {
   datos.forEach(a => {
     const grupo = document.createElement("div");
     grupo.className = "group";
-    [["ej3", 3, "var(--series-1)", "Ejercicio 3"], ["ej4", 4, "var(--series-2)", "Ejercicio 4"]]
+    [["ej3", 3, "var(--series-1)", "Ejercicio 3"], ["ej4", 4, "var(--series-2)", "Ejercicio 4"],
+     ["ej5", 5, "var(--series-3)", "Ejercicio 5"]]
       .forEach(([campo, ej, color, titulo]) => {
         const b = document.createElement("div");
         b.className = "bar";
@@ -365,9 +413,10 @@ function pintarColumnas() {
 // --- tabla ---
 function pintarTabla() {
   $("#tbody").innerHTML = ordenados().map(a => {
-    const d = a.ej4 - a.ej3;
+    const d = a.ej5 - a.ej4;
     const signo = d > 0 ? "+" : "";
     return `<tr><td>${etiqueta(a)}</td><td class="num">${a.ej3}</td><td class="num">${a.ej4}</td>
+      <td class="num">${a.ej5}</td>
       <td class="num">${prom(a).toFixed(1)}</td><td class="num">${signo}${d}</td></tr>`;
   }).join("");
 }
