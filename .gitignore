@@ -24,6 +24,13 @@ CLAUDE.md
 #   OJO: contesta la parte E2 del ejercicio 6, que se entrego el 17/08.
 #   Si el ej. 6 sigue abierto, o se cierra antes de la clase o no se
 #   puntua E2 mas alla de lo ya entregado.
+#datos/agrodb_clase8.sql   <- publicado el 19/08 (con la clase 8).
+#   NO contesta nada del ejercicio 7: el ej. 7 era todo SELECT y no
+#   dejo ningun cambio de modelo que aplicar. Las 10 tablas y las 973
+#   filas son identicas a las de la clase 7. Lo unico nuevo son las dos
+#   vistas del dia, que son material de la clase 8, no solucion del 7.
+#   Por eso este es el primer script que se puede publicar sin esperar
+#   a que cierren las entregas anteriores.
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO
