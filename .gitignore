@@ -31,6 +31,12 @@ CLAUDE.md
 #   vistas del dia, que son material de la clase 8, no solucion del 7.
 #   Por eso este es el primer script que se puede publicar sin esperar
 #   a que cierren las entregas anteriores.
+#datos/agrodb_clase9.sql   <- publicado el 20/08 (con la clase 9).
+#   OJO: trae el ejercicio 8 resuelto (las 5 vistas), asi que contesta
+#   sus partes A, B y D4, y el ej. 8 se entrego el 19 y sigue abierto.
+#   NO contesta la parte C (la auditoria de v_temp_diaria), que eran
+#   los 30 puntos del corazon de ese ejercicio: la vista mala sigue
+#   publicada tal cual, deprecada pero sin arreglar.
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO

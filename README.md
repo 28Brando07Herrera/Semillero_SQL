@@ -44,7 +44,8 @@ proyecto-final/ enunciado y rúbrica
 | 5 | 14 ago | Consultar el modelo propio · JOIN, fan-out y LEFT JOIN | [clase](clases/05-consultar-modelo/) |
 | 6 | 17 ago | Sensores: el tiempo como problema | [clase](clases/06-series-de-tiempo/) |
 | 7 | 18 ago | Funciones de ventana · rankings, `LAG` y medias móviles | [clase](clases/07-funciones-ventana/) |
-| **8** | **19 ago** | **Vistas · la capa de reporte, y la que nadie auditó** | [clase](clases/08-vistas/) |
+| 8 | 19 ago | Vistas · la capa de reporte, y la que nadie auditó | [clase](clases/08-vistas/) |
+| **9** | **20 ago** | **Índices · `EXPLAIN QUERY PLAN` y cien mil filas** | [clase](clases/09-indices/) |
 
 ---
 

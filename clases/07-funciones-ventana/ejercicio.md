@@ -201,7 +201,7 @@ Mirá los primeros seis días. En un comentario: la media móvil del 1 de abril,
 |---|---|
 | Parte A: la ventana al lado del detalle, con el porcentaje y la explicación de A3 | 15 |
 | Parte B1: el ranking por finca, con `* 1.0` | 10 |
-| Parte B2: las tres funciones juntas y las tres preguntas contestadas | 15 |
+| Parte B2: las tres funciones juntas y las tres preguntas contestadas | 10 |
 | **Parte B3: el podio auditado — las cuatro preguntas, con la causa bien identificada** | **20** |
 | Parte B5: el patrón CTE + filtro afuera, con el error transcripto | 10 |
 | Parte C1–C3: `LAG` y `LEAD`, con los `NULL` bien explicados | 10 |
