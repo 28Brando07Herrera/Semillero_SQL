@@ -5,6 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (elegir SQLite)
+**¿Preferís trabajar en tu máquina?** [Guía de entorno local](recursos/entorno-local-sqlite.md) — opcional, y recomendada de acá en adelante
 
 ---
 
@@ -40,8 +41,11 @@ proyecto-final/ enunciado y rúbrica
 | P1 | 6 ago | Proyecto 1 · diseñá tu propia base | — |
 | 3 | 12 ago | Del requerimiento al modelo · normalización y N:M | [clase](clases/03-modelado/) |
 | 4 | 13 ago | INSERT / UPDATE / DELETE y transacciones | [clase](clases/04-modificar-datos/) |
-| **5** | **14 ago** | **Consultar el modelo propio · JOIN, fan-out y LEFT JOIN** | [clase](clases/05-consultar-modelo/) |
-| 6 | 17 ago | Sensores: series de tiempo | — |
+| 5 | 14 ago | Consultar el modelo propio · JOIN, fan-out y LEFT JOIN | [clase](clases/05-consultar-modelo/) |
+| 6 | 17 ago | Sensores: el tiempo como problema | [clase](clases/06-series-de-tiempo/) |
+| 7 | 18 ago | Funciones de ventana · rankings, `LAG` y medias móviles | [clase](clases/07-funciones-ventana/) |
+| 8 | 19 ago | Vistas · la capa de reporte, y la que nadie auditó | [clase](clases/08-vistas/) |
+| **9** | **20 ago** | **Índices · `EXPLAIN QUERY PLAN` y cien mil filas** | [clase](clases/09-indices/) |
 
 ---
 
