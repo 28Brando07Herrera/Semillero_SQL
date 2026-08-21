@@ -37,6 +37,13 @@ CLAUDE.md
 #   NO contesta la parte C (la auditoria de v_temp_diaria), que eran
 #   los 30 puntos del corazon de ese ejercicio: la vista mala sigue
 #   publicada tal cual, deprecada pero sin arreglar.
+#datos/agrodb_clase10.sql  <- publicado el 21/08 (con la clase 10).
+#   OJO: trae los 2 indices del ejercicio 9, asi que contesta sus
+#   partes B3 y D2, y el 9 se entrego anoche. NO contesta la parte C
+#   (la trampa del DATE()), que era su nucleo.
+#   Es la TERCERA vez seguida: cuando el ejercicio de un dia deja
+#   cambios de esquema, el script del dia siguiente los contiene.
+#   Conviene decidir la regla de una vez y no caso por caso.
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO
