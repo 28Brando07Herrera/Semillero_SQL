@@ -1,9 +1,36 @@
 -- =====================================================================
 -- CURSO DE SQL  |  CLASE 11  |  AgroDB sobre ORACLE
--- Motor: Oracle Database 23ai (Free o Live SQL)
+-- Motor: Oracle Database 23ai
 --
--- AUTOCONTENIDO: se pega COMPLETO en Live SQL (boton "Run Script", no
--- "Run") o se ejecuta con @agrodb_oracle_clase11.sql en SQLcl/SQL*Plus.
+-- DONDE SE CORRE: en el navegador, en FreeSQL (el reemplazo de Live SQL).
+-- No hay que instalar nada. Tambien corre con @agrodb_oracle_clase11.sql
+-- en SQLcl o SQL*Plus si tenes Oracle local.
+--
+-- =====================================================================
+-- COMO SE CORRE ESTO (leelo, son 20 segundos y te ahorra media hora)
+-- =====================================================================
+--
+--   1. Pega el archivo COMPLETO en el worksheet.
+--
+--   2. NO DEJES TEXTO SELECCIONADO. Si hay una seleccion, el worksheet
+--      ejecuta SOLO lo seleccionado. Hace clic en cualquier lado del
+--      editor primero para deseleccionar.
+--
+--   3. Dale a RUN SCRIPT (F5), no a RUN STATEMENT (el triangulo, o
+--      Ctrl+Enter). "Run Statement" ejecuta UNA sola sentencia: la que
+--      tenes debajo del cursor. Con 60 sentencias, eso no sirve.
+--
+--   4. Mira la pestaña "Script output". Tiene que estar lleno de
+--      "Table ... created" y "1 row inserted". Si arranca con un error,
+--      algo de lo anterior salio mal.
+--
+--   EL ERROR TIPICO:
+--
+--     ORA-00942: table or view "FINCAS" does not exist
+--
+--   Ese error NO es del script: es que las tablas nunca se crearon.
+--   Corriste la verificacion del final sola, sin haber corrido el
+--   resto. Deselecciona todo y dale Run Script otra vez.
 --
 -- =====================================================================
 -- LO PRIMERO: ESTO NO ES SQLITE
