@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [livesql.oracle.com](https://livesql.oracle.com) (Oracle, desde la clase 11)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -18,7 +18,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 | Alumno, quiero entregar | Haces *fork* → rama → tu archivo en `entregas/` → *pull request*. Ver [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Alumno, quiero ver mi nota | [Página de resultados](https://negatix092.github.io/Semillero_SQL/resultados.html). Vas por alias: cada uno sabe cuál es el suyo |
 | Alumno, estoy trabado | Abres un *issue* con la plantilla **Duda**. No es penalizado: es parte del curso |
-| Instructor | `clases/NN-tema/README.md` tiene la guía docente. Desde la clase 11, `guion.md` es el texto para leer en voz alta |
+| Instructor | `clases/NN-tema/README.md` tiene la guía docente de cada sesión |
 
 ---
 

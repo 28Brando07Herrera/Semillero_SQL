@@ -1,5 +1,5 @@
 # Ejercicio práctico 11 · Fila por fila es lento por lento
-**Duración: 2 horas · Individual · [Oracle Live SQL](https://livesql.oracle.com) (o tu Oracle local) · Entrega: un archivo `.sql`**
+**Duración: 2 horas · Individual · [Oracle FreeSQL](https://freesql.com), en el navegador (o tu Oracle local) · Entrega: un archivo `.sql`**
 
 ---
 
@@ -13,12 +13,19 @@ Y hay una deuda vieja. En la clase 10 escribieron una bitácora que no podía co
 
 ## Antes de empezar
 
-1. Entrá a **<https://livesql.oracle.com>** y creá una cuenta gratuita (o abrí tu Oracle local — [guía](../../recursos/entorno-local-oracle.md)).
-2. **SQL Worksheet** → pegá `datos/agrodb_oracle_clase11.sql` completo → botón **Run Script** (el de la hoja, **no** el de "Run", que ejecuta una sola sentencia).
-3. Deben salir: **3, 6, 8, 10, 7, 19, 16, 6, 9, 8640, 0, 0**.
-4. Trabajá en `Ejercicio11_Apellido_Nombre.sql`.
+**Todo esto se hace en el navegador. No hace falta instalar Oracle.**
 
-> **Si estás en local:** poné `SET SERVEROUTPUT ON` una vez al principio de la sesión, o no vas a ver **nada** de lo que imprimas con `DBMS_OUTPUT`. En Live SQL ya viene prendido. Es la media hora que pierde todo el mundo la primera vez.
+1. Entrá a **<https://freesql.com>** y abrí el **Worksheet**. (Es el servicio que reemplazó a Oracle Live SQL. Si te pide cuenta, es gratuita.)
+2. Pegá `datos/agrodb_oracle_clase11.sql` **completo** en el worksheet.
+3. **Hacé clic en el editor para que no quede nada seleccionado.** Si hay una selección, el worksheet ejecuta solo eso.
+4. **Run Script** (`F5`). **No** `Run Statement` (el triángulo, `Ctrl+Enter`): ese ejecuta una sola sentencia, la que está debajo del cursor.
+5. En la pestaña **Script output** tenés que ver muchos `Table ... created` y `1 row inserted`.
+6. Deben salir: **3, 6, 8, 10, 7, 19, 16, 6, 9, 8640, 0, 0**.
+7. Trabajá en `Ejercicio11_Apellido_Nombre.sql`.
+
+> **Si te sale `ORA-00942: table or view "FINCAS" does not exist`:** no es el script. Es que se ejecutó solo la consulta de verificación del final, sin haber creado las tablas antes — casi siempre por texto seleccionado o por haber usado `Run Statement`. Deseleccioná y `Run Script` de nuevo.
+
+> **Para ver lo que imprimís con `DBMS_OUTPUT`:** el worksheet tiene una pestaña **DBMS output** al lado de "Script output". Hay que **abrirla y habilitarla** (el botón de encender que trae adentro) *antes* de correr el bloque, o no vas a ver nada. En local es `SET SERVEROUTPUT ON` una vez por sesión. Es la media hora que pierde todo el mundo la primera vez: el bloque dice `PL/SQL procedure successfully completed` y no aparece ni una línea.
 
 > **Para medir** (parte C) se usa `DBMS_UTILITY.GET_TIME`, que devuelve centésimas de segundo. Si tu instalación no te deja usarlo, reemplazalo por dos `SYSTIMESTAMP` y restalos:
 > `v_ini := SYSTIMESTAMP;` … `DBMS_OUTPUT.PUT_LINE(TO_CHAR(SYSTIMESTAMP - v_ini));` con `v_ini TIMESTAMP`.

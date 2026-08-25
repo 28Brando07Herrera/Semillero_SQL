@@ -229,7 +229,9 @@ No lo imprimió: lo dejó en un buffer que nadie pidió leer.
 SET SERVEROUTPUT ON
 ```
 
-> Corrió bien, hizo lo que le pediste, y no ves el resultado. **Éxito silencioso**, otra vez. Live SQL lo trae prendido; SQL*Plus y SQLcl, no.
+> Corrió bien, hizo lo que le pediste, y no ves el resultado. **Éxito silencioso**, otra vez.
+>
+> En FreeSQL hay que abrir la pestaña **DBMS output** y habilitarla. En SQL*Plus y SQLcl, `SET SERVEROUTPUT ON`.
 
 ---
 

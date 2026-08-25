@@ -1,6 +1,6 @@
 # Oracle en tu propia máquina
 
-La clase 11 corre en [Oracle Live SQL](https://livesql.oracle.com), que es gratis, va en el navegador y no requiere instalar nada. **Para entregar el ejercicio alcanza con eso.**
+La clase 11 corre en [Oracle FreeSQL](https://freesql.com), que es gratis, va en el navegador y no requiere instalar nada. **Para entregar el ejercicio alcanza con eso.**
 
 Esta guía es para el que quiera tener Oracle propio. No es obligatoria, y **no la hagas durante la clase**: la descarga son varios gigas y te vas a perder la práctica.
 
@@ -8,18 +8,18 @@ Esta guía es para el que quiera tener Oracle propio. No es obligatoria, y **no 
 
 ## Antes de decidir: ¿lo necesitás?
 
-| | Live SQL | Oracle local |
+| | FreeSQL | Oracle local |
 |---|---|---|
 | Instalar | nada | 2 a 5 GB |
 | Empezar | dos minutos | media hora larga |
-| `SET SERVEROUTPUT ON` | ya viene prendido | lo ponés vos |
+| Ver `DBMS_OUTPUT` | pestaña **DBMS output**, hay que habilitarla | `SET SERVEROUTPUT ON` |
 | Tu base al día siguiente | las sesiones se reciclan | queda |
 | Medir tiempos en serio | más o menos | sí |
 | Cargar millones de filas | no | sí |
 | Ver el plan con `DBMS_XPLAN` | sí | sí |
 | `PRAGMA AUTONOMOUS_TRANSACTION`, jobs, packages grandes | limitado | completo |
 
-> **Regla práctica:** si el ejercicio de hoy te alcanzó con Live SQL, no instales nada todavía. Instalá cuando te choques con un límite de verdad, no antes.
+> **Regla práctica:** si el ejercicio de hoy te alcanzó con FreeSQL, no instales nada todavía. Instalá cuando te choques con un límite de verdad, no antes.
 
 ---
 
@@ -79,13 +79,13 @@ docker rmi container-registry.oracle.com/database/free:latest
 Si no podés usar Docker, Oracle publica un instalador para Windows.
 
 1. Entrá a **<https://www.oracle.com/database/free/get-started/>**
-2. Bajá **Oracle Database 23ai Free** para Windows x64. Hace falta una cuenta de Oracle (gratuita, la misma de Live SQL).
+2. Bajá **Oracle Database 23ai Free** para Windows x64. Hace falta una cuenta de Oracle (gratuita, la misma de FreeSQL).
 3. Descomprimí y ejecutá `setup.exe`. Te va a pedir **una sola cosa**: la contraseña de administrador. Anotala, no la vas a poder recuperar.
 4. Al terminar, el service name es `FREEPDB1` y el puerto `1521`.
 
-> **Requisitos reales:** unos 12 GB de disco libres y 2 GB de RAM disponibles. Si tu máquina es justa, andá por Docker o quedate en Live SQL.
+> **Requisitos reales:** unos 12 GB de disco libres y 2 GB de RAM disponibles. Si tu máquina es justa, andá por Docker o quedate en FreeSQL.
 
-> **Si estás en una máquina de la empresa** y el instalador te pide permisos de administrador que no tenés: no hay versión portable de Oracle. Live SQL es tu opción.
+> **Si estás en una máquina de la empresa** y el instalador te pide permisos de administrador que no tenés: no hay versión portable de Oracle. FreeSQL es tu opción.
 
 ---
 
@@ -128,7 +128,7 @@ Las tres primeras conviene ponerlas siempre, apenas entrás.
 
 ### VS Code
 
-Si ya usás VS Code, la extensión **Oracle SQL Developer for VS Code** (de Oracle) te da un editor con conexión, autocompletado y el resultado en una grilla. Es lo más parecido a Live SQL, pero tuyo.
+Si ya usás VS Code, la extensión **Oracle SQL Developer for VS Code** (de Oracle) te da un editor con conexión, autocompletado y el resultado en una grilla. Es lo más parecido a FreeSQL, pero tuyo.
 
 Buscala en el panel de extensiones como `Oracle.oracledevtools`.
 
@@ -163,13 +163,13 @@ El motor no está levantado. En Docker: `docker start oracle-free` y esperá a q
 
 ---
 
-## Lo que Live SQL no te deja hacer
+## Lo que FreeSQL no te deja hacer
 
 Por si te preguntás qué te estás perdiendo:
 
 - **Transacciones autónomas** (`PRAGMA AUTONOMOUS_TRANSACTION`) — la forma correcta de que la bitácora sobreviva a un `ROLLBACK`, que aparece en la parte D del ejercicio 11.
 - **`DBMS_SCHEDULER`** — tareas programadas.
-- **Cargas grandes** — Live SQL corta las ejecuciones largas.
-- **Tu base al día siguiente** — el script se guarda, la base no siempre.
+- **Cargas grandes** — un servicio compartido corta las ejecuciones muy largas. Las 8.640 filas del ejercicio 11 entran sin problema; unos millones, no.
+- **Tu base al día siguiente** — guardá siempre tu `.sql` en tu máquina y no confíes en que el esquema siga ahí mañana.
 
 Ninguna hace falta para el ejercicio 11. Todas hacen falta si esto lo vas a usar en serio.
