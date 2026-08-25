@@ -1,0 +1,713 @@
+<meta charset="utf-8">
+<title>Resultados · Ejercicios 3 a 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fbfbfa;
+    --page:           #f4f4f2;
+    --text-primary:   #16324f;
+    --text-secondary: #4a5568;
+    --muted:          #8a99a8;
+    --grid:           #e4e6e2;
+    --baseline:       #c3c2b7;
+    --border:         rgba(22,50,79,0.12);
+    --series-1:       #00769b;  /* Ejercicio 3 */
+    --series-2:       #c88400;  /* Ejercicio 4 */
+    --series-3:       #4b7f52;  /* Ejercicio 5 */
+    --series-4:       #a8503a;  /* Ejercicio 6 */
+    --series-5:       #6b5b95;  /* Ejercicio 7 */
+    --series-6:       #7c7327;  /* Ejercicio 8 */
+    --series-7:       #a8456a;  /* Ejercicio 9 */
+    --accent:         #f2a104;
+    --radius:         10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1:      #161c22;
+      --page:           #0f1317;
+      --text-primary:   #f4f7fa;
+      --text-secondary: #b9c4d0;
+      --muted:          #8a99a8;
+      --grid:           #263039;
+      --baseline:       #3a464f;
+      --border:         rgba(244,247,250,0.12);
+      --series-1:       #0d93bf;
+      --series-2:       #b57808;
+      --series-3:       #6aa870;
+      --series-4:       #c47358;
+      --series-5:       #9184c4;
+      --series-6:       #a89a34;
+      --series-7:       #cf6a90;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #161c22;
+    --page:           #0f1317;
+    --text-primary:   #f4f7fa;
+    --text-secondary: #b9c4d0;
+    --muted:          #8a99a8;
+    --grid:           #263039;
+    --baseline:       #3a464f;
+    --border:         rgba(244,247,250,0.12);
+    --series-1:       #0d93bf;
+    --series-2:       #b57808;
+    --series-3:       #6aa870;
+    --series-4:       #c47358;
+    --series-5:       #9184c4;
+    --series-6:       #a89a34;
+    --series-7:       #cf6a90;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem 4rem;
+  }
+  .wrap { max-width: 60rem; margin: 0 auto; }
+
+  header { margin-bottom: 2rem; }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    margin: 0 0 .3rem;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: .5rem;
+    display: inline-block;
+  }
+  .sub { color: var(--text-secondary); margin: .4rem 0 0; max-width: 46rem; }
+
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h2 {
+    font-size: 1.05rem; margin: 0 0 .2rem; color: var(--text-primary);
+    letter-spacing: .01em;
+  }
+  .card .hint { color: var(--text-secondary); font-size: .87rem; margin: 0 0 1.2rem; }
+  .card p { font-size: .92rem; }
+
+  /* ---------- KPI row ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .3rem; }
+  .kpi .value { font-size: 2.1rem; font-weight: 650; line-height: 1.1; }
+  .kpi .note { font-size: .8rem; color: var(--text-secondary); margin-top: .2rem; }
+
+  /* ---------- controles ---------- */
+  .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1.1rem; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: .85rem; padding: .35rem .9rem; border: 0; cursor: pointer;
+    background: transparent; color: var(--text-secondary);
+  }
+  .seg button[aria-pressed="true"] { background: var(--text-primary); color: var(--surface-1); }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+  /* ---------- leyenda ---------- */
+  .legend { display: flex; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: .85rem; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* ---------- grafico de columnas agrupadas ---------- */
+  .chart-scroll { overflow-x: auto; }
+  /* .plot aporta el aire de arriba para la etiqueta de las columnas de 100;
+     .cols queda sin padding para que grilla y barras midan contra lo mismo */
+  .plot { padding-top: 1.7rem; min-width: 900px; }
+  .cols { display: flex; align-items: flex-end; gap: 1.3rem; height: 260px;
+          border-bottom: 1px solid var(--baseline); position: relative; padding: 0 .25rem; }
+  .gridline { position: absolute; left: 0; right: 0; border-top: 1px solid var(--grid); pointer-events: none; }
+  .gridline span { position: absolute; left: 0; top: -.75em; font-size: .72rem; color: var(--muted);
+                   background: var(--surface-1); padding-right: .4rem; font-variant-numeric: tabular-nums; }
+  .group { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 100%; position: relative; z-index: 1; }
+  .bar { position: relative; width: 20px; border-radius: 4px 4px 0 0; cursor: default;
+         transition: filter .12s ease; }
+  .bar:hover, .bar:focus-visible { filter: brightness(1.12); outline: none; }
+  .bar .val { position: absolute; top: -1.35em; left: 50%; transform: translateX(-50%);
+              font-size: .68rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .xlabels { display: flex; gap: 1.3rem; min-width: 900px; padding: .5rem .25rem 0; }
+  .xlabels div { flex: 1; text-align: center; font-size: .85rem; color: var(--text-secondary); }
+
+  /* ---------- barras horizontales de rubrica ---------- */
+  .rows { display: grid; gap: .7rem; }
+  .row { display: grid; grid-template-columns: minmax(9rem, 15rem) 1fr auto; gap: .8rem; align-items: center; }
+  .row .name { font-size: .87rem; color: var(--text-secondary); }
+  .track { background: var(--grid); border-radius: 4px; height: 16px; position: relative; }
+  .fill { height: 100%; border-radius: 4px; background: var(--series-1); transition: width .35s ease; }
+  .row .pct { font-size: .85rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; min-width: 3.2rem; text-align: right; }
+  .row.weak .fill { background: var(--series-2); }
+
+  /* ---------- tooltip ---------- */
+  #tip {
+    position: fixed; pointer-events: none; opacity: 0; transition: opacity .1s;
+    background: var(--text-primary); color: var(--surface-1);
+    padding: .5rem .7rem; border-radius: 6px; font-size: .82rem; line-height: 1.45;
+    max-width: 16rem; z-index: 50;
+  }
+  #tip b { display: block; font-size: .88rem; margin-bottom: .15rem; }
+
+  /* ---------- tabla ---------- */
+  .tabla-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--grid); }
+  th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: 0; }
+  [hidden] { display: none !important; }
+
+  .aviso { border-left: 3px solid var(--accent); padding-left: .9rem; }
+
+  footer { color: var(--muted); font-size: .82rem; margin-top: 2.5rem; text-align: center; }
+  footer a { color: var(--series-1); }
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Resultados · Ejercicios 3 a 9</h1>
+  <p class="sub">
+    Semillero SQL · AgroDB. Cada entrega se <strong>ejecutó</strong> contra su script base en
+    SQLite y se comparó contra los puntos de control del enunciado, además de corregirse
+    con la rúbrica. Las notas se muestran con alias: cada uno sabe cuál es el suyo.
+  </p>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<section class="card">
+  <h2>Nota por alumno</h2>
+  <p class="hint">Pasá el mouse (o tocá) una columna para ver el detalle por criterio.</p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Ordenar">
+      <button type="button" data-sort="promedio" aria-pressed="true">Por promedio</button>
+      <button type="button" data-sort="alias" aria-pressed="false">Por alias</button>
+    </div>
+    <div class="seg" role="group" aria-label="Vista">
+      <button type="button" data-view="grafico" aria-pressed="true">Gráfico</button>
+      <button type="button" data-view="tabla" aria-pressed="false">Tabla</button>
+    </div>
+  </div>
+
+  <div id="vista-grafico">
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i> Ej. 3 · modelado</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i> Ej. 4 · modificar datos</span>
+      <span><i class="swatch" style="background:var(--series-3)"></i> Ej. 5 · consultas de negocio</span>
+      <span><i class="swatch" style="background:var(--series-4)"></i> Ej. 6 · series de tiempo</span>
+      <span><i class="swatch" style="background:var(--series-5)"></i> Ej. 7 · funciones de ventana</span>
+      <span><i class="swatch" style="background:var(--series-6)"></i> Ej. 8 · vistas</span>
+      <span><i class="swatch" style="background:var(--series-7)"></i> Ej. 9 · índices</span>
+    </div>
+    <div class="chart-scroll">
+      <div class="plot"><div class="cols" id="cols"></div></div>
+      <div class="xlabels" id="xlabels"></div>
+    </div>
+  </div>
+
+  <div id="vista-tabla" hidden>
+    <div class="tabla-scroll">
+      <table>
+        <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Ej. 5</th><th class="num">Ej. 6</th><th class="num">Ej. 7</th><th class="num">Ej. 8</th><th class="num">Ej. 9</th><th class="num">Promedio</th><th class="num">Δ 9−8</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Dónde se ganaron y se perdieron puntos</h2>
+  <p class="hint">
+    Promedio del curso en cada criterio de la rúbrica, como porcentaje del puntaje máximo.
+    En <span style="color:var(--series-2);font-weight:600">ámbar</span>, los criterios por
+    debajo del 75&nbsp;%: ahí es donde conviene volver.
+  </p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Ejercicio">
+      <button type="button" data-ej="3" aria-pressed="false">Ej. 3</button>
+      <button type="button" data-ej="4" aria-pressed="false">Ej. 4</button>
+      <button type="button" data-ej="5" aria-pressed="false">Ej. 5</button>
+      <button type="button" data-ej="6" aria-pressed="false">Ej. 6</button>
+      <button type="button" data-ej="7" aria-pressed="false">Ej. 7</button>
+      <button type="button" data-ej="8" aria-pressed="false">Ej. 8</button>
+      <button type="button" data-ej="9" aria-pressed="true">Ej. 9</button>
+    </div>
+  </div>
+  <div class="rows" id="rubrica"></div>
+  <p class="hint" id="rubrica-nota" style="margin:1.2rem 0 0"></p>
+</section>
+
+<section class="card">
+  <h2>La lección del ejercicio 9: los cinco escribieron el mismo error</h2>
+  <p class="hint" style="margin-bottom:.8rem">Cinco de cinco. No es casualidad, es un modelo mental compartido y equivocado.</p>
+  <p style="margin:0 0 .8rem">
+    El punto <strong>C5</strong> preguntaba qué lecturas del 30 de junio se pierden si se
+    escribe <code>fecha_hora &lt;= '2026-06-30'</code> en vez de <code>&lt; '2026-07-01'</code>.
+    Las cinco entregas contestaron alguna variante de <em>«se pierde todo el 30 de junio
+    <strong>menos</strong> la de medianoche»</em>. Una lo dijo con número: «47 de las 48».
+  </p>
+  <p style="margin:0 0 .8rem">
+    Se pierden las <strong>48</strong>. Ninguna sobrevive, ni la de las 00:00:00.
+  </p>
+  <p style="margin:0 0 .8rem">
+    El motivo es el que estaban por descubrir y se les escapó por un carácter:
+    <code>'2026-06-30 00:00:00'</code> no <em>es</em> <code>'2026-06-30'</code>, es una cadena
+    que <strong>empieza igual y sigue</strong>. Comparando texto, la más larga es la mayor —
+    igual que <code>'casa'</code> &lt; <code>'casaca'</code>. El espacio que separa la fecha de
+    la hora ya alcanza para que quede afuera del <code>&lt;=</code>.
+  </p>
+  <p style="margin:0">
+    Se comprueba en una línea: <code>1440</code> lecturas de junio con <code>&lt; '2026-07-01'</code>,
+    <code>1392</code> con <code>&lt;= '2026-06-30'</code>. La diferencia es 48, no 47.
+    <strong>El único que escribió el 48 correcto lo escribió al lado de la explicación
+    equivocada</strong>: tenía el número medido y la teoría inventada, y no notó que se
+    contradecían. Medir y no comparar contra lo que uno cree es media auditoría.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Lo que hay que corregir del enunciado (otra vez, y otra vez lo encontraron ustedes)</h2>
+  <p class="hint" style="margin-bottom:.8rem">Esto no es una nota: es un error del material.</p>
+  <p style="margin:0 0 .8rem" class="aviso">
+    La rúbrica del <strong>ejercicio 8</strong> dice «(100 puntos)» y sus criterios suman
+    <strong>105</strong>. Salió a la luz al corregir: los subtotales daban por encima de 100 sin
+    contar el punto extra.
+  </p>
+  <p style="margin:0 0 .8rem">
+    Se corrigió sin cambiarle el peso a ningún criterio: cada uno vale lo que el enunciado dijo
+    que valía, el subtotal se calcula sobre 105 y después se normaliza a 100. Nadie pierde por
+    un error mío de suma. En el tooltip de las columnas del ejercicio 8 se ve el subtotal real
+    sobre 105 y la nota normalizada.
+  </p>
+  <p style="margin:0">
+    Es el segundo error del material que aparece corrigiendo, después del «6 filas» del ejercicio 3.
+    Van dos a cero: <strong>los enunciados también se auditan</strong>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>El ejercicio 8 no se perdió por no entender vistas</h2>
+  <p style="margin:0 0 .8rem">
+    La parte C —auditar el tablero que ya estaba publicado— salió bien en cuatro de las cinco
+    entregas: encontraron el sensor 3 dado de baja, los cinco días de febrero colados entre los
+    de abril y los cinco de esos diez empatados en 25.63 que no deberían estar. Eso era lo
+    difícil del día y está aprendido.
+  </p>
+  <p style="margin:0 0 .8rem">
+    Lo que se perdió fue por <strong>no ejecutar</strong>. El enunciado pedía correr
+    <code>CREATE VIEW IF NOT EXISTS</code> y ver qué pasa, pedía pegar el error del
+    <code>INSERT</code> sobre una vista, pedía construir <code>v_costo_mal</code> y mirarle el 455.
+    Cuatro entregas contestaron esos puntos <strong>en comentario, sin correrlos</strong>. Las
+    respuestas eran correctas — pero una respuesta correcta que no se ejecutó no es una
+    verificación, es una predicción.
+  </p>
+  <p style="margin:0">
+    Y ahí se ve la diferencia: la entrega que <strong>sí</strong> corrió <code>v_costo_mal</code>
+    fue la única que se equivocó al decir qué siembras faltaban (dijo 3 y 8; son la 9 y la 10).
+    Correr la consulta no te salva de leer mal el resultado. No correrla te garantiza no leerlo nunca.
+  </p>
+</section>
+
+<section class="card">
+  <h2>A-5: lo que pasa cuando se vuelve a entregar</h2>
+  <p class="hint" style="margin-bottom:.8rem">Tres notas cambiaron. Una no.</p>
+  <p style="margin:0 0 .8rem">
+    A-5 rehízo los ejercicios 4, 5 y 6 y los volvió a subir. Se recorrigieron desde cero, con el
+    mismo criterio que todos:
+  </p>
+  <p style="margin:0 0 .8rem">
+    <strong>Ejercicio 4: de 38 a 98.</strong> La entrega original llegó como base de datos y no
+    como script, así que todos los criterios de texto puntuaban 0. La corrección tiene las seis
+    consultas de diagnóstico, los arreglos en transacción, el <code>CASCADE</code> con la línea
+    citada y —lo que valía 20 puntos— la fusión de la urea conservando los 100 kg. Verificado:
+    <code>labor_insumo</code> queda con <code>(20, 1, 100)</code> y el catálogo con 7 insumos.
+  </p>
+  <p style="margin:0 0 .8rem">
+    <strong>Ejercicio 5: de 42 a 95.</strong> El fan-out está encontrado, demostrado con el
+    <code>COUNT(*)</code> contra <code>COUNT(DISTINCT)</code> (11 y 4, exactos) y corregido con
+    CTE independientes. El total de costos cierra en 3562.30. Lo que le costó los puntos que le
+    faltan es viejo conocido: en B2 anotó «31.400 y 37.900» donde la consulta devuelve
+    <strong>41.100 y 32.950</strong>. La consulta estaba bien. El comentario, no.
+  </p>
+  <p style="margin:0 0 .8rem">
+    <strong>Ejercicio 6: sigue en 100.</strong> Ya estaba perfecto. Volver a entregarlo no lo
+    bajó ni lo subió, y está bien que lo haya hecho: la corrección corre limpia.
+  </p>
+  <p style="margin:0" class="aviso">
+    <strong>Ejercicio 7: sigue sin nota.</strong> El archivo
+    <code>Ejercicio7_Troya_Daniel.sql</code> que está en el repositorio es, otra vez, el
+    <strong>Proyecto 1</strong> (el banco de semillas). Es un buen archivo — no es el ejercicio 7.
+    Rankings, <code>LAG</code>, medias móviles y el podio falso siguen sin entregarse. Es la única
+    nota del curso que hoy podría subir sola y no lo hizo.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Dos cosas de forma, y no son menores</h2>
+  <p style="margin:0 0 .8rem">
+    <strong>Un archivo llegó con el nombre del ejercicio anterior.</strong>
+    <code>Ejercicio8_Yaguar_Byron.sql</code> contenía el ejercicio <strong>9</strong> completo.
+    Se detectó al correrlo (falló contra la base de la clase 8: no existía
+    <code>lecturas_historico</code>) y ya está renombrado en el repositorio. No cuesta nota, pero
+    si nadie lo abre, ese ejercicio figura como no entregado.
+  </p>
+  <p style="margin:0">
+    <strong>Dos entregas siguen pegando el script base completo adentro de su archivo.</strong>
+    Corre igual, así que no se descuenta. Pero el archivo empieza con
+    <code>DROP TABLE</code> de todo y vuelve a crear la base: si el enunciado hubiera cambiado un
+    dato, la entrega estaría contestando sobre otra base que la de la clase, y nadie se enteraría.
+    El archivo de entrega arranca en la parte A.
+  </p>
+</section>
+
+<footer>
+  Curso de SQL · AgroDB · ejercicios 3 y 4 corregidos el 17 de agosto · ejercicio 5, el 18 ·
+  ejercicios 6 y 7, el 19 · ejercicios 8 y 9 y las recorrecciones de A-5, el 24 de agosto de 2026 ·
+  <a href="index.html">volver al índice</a>
+</footer>
+</div>
+
+<div id="tip" role="tooltip"></div>
+
+<script>
+// ===================================================================
+//  DATOS
+//  USAR_ALIAS = true  -> se muestran A-1 … A-5 (recomendado: la pagina
+//                        es publica y sin autenticacion).
+//  USAR_ALIAS = false -> se muestran los nombres del campo `nombre`.
+// ===================================================================
+const USAR_ALIAS = true;
+
+// ej7 = null  ->  no hay entrega valida todavia; se dibuja como "—" y no
+// entra en el promedio ni en la media del curso.
+const ALUMNOS = [
+  { alias: "A-1", nombre: "Brando Herrera",   ej3: 100, ej4: 100, ej5:  97, ej6: 100, ej7:  100, ej8: 100, ej9:  97 },
+  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100, ej5: 100, ej6: 100, ej7:  100, ej8:  93, ej9: 100 },
+  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98, ej5:  90, ej6: 100, ej7:  100, ej8:  95, ej9:  99 },
+  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59, ej5:  99, ej6:  80, ej7:   89, ej8:  73, ej9: 100 },
+  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  98, ej5:  95, ej6: 100, ej7: null, ej8:  98, ej9: 100 },
+];
+
+// Base de la rubrica por ejercicio. El enunciado del 8 dice "100 puntos"
+// y sus criterios suman 105: se respeta el peso publicado de cada
+// criterio y el subtotal se normaliza a 100. Ver la tarjeta de arriba.
+const BASE = { 3: 100, 4: 100, 5: 100, 6: 100, 7: 100, 8: 105, 9: 100 };
+
+// Punto extra de la rubrica (va aparte de los criterios; el total topea en 100)
+const EXTRA = {
+  "A-1": { 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5, 9: 0 },
+  "A-2": { 3: 3, 4: 5, 5: 5, 6: 5, 7: 5, 8: 0, 9: 3 },
+  "A-3": { 3: 2, 4: 5, 5: 5, 6: 5, 7: 5, 8: 2, 9: 4 },
+  "A-4": { 3: 4, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 5 },
+  "A-5": { 3: 4, 4: 5, 5: 5, 6: 5, 7: 0, 8: 5, 9: 5 },
+};
+
+// Detalle por criterio, para el tooltip. [criterio, obtenido, maximo]
+const DETALLE = {
+  "A-1": { 3: [["Diagnóstico",15,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",15,15],["Cierre",15,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",30,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",12,20],["Cierre",10,10]],
+           6: [["Parte A",12,15],["Parte B",15,15],["B4 BETWEEN",10,10],["Parte C",30,30],["C3 el hueco",5,5],["Parte D",20,20],["Cierre",5,5]],
+           7: [["Parte A",15,15],["B1 kg/ha",10,10],["B2 numeración",10,10],["B3 podio",20,20],["B5 CTE",10,10],["C1–C3 LAG/LEAD",10,10],["C4 hueco",10,10],["Parte D",7,10],["Cierre",5,5]],
+           8: [["Parte A",10,10],["B1 el * 1.0",15,15],["B2 composición",10,10],["B3–B4 IF NOT EXISTS",10,10],["C1–C5 el tablero",25,25],["C6 el reemplazo",5,5],["C7 auditada OK",5,5],["D1–D3 los límites",10,10],["D4 fan-out heredado",8,10],["Cierre",5,5]],
+           9: [["Parte A",10,10],["B1–B2 el plan SCAN",15,15],["B3–B4 el índice",10,10],["C1–C4 la trampa del DATE()",25,25],["C5–C7 el < y la escala",7,10],["D1–D2 prefijo izquierdo",10,10],["D3 ORDER BY gratis",5,5],["D4 el SEARCH inútil",10,10],["Cierre",5,5]] },
+  "A-2": { 3: [["Diagnóstico",13,15],["Las 4 tablas",25,25],["Tabla puente",15,15],["Migración",14,15],["Prueba de fuego",10,10],["Consultas",7,10],["Cierre",10,10]],
+           4: [["Diagnóstico",20,20],["Arreglos",15,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",30,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",20,20],["Cierre",8,10]],
+           6: [["Parte A",15,15],["Parte B",15,15],["B4 BETWEEN",10,10],["Parte C",30,30],["C3 el hueco",5,5],["Parte D",20,20],["Cierre",5,5]],
+           7: [["Parte A",15,15],["B1 kg/ha",10,10],["B2 numeración",10,10],["B3 podio",20,20],["B5 CTE",7,10],["C1–C3 LAG/LEAD",10,10],["C4 hueco",10,10],["Parte D",10,10],["Cierre",5,5]],
+           8: [["Parte A",10,10],["B1 el * 1.0",15,15],["B2 composición",10,10],["B3–B4 IF NOT EXISTS",10,10],["C1–C5 el tablero",21,25],["C6 el reemplazo",5,5],["C7 auditada OK",5,5],["D1–D3 los límites",9,10],["D4 fan-out heredado",8,10],["Cierre",5,5]],
+           9: [["Parte A",10,10],["B1–B2 el plan SCAN",15,15],["B3–B4 el índice",10,10],["C1–C4 la trampa del DATE()",25,25],["C5–C7 el < y la escala",8,10],["D1–D2 prefijo izquierdo",10,10],["D3 ORDER BY gratis",5,5],["D4 el SEARCH inútil",10,10],["Cierre",5,5]] },
+  "A-3": { 3: [["Diagnóstico",9,15],["Las 4 tablas",24,25],["Tabla puente",15,15],["Migración",3,15],["Prueba de fuego",1,10],["Consultas",8,10],["Cierre",9,10]],
+           4: [["Diagnóstico",19,20],["Arreglos",13,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",14,15]],
+           5: [["Parte A",13,15],["Fan-out (B)",26,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",11,20],["Cierre",10,10]],
+           6: [["Parte A",15,15],["Parte B",15,15],["B4 BETWEEN",10,10],["Parte C",30,30],["C3 el hueco",5,5],["Parte D",20,20],["Cierre",5,5]],
+           7: [["Parte A",15,15],["B1 kg/ha",10,10],["B2 numeración",10,10],["B3 podio",20,20],["B5 CTE",8,10],["C1–C3 LAG/LEAD",10,10],["C4 hueco",10,10],["Parte D",10,10],["Cierre",5,5]],
+           8: [["Parte A",10,10],["B1 el * 1.0",15,15],["B2 composición",10,10],["B3–B4 IF NOT EXISTS",8,10],["C1–C5 el tablero",23,25],["C6 el reemplazo",5,5],["C7 auditada OK",5,5],["D1–D3 los límites",8,10],["D4 fan-out heredado",9,10],["Cierre",5,5]],
+           9: [["Parte A",10,10],["B1–B2 el plan SCAN",15,15],["B3–B4 el índice",10,10],["C1–C4 la trampa del DATE()",25,25],["C5–C7 el < y la escala",6,10],["D1–D2 prefijo izquierdo",10,10],["D3 ORDER BY gratis",4,5],["D4 el SEARCH inútil",10,10],["Cierre",5,5]] },
+  "A-4": { 3: [["Diagnóstico",15,15],["Las 4 tablas",22,25],["Tabla puente",15,15],["Migración",15,15],["Prueba de fuego",10,10],["Consultas",10,10],["Cierre",10,10]],
+           4: [["Diagnóstico",12,20],["Arreglos",14,15],["CASCADE",15,15],["Fusión urea",10,20],["Verificación",0,15],["Cierre",8,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",29,30],["LEFT JOIN (C)",20,20],["ON vs WHERE",5,5],["Parte D",20,20],["Cierre",10,10]],
+           6: [["Parte A",12,15],["Parte B",15,15],["B4 BETWEEN",10,10],["Parte C",27,30],["C3 el hueco",5,5],["Parte D",6,20],["Cierre",5,5]],
+           7: [["Parte A",15,15],["B1 kg/ha",7,10],["B2 numeración",10,10],["B3 podio",15,20],["B5 CTE",7,10],["C1–C3 LAG/LEAD",10,10],["C4 hueco",10,10],["Parte D",10,10],["Cierre",5,5]],
+           8: [["Parte A",10,10],["B1 el * 1.0",8,15],["B2 composición",8,10],["B3–B4 IF NOT EXISTS",7,10],["C1–C5 el tablero",18,25],["C6 el reemplazo",5,5],["C7 auditada OK",5,5],["D1–D3 los límites",6,10],["D4 fan-out heredado",5,10],["Cierre",5,5]],
+           9: [["Parte A",10,10],["B1–B2 el plan SCAN",15,15],["B3–B4 el índice",10,10],["C1–C4 la trampa del DATE()",25,25],["C5–C7 el < y la escala",8,10],["D1–D2 prefijo izquierdo",10,10],["D3 ORDER BY gratis",5,5],["D4 el SEARCH inútil",9,10],["Cierre",4,5]] },
+  "A-5": { 3: [["Diagnóstico",13,15],["Las 4 tablas",23,25],["Tabla puente",15,15],["Migración",7,15],["Prueba de fuego",0,10],["Consultas",7,10],["Cierre",9,10]],
+           4: [["Diagnóstico",18,20],["Arreglos",13,15],["CASCADE",15,15],["Fusión urea",20,20],["Verificación",12,15],["Cierre",15,15]],
+           5: [["Parte A",15,15],["Fan-out (B)",24,30],["LEFT JOIN (C)",18,20],["ON vs WHERE",3,5],["Parte D",20,20],["Cierre",10,10]],
+           6: [["Parte A",15,15],["Parte B",15,15],["B4 BETWEEN",10,10],["Parte C",30,30],["C3 el hueco",5,5],["Parte D",20,20],["Cierre",5,5]],
+           7: null,
+           8: [["Parte A",10,10],["B1 el * 1.0",14,15],["B2 composición",10,10],["B3–B4 IF NOT EXISTS",9,10],["C1–C5 el tablero",23,25],["C6 el reemplazo",5,5],["C7 auditada OK",4,5],["D1–D3 los límites",9,10],["D4 fan-out heredado",9,10],["Cierre",5,5]],
+           9: [["Parte A",10,10],["B1–B2 el plan SCAN",15,15],["B3–B4 el índice",10,10],["C1–C4 la trampa del DATE()",25,25],["C5–C7 el < y la escala",8,10],["D1–D2 prefijo izquierdo",10,10],["D3 ORDER BY gratis",5,5],["D4 el SEARCH inútil",10,10],["Cierre",5,5]] },
+};
+
+const CRITERIOS = {
+  3: ["Diagnóstico","Las 4 tablas","Tabla puente","Migración","Prueba de fuego","Consultas","Cierre"],
+  4: ["Diagnóstico","Arreglos","CASCADE","Fusión urea","Verificación","Cierre"],
+  5: ["Parte A","Fan-out (B)","LEFT JOIN (C)","ON vs WHERE","Parte D","Cierre"],
+  6: ["Parte A","Parte B","B4 BETWEEN","Parte C","C3 el hueco","Parte D","Cierre"],
+  7: ["Parte A","B1 kg/ha","B2 numeración","B3 podio","B5 CTE","C1–C3 LAG/LEAD","C4 hueco","Parte D","Cierre"],
+  8: ["Parte A","B1 el * 1.0","B2 composición","B3–B4 IF NOT EXISTS","C1–C5 el tablero","C6 el reemplazo","C7 auditada OK","D1–D3 los límites","D4 fan-out heredado","Cierre"],
+  9: ["Parte A","B1–B2 el plan SCAN","B3–B4 el índice","C1–C4 la trampa del DATE()","C5–C7 el < y la escala","D1–D2 prefijo izquierdo","D3 ORDER BY gratis","D4 el SEARCH inútil","Cierre"],
+};
+
+const NOTA_RUBRICA = {
+  3: "La tabla puente salió perfecta en las cinco entregas: era el punto difícil del día y nadie lo falló. " +
+     "Lo que costó fue la migración y su verificación (D2): dos entregas no reprodujeron los costos originales, " +
+     "y en un caso el propio enunciado avisaba con 11 filas en «REVISAR».",
+  4: "«Verificación» es la parte E: los conteos finales y las dos demos. Es la más floja del ejercicio y no por " +
+     "dificultad — es la que se saltea cuando se acaba el tiempo. Justamente ahí estaba el error que a una entrega " +
+     "le habría avisado que los insumos duplicados seguían en el catálogo. " +
+     "Actualizado el 24 de agosto: A-5 volvió a entregar y pasó de 38 a 98. Su entrega original llegó como base de " +
+     "datos y no como script; la corrección tiene las seis consultas de diagnóstico, los arreglos en transacción y " +
+     "la fusión de la urea conservando los 100 kg. Lo único que le queda en rojo es haber anotado «4» donde el " +
+     "ROLLBACK devuelve 5.",
+  5: "«Parte D» era la más floja y no por casualidad: ahí estaba la división entera. Dos entregas la resolvieron " +
+     "completa (corrieron la versión rota, listaron los tres lotes que fallan y corrigieron con «* 1.0»); una la " +
+     "intentó con CAST(... AS NUMERIC), que en SQLite no fuerza decimales y no arregla nada; y otra dio por " +
+     "corregido un número que su propia consulta no devolvía. El resto del ejercicio —el fan-out y los LEFT JOIN— " +
+     "salió muy bien: son las dos técnicas que ya están sólidas en el grupo. " +
+     "Actualizado el 24 de agosto: A-5 volvió a entregar y pasó de 42 a 95. El fan-out está demostrado con el " +
+     "COUNT(*) contra COUNT(DISTINCT) exacto (11 y 4) y el total cierra en 3562.30; los puntos que le faltan son " +
+     "por dos números anotados que su propia consulta no devolvió.",
+  6: "El ejercicio mejor resuelto del curso, y el que menos se parece a su nota anterior: " +
+     "cuatro de las cinco entregas detectaron los cuatro problemas de la serie —el hueco, el -99, " +
+     "el duplicado y el BETWEEN— cada uno con su consulta, y explicaron bien por qué el hueco de 75 " +
+     "horas no son 72. «B4 BETWEEN» salió al 100 %: las cinco entendieron que comparar fechas como " +
+     "texto contra «2026-04-30» se come el último día entero, y las cinco anotaron los dos números, " +
+     "905 y 937. " +
+     "«Parte D» es la única floja del ejercicio y por un solo motivo: una entrega tiene tres de sus " +
+     "cuatro consultas rotas por alias mal escritos (l.nombre donde iba l.codigo, l.fecha_labor donde " +
+     "iba l.fecha), y esa misma entrega es la única con dos AVG sin su COUNT al lado, que estaba " +
+     "avisado en el enunciado. No es un problema de criterio: es de no haber corrido el archivo entero " +
+     "antes de entregarlo. " +
+     "Nota aparte: la parte E2 —escribir las dos restricciones que le faltan a lecturas— no se puntuó, " +
+     "porque agrodb_clase7.sql la contestó al publicarse el 18, con el ejercicio todavía abierto.",
+  7: "La mejor ronda del curso hasta ahora, y por lejos: las cuatro entregas válidas corren completas " +
+     "sin un solo error y las cuatro identificaron bien la causa del podio falso —que las tres lecturas " +
+     "borradas eran nocturnas y por eso el sesgo tiene dirección. «B3 podio» y «C4 hueco», que eran los " +
+     "30 puntos del día, salieron casi perfectos. " +
+     "Lo que se perdió fue por descuidos, no por no entender: una entrega invirtió los conteos del 19 y el 20 " +
+     "(dijo 7 y 6 donde iban 6 y 7) y arrastró el error hasta D5; otra rompió el acumulado de D1 al agregarle " +
+     "un COUNT(*) suelto al SELECT de afuera, que colapsó las 8 filas en 1 —ironía fina: la rompió por aplicar " +
+     "al pie de la letra la regla de mostrar siempre el conteo. «B5 CTE» es el criterio más flojo y es el " +
+     "único mecánico: el enunciado pedía pegar el mensaje de error de SQLite y solo una entrega transcribió " +
+     "el texto exacto. " +
+     "A-5 sigue sin nota: volvió a subir su Proyecto 1 en lugar del ejercicio 7.",
+  8: "El día se dividió limpio en dos mitades. La auditoría —parte C, 25 puntos, lo difícil— salió muy bien: " +
+     "cuatro de cinco encontraron el sensor 3 dado de baja, los cinco días de febrero mezclados con abril y " +
+     "los cinco de esos diez empatados en 25.63 que no pertenecen al tablero. Las cinco escribieron " +
+     "v_temp_diaria_v2 con sus 30 filas y su conteo a la vista, y las cinco auditaron v_alertas_sensores y " +
+     "se animaron a declararla correcta —que era el punto: encontrar que algo está bien también es un resultado. " +
+     "«D1–D3 los límites» es el criterio más flojo del ejercicio y no por dificultad: cuatro entregas " +
+     "contestaron los tres límites en comentario sin ejecutar nada. El error del INSERT sobre una vista está " +
+     "bien transcripto en tres de ellas y en la cuarta figura como «error esperado (o similar, depende de " +
+     "SQLite)» — que es exactamente lo contrario de la regla del día. " +
+     "«D4 fan-out heredado» tampoco cerró: dos entregas no construyeron v_costo_mal y contestaron de memoria; " +
+     "una la construyó y se equivocó al decir qué siembras faltaban (dijo 3 y 8, son la 9 y la 10); y una la " +
+     "copió con «cantidad + costo_unitario» donde iba «*». Las cinco v_costo_siembra, en cambio, cierran " +
+     "exactas en 3562.30. " +
+     "«B1 el * 1.0» tiene un solo responsable: una entrega usó LEFT JOIN y su vista devuelve 8 filas en vez " +
+     "de las 6 pedidas, con dos lotes en 0 kg —y anotó «ESPERADO: 6 filas» sin mirar que le habían salido 8.",
+  9: "El mejor ejercicio del curso: las cinco entregas corren completas, las cinco leyeron bien el plan y las " +
+     "cinco entendieron la trampa del día. «C1–C4 la trampa del DATE()», que valía 25 puntos y era todo el " +
+     "ejercicio, salió al 100 % en las cinco: identificaron que el índice resuelve solo sensor_id, que se está " +
+     "trabajando sobre 17.520 filas para necesitar 1.440, y reescribieron el rango sin función encima de la " +
+     "columna. «D4 el SEARCH inútil» —la pregunta más fina, la que pedía desconfiar de la palabra que " +
+     "queríamos ver— salió casi perfecta: cuatro de cinco explicaron que 59.495 de 105.120 no es una búsqueda, " +
+     "es un recorrido con otro nombre. " +
+     "«C5–C7» es el único criterio flojo y es el más interesante del día: las cinco entregas contestaron mal " +
+     "la misma pregunta, en la misma dirección, con la misma teoría equivocada. Está explicado en la tarjeta " +
+     "de abajo. " +
+     "Cuatro de las cinco hicieron el punto extra, y dos eligieron la variante difícil —encontrar un índice " +
+     "que NO ayude y explicar por qué—: una mostró que un índice sobre (valor, fecha_hora) no cambia el plan " +
+     "porque no empieza por la columna del filtro, y otra que un índice sobre una tabla de 6 filas se ignora " +
+     "entero. Las dos verificadas: el plan es idéntico antes y después.",
+};
+
+// ===================================================================
+//  RENDER
+// ===================================================================
+const etiqueta = a => USAR_ALIAS ? a.alias : a.nombre;
+const EJS = ["ej3", "ej4", "ej5", "ej6", "ej7", "ej8", "ej9"];
+const SERIES = [
+  ["ej3", 3, "var(--series-1)", "Ejercicio 3"], ["ej4", 4, "var(--series-2)", "Ejercicio 4"],
+  ["ej5", 5, "var(--series-3)", "Ejercicio 5"], ["ej6", 6, "var(--series-4)", "Ejercicio 6"],
+  ["ej7", 7, "var(--series-5)", "Ejercicio 7"], ["ej8", 8, "var(--series-6)", "Ejercicio 8"],
+  ["ej9", 9, "var(--series-7)", "Ejercicio 9"],
+];
+const prom = a => {
+  const v = EJS.map(k => a[k]).filter(x => x !== null && x !== undefined);
+  return v.reduce((s, x) => s + x, 0) / v.length;
+};
+const $ = s => document.querySelector(s);
+let orden = "promedio";
+
+// --- KPIs ---
+const media = k => {
+  const v = ALUMNOS.map(a => a[k]).filter(x => x !== null && x !== undefined);
+  return v.reduce((s, x) => s + x, 0) / v.length;
+};
+$("#kpis").innerHTML = [
+  { label: "Entregas ej. 8 y 9", value: "5 y 5", note: "las diez corren de punta a punta" },
+  { label: "Promedio ej. 8", value: media("ej8").toFixed(1), note: "vistas · sobre 100" },
+  { label: "Promedio ej. 9", value: media("ej9").toFixed(1), note: "índices · sobre 100" },
+  { label: "Promedio del curso", value: (ALUMNOS.reduce((s, a) => s + prom(a), 0) / ALUMNOS.length).toFixed(1), note: "ejercicios 3 a 9" },
+  { label: "Ejercicios sin entregar", value: "1", note: "el 7 de A-5, por segunda vez" },
+].map(k => `<div class="kpi"><div class="label">${k.label}</div>
+   <div class="value">${k.value}</div><div class="note">${k.note}</div></div>`).join("");
+
+// --- grafico de columnas ---
+const MAXY = 100;
+function ordenados() {
+  const c = [...ALUMNOS];
+  if (orden === "promedio") c.sort((a, b) => prom(b) - prom(a));
+  else c.sort((a, b) => a.alias.localeCompare(b.alias));
+  return c;
+}
+
+function pintarColumnas() {
+  const datos = ordenados();
+  const cols = $("#cols");
+  cols.innerHTML = "";
+  // gridlines cada 25
+  for (let v = 0; v <= MAXY; v += 25) {
+    const g = document.createElement("div");
+    g.className = "gridline";
+    g.style.bottom = (v / MAXY * 100) + "%";
+    g.innerHTML = `<span>${v}</span>`;
+    cols.appendChild(g);
+  }
+  datos.forEach(a => {
+    const grupo = document.createElement("div");
+    grupo.className = "group";
+    SERIES.forEach(([campo, ej, color, titulo]) => {
+      const b = document.createElement("div");
+      if (a[campo] === null || a[campo] === undefined) {
+        b.className = "bar";
+        b.style.height = "3px";
+        b.style.background = "var(--baseline)";
+        b.tabIndex = 0;
+        b.setAttribute("role", "img");
+        b.setAttribute("aria-label", `${etiqueta(a)}, ${titulo}: sin entrega válida`);
+        b.innerHTML = `<span class="val">—</span>`;
+        b.dataset.tip = `<b>${etiqueta(a)} · ${titulo}</b>Sin entrega válida.`;
+        grupo.appendChild(b);
+        return;
+      }
+      b.className = "bar";
+      b.style.height = (a[campo] / MAXY * 100) + "%";
+      b.style.background = color;
+      b.tabIndex = 0;
+      b.setAttribute("role", "img");
+      b.setAttribute("aria-label", `${etiqueta(a)}, ${titulo}: ${a[campo]} sobre 100`);
+      b.innerHTML = `<span class="val">${a[campo]}</span>`;
+      const criterios = DETALLE[a.alias][ej];
+      const base = criterios.reduce((s, [, o]) => s + o, 0);
+      const tope = BASE[ej];
+      const extra = EXTRA[a.alias][ej];
+      const detalle = criterios.map(([n, o, m]) => `${n}: ${o}/${m}`).join("<br>");
+      // Cuando la rubrica publicada no suma 100 (el ejercicio 8 suma 105),
+      // se muestra el subtotal real y la nota normalizada, para que se vea
+      // de donde sale el numero.
+      const lineaBase = tope === 100
+        ? `<br><span style="opacity:.75">Subtotal: ${base}/100</span>`
+        : `<br><span style="opacity:.75">Subtotal: ${base}/${tope} → ${Math.round(base / tope * 100)}/100</span>`;
+      const lineaExtra = extra ? `<br>Extra: +${extra}` : "";
+      const normalizado = Math.round(base / tope * 100);
+      const topado = normalizado + extra > 100 ? ` <span style="opacity:.75">(tope 100)</span>` : "";
+      b.dataset.tip = `<b>${etiqueta(a)} · ${titulo}</b>${detalle}`
+        + lineaBase + lineaExtra
+        + `<br><b style="margin-top:.3rem">Total: ${a[campo]}/100</b>${topado}`;
+      grupo.appendChild(b);
+    });
+    cols.appendChild(grupo);
+  });
+  $("#xlabels").innerHTML = datos.map(a => `<div>${etiqueta(a)}</div>`).join("");
+}
+
+// --- tabla ---
+function pintarTabla() {
+  $("#tbody").innerHTML = ordenados().map(a => {
+    const celdas = EJS.map(k => {
+      const v = a[k];
+      return `<td class="num">${v === null || v === undefined ? "—" : v}</td>`;
+    }).join("");
+    const hay = a.ej9 !== null && a.ej8 !== null;
+    const d = hay ? a.ej9 - a.ej8 : null;
+    const signo = d > 0 ? "+" : "";
+    return `<tr><td>${etiqueta(a)}</td>${celdas}
+      <td class="num">${prom(a).toFixed(1)}</td><td class="num">${hay ? signo + d : "—"}</td></tr>`;
+  }).join("");
+}
+
+// --- rubrica ---
+function pintarRubrica(ej) {
+  const cont = $("#rubrica");
+  cont.innerHTML = CRITERIOS[ej].map((crit, i) => {
+    let obt = 0, max = 0;
+    ALUMNOS.forEach(a => {
+      const d = DETALLE[a.alias][ej];
+      if (!d) return;                     // sin entrega valida: no cuenta
+      obt += d[i][1]; max += d[i][2];
+    });
+    const pct = obt / max * 100;
+    const flojo = pct < 75 ? " weak" : "";
+    return `<div class="row${flojo}">
+      <div class="name">${crit}</div>
+      <div class="track"><div class="fill" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="pct">${pct.toFixed(0)} %</div>
+    </div>`;
+  }).join("");
+  $("#rubrica-nota").textContent = NOTA_RUBRICA[ej];
+}
+
+// --- tooltip ---
+const tip = $("#tip");
+function moverTip(e, el) {
+  tip.innerHTML = el.dataset.tip;
+  tip.style.opacity = "1";
+  const r = tip.getBoundingClientRect();
+  const x = (e.clientX ?? el.getBoundingClientRect().left) + 14;
+  const y = (e.clientY ?? el.getBoundingClientRect().top) + 14;
+  tip.style.left = Math.min(x, innerWidth - r.width - 10) + "px";
+  tip.style.top = Math.min(y, innerHeight - r.height - 10) + "px";
+}
+document.addEventListener("mousemove", e => {
+  const b = e.target.closest?.(".bar");
+  if (b) moverTip(e, b); else tip.style.opacity = "0";
+});
+document.addEventListener("focusin", e => {
+  const b = e.target.closest?.(".bar");
+  if (b) { const r = b.getBoundingClientRect(); moverTip({ clientX: r.left, clientY: r.top }, b); }
+});
+document.addEventListener("focusout", () => tip.style.opacity = "0");
+
+// --- controles ---
+document.querySelectorAll("[data-sort]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-sort]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  orden = btn.dataset.sort;
+  pintarColumnas(); pintarTabla();
+}));
+document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  const tabla = btn.dataset.view === "tabla";
+  $("#vista-tabla").hidden = !tabla;
+  $("#vista-grafico").hidden = tabla;
+}));
+document.querySelectorAll("[data-ej]").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll("[data-ej]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  pintarRubrica(btn.dataset.ej);
+}));
+
+pintarColumnas();
+pintarTabla();
+pintarRubrica(9);
+</script>

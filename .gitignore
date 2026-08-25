@@ -11,13 +11,42 @@ cronograma.md
 *docente*
 *solucionario*
 *solucion_*
+# El guion de clase es el texto que lee el instructor: nunca se publica.
+guion.md
+*guion*.md
 
 # Documentacion operativa del instructor, no material del curso
 CLAUDE.md
 
 # Base con datos ya resueltos: subir SOLO cuando cierren las entregas
 # de la clase anterior. Comentar esta linea ese dia para publicarlo.
-#datos/agrodb_clase4.sql
+#datos/agrodb_clase4.sql   <- publicado el 13/08 (cerraron entregas del ej. 3)
+#datos/agrodb_clase5.sql   <- publicado el 14/08 (cerraron entregas del ej. 4)
+#datos/agrodb_clase6.sql   <- publicado el 17/08 (con la clase 6)
+#datos/agrodb_clase7.sql   <- publicado el 18/08 (con la clase 7).
+#   OJO: contesta la parte E2 del ejercicio 6, que se entrego el 17/08.
+#   Si el ej. 6 sigue abierto, o se cierra antes de la clase o no se
+#   puntua E2 mas alla de lo ya entregado.
+#datos/agrodb_clase8.sql   <- publicado el 19/08 (con la clase 8).
+#   NO contesta nada del ejercicio 7: el ej. 7 era todo SELECT y no
+#   dejo ningun cambio de modelo que aplicar. Las 10 tablas y las 973
+#   filas son identicas a las de la clase 7. Lo unico nuevo son las dos
+#   vistas del dia, que son material de la clase 8, no solucion del 7.
+#   Por eso este es el primer script que se puede publicar sin esperar
+#   a que cierren las entregas anteriores.
+#datos/agrodb_clase9.sql   <- publicado el 20/08 (con la clase 9).
+#   OJO: trae el ejercicio 8 resuelto (las 5 vistas), asi que contesta
+#   sus partes A, B y D4, y el ej. 8 se entrego el 19 y sigue abierto.
+#   NO contesta la parte C (la auditoria de v_temp_diaria), que eran
+#   los 30 puntos del corazon de ese ejercicio: la vista mala sigue
+#   publicada tal cual, deprecada pero sin arreglar.
+#datos/agrodb_clase10.sql  <- publicado el 21/08 (con la clase 10).
+#   OJO: trae los 2 indices del ejercicio 9, asi que contesta sus
+#   partes B3 y D2, y el 9 se entrego anoche. NO contesta la parte C
+#   (la trampa del DATE()), que era su nucleo.
+#   Es la TERCERA vez seguida: cuando el ejercicio de un dia deja
+#   cambios de esquema, el script del dia siguiente los contiene.
+#   Conviene decidir la regla de una vez y no caso por caso.
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO

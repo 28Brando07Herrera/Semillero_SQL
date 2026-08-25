@@ -1,5 +1,5 @@
 # Clase 3 · Del requerimiento al modelo de datos
-**Martes 11 de agosto**
+**Miércoles 12 de agosto**
 
 Cómo se pasa de un documento escrito en prosa a un modelo de tablas: entidades, atributos, cardinalidad y la relación muchos-a-muchos.
 
