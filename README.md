@@ -51,6 +51,7 @@ proyecto-final/ enunciado y rúbrica
 | 9 | 20 ago | Índices · `EXPLAIN QUERY PLAN` y cien mil filas | SQLite | [clase](clases/09-indices/) |
 | 10 | 21 ago | Calidad de datos y auditoría · `CHECK`, triggers y bitácora | SQLite | [clase](clases/10-calidad-auditoria/) |
 | **11** | **24 ago** | **PL/SQL sobre Oracle · fila por fila es lento por lento** | **Oracle** | [clase](clases/11-plsql-oracle/) |
+| **12** | **25 ago** | **Datos que llegan de afuera · staging, `LOG ERRORS` y `MERGE`** | **Oracle** | [clase](clases/12-carga-externa/) |
 
 ---
 
@@ -60,13 +61,15 @@ Las diez primeras clases fueron **SQLite**: modelar, modificar, consultar, medir
 
 Desde la clase 11 el curso cambia de motor. No porque SQLite se quede corto para aprender —no se queda—, sino porque hay una lección que solo se aprende cruzando: **cuánto de lo que uno sabe es SQL y cuánto es el dialecto en el que lo aprendió.** El `* 1.0` que venimos escribiendo desde la clase 5 resulta que nunca fue una regla de SQL.
 
+Desde la 12, el motor deja de ser la novedad y pasa a ser la herramienta: lo que entra a la base **ya no lo escribe una persona**, lo deja un proceso a las seis de la mañana, y hay que decidir qué pasa cuando ese proceso corre dos veces.
+
 Lo que sigue después: **Power BI** conectado a esta misma base, que es la capa de arriba. El motor primero, el tablero después.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las once clases, es esta:
+Si hay una sola cosa que llevarse de las doce clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -78,6 +81,7 @@ Si hay una sola cosa que llevarse de las once clases, es esta:
 | 9 | un `SEARCH` que leía media tabla | nada |
 | 10 | cinco filas imposibles cargadas con las claves apagadas | nada |
 | 11 | dos `INSERT` que fallaron adentro de un `WHEN OTHERS THEN NULL` | nada |
+| 12 | una carga que terminó «bien» con ocho filas rechazadas | nada |
 
 ---
 

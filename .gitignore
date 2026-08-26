@@ -47,6 +47,20 @@ CLAUDE.md
 #   Es la TERCERA vez seguida: cuando el ejercicio de un dia deja
 #   cambios de esquema, el script del dia siguiente los contiene.
 #   Conviene decidir la regla de una vez y no caso por caso.
+#datos/agrodb_oracle_clase11.sql <- publicado el 24/08 (con la clase 11).
+#   Cambio de motor. NO contesta nada del ejercicio 10: es una
+#   traduccion del modelo a Oracle, con resumen_diario y bitacora
+#   vacias a proposito.
+#datos/agrodb_oracle_clase12.sql <- publicado el 25/08 (con la clase 12).
+#   NO contesta NADA del ejercicio 11, y esta vez es una decision, no
+#   una casualidad: resumen_diario y bitacora vuelven vacias, no trae
+#   el procedimiento cargar_labor ni el trigger de la bitacora.
+#   ASI QUEDA LA REGLA, que venia postergandose desde la clase 8:
+#     el script base de cada dia se escribe para NO contener la
+#     solucion del ejercicio anterior. Si el ejercicio del dia deja
+#     cambios de esquema, el script del dia siguiente los declara
+#     vacios y los vuelve a pedir. Cuesta una linea de comentario en
+#     el script y ahorra la discusion de si se publica o no.
 
 # =====================================================================
 # BORRADORES Y TRABAJO EN CURSO
