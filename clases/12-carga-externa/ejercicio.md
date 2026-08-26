@@ -130,6 +130,10 @@ En un comentario, dos líneas: ¿por qué la tabla de rechazos guarda todo como 
 
 **B2 — la carga.** Una sola sentencia. Sin bucle, sin `WHEN OTHERS`, sin PL/SQL:
 
+> **Esto no corre si no hiciste B1.** Si te sale `ORA-00942: table or view "ERR_LECTURAS" does not exist`, no es la sentencia: es que la tabla de rechazos no existe todavía. `LOG ERRORS INTO` no la crea, la usa. Volvé a B1 y seguí.
+>
+> Y lo mismo si recargaste el script base a mitad de camino: el bloque de limpieza **borra `ERR_LECTURAS`**. Hay que volver a crearla.
+
 ```sql
 INSERT INTO lecturas (lectura_id, sensor_id, fecha_hora, valor)
 SELECT seq_lecturas.NEXTVAL,

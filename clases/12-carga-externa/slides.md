@@ -280,6 +280,46 @@ Doce filas perfectamente buenas no entraron **porque otras ocho estaban mal**.
 
 ---
 
+# Primero, dónde van a caer
+
+**La tabla de rechazos hay que crearla. No aparece sola.**
+
+```sql
+BEGIN
+  DBMS_ERRLOG.CREATE_ERROR_LOG(dml_table_name     => 'LECTURAS',
+                               err_log_table_name => 'ERR_LECTURAS');
+END;
+/
+```
+
+<br>
+
+Trae las columnas de `lecturas` **todas como `VARCHAR2(4000)`**, más cinco propias:
+
+`ORA_ERR_NUMBER$` · `ORA_ERR_MESG$` · `ORA_ERR_ROWID$` · `ORA_ERR_OPTYP$` · `ORA_ERR_TAG$`
+
+<br>
+
+> **Si te la salteás:** `ORA-00942: table or view "ERR_LECTURAS" does not exist`. Y el `INSERT` no carga nada.
+
+---
+
+# ¿Por qué todo texto?
+
+<br>
+
+Porque esa tabla tiene que poder guardar la fila que falló **justamente porque `valor` no era un número**.
+
+<br>
+
+Si la columna `valor` fuera `NUMBER`, guardar el rechazo fallaría **por la misma razón** por la que falló el `INSERT`.
+
+<br>
+
+> Una tabla de errores tipada no puede guardar los errores de tipo. Es de esas cosas que parecen un chiste hasta que te pasa.
+
+---
+
 # `LOG ERRORS`
 
 ```sql
@@ -301,22 +341,6 @@ SELECT ...
 ```
 
 **Entraron 12. Las otras 8 están en una tabla, con su código y su mensaje.**
-
----
-
-# La tabla de rechazos
-
-`DBMS_ERRLOG.CREATE_ERROR_LOG('LECTURAS', 'ERR_LECTURAS')` la arma sola.
-
-<br>
-
-Trae las columnas de `lecturas` **todas como `VARCHAR2(4000)`**, más cinco propias:
-
-`ORA_ERR_NUMBER$` · `ORA_ERR_MESG$` · `ORA_ERR_ROWID$` · `ORA_ERR_OPTYP$` · `ORA_ERR_TAG$`
-
-<br>
-
-> ¿Por qué todo texto? Porque tiene que poder guardar la fila que falló **justamente porque `valor` no era un número**. Si la columna fuera `NUMBER`, guardar el rechazo fallaría igual que el `INSERT`.
 
 ---
 

@@ -89,7 +89,7 @@ Lo nuevo:
 |---|---|
 | `staging_lecturas` | **23 filas**, todo `VARCHAR2`: 20 líneas del archivo del 1 de mayo (8 con defectos) y 3 de la corrección posterior |
 | `seq_lecturas` | secuencia que arranca en 8641, para no inventar el `lectura_id` a mano |
-| `err_lecturas` | **no viene**: la crean ellos con `DBMS_ERRLOG` en la parte B |
+| `err_lecturas` | **no viene**: la crean ellos con `DBMS_ERRLOG` en la parte B1. El `LOG ERRORS` de B2 la **usa**, no la crea: si no se corrió B1, es `ORA-00942`. Y el script base la borra al recargarse |
 
 Los números que se mueven hoy: `lecturas` va de **8640** a **8652** al final de la parte B, y a **8654** al final de la parte C.
 
