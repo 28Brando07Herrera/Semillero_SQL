@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -52,6 +52,7 @@ proyecto-final/ enunciado y rúbrica
 | 10 | 21 ago | Calidad de datos y auditoría · `CHECK`, triggers y bitácora | SQLite | [clase](clases/10-calidad-auditoria/) |
 | **11** | **24 ago** | **PL/SQL sobre Oracle · fila por fila es lento por lento** | **Oracle** | [clase](clases/11-plsql-oracle/) |
 | **12** | **25 ago** | **Datos que llegan de afuera · staging, `LOG ERRORS` y `MERGE`** | **Oracle** | [clase](clases/12-carga-externa/) |
+| **13** | **26 ago** | **Oracle en tu máquina y Power BI conectado** | **Oracle local + Power BI** | [clase](clases/13-oracle-local-powerbi/) |
 
 ---
 
@@ -63,13 +64,17 @@ Desde la clase 11 el curso cambia de motor. No porque SQLite se quede corto para
 
 Desde la 12, el motor deja de ser la novedad y pasa a ser la herramienta: lo que entra a la base **ya no lo escribe una persona**, lo deja un proceso a las seis de la mañana, y hay que decidir qué pasa cuando ese proceso corre dos veces.
 
+Y en la 13 el curso sale del navegador: **Oracle se instala en la máquina de cada quien** y Power BI se conecta a él. No por gusto de instalar cosas, sino porque un servicio de navegador no expone un puerto, y una herramienta de BI no lee pantallas: se conecta a un servidor. La idea de esa clase es la que ordena todo lo que sigue: **un tablero no se conecta a una base, se conecta a lo que la base le deja ver.**
+
+> **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
+
 Lo que sigue después: **Power BI** conectado a esta misma base, que es la capa de arriba. El motor primero, el tablero después.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las doce clases, es esta:
+Si hay una sola cosa que llevarse de las trece clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -82,6 +87,7 @@ Si hay una sola cosa que llevarse de las doce clases, es esta:
 | 10 | cinco filas imposibles cargadas con las claves apagadas | nada |
 | 11 | dos `INSERT` que fallaron adentro de un `WHEN OTHERS THEN NULL` | nada |
 | 12 | una carga que terminó «bien» con ocho filas rechazadas | nada |
+| 13 | un tablero en modo Importar mostrando los datos de la semana pasada | nada |
 
 ---
 
