@@ -1,47 +1,49 @@
 -- =====================================================================
--- CURSO DE SQL  |  CLASE 9  |  AgroDB - la base a escala
+-- CURSO DE SQL  |  CLASE 10  |  AgroDB - la base que nadie audito
 -- Motor: SQLite   |   Entorno: sqliteonline.com (o tu SQLite local)
 --
--- AUTOCONTENIDO: se pega COMPLETO en una pestana nueva y se ejecuta.
--- OJO: este tarda unos segundos mas que los anteriores. Es a proposito:
--- esta generando cien mil filas.
+-- AUTOCONTENIDO: se pega COMPLETO y se ejecuta. Tarda unos segundos.
 --
 -- QUE TRAE DE NUEVO --------------------------------------------------
 --
---   1. El ejercicio 8 resuelto: las cinco vistas que construyeron
---      ayer ya estan creadas.
+--   1. El ejercicio 9 resuelto: los dos indices sobre
+--      lecturas_historico ya estan creados.
 --
---        v_lote_finca         el JOIN lote-finca guardado
---        v_produccion_lote    kg y kg/ha por lote, con el * 1.0 adentro
---        v_produccion_finca   construida SOBRE la anterior
---        v_costo_siembra      las 10 siembras, sin fan-out, cierra en 3562.30
---        v_temp_diaria_v2     solo sensores activos, con su conteo
+--        ix_hist_sensor_fecha (sensor_id, fecha_hora)
+--        ix_hist_fecha        (fecha_hora)
 --
---   2. lecturas_historico: **105.120 filas**.
+--   2. **Cinco filas nuevas que no deberian estar.**
 --
---      Es un ano entero de mediciones cada 30 minutos para los 6
---      sensores. Hasta hoy la tabla lecturas tenia 973 filas y todo
---      era instantaneo. A esta escala, no.
+--      Entraron el fin de semana por una carga masiva desde un CSV.
+--      Quien la corrio hizo PRAGMA foreign_keys = OFF para que "no
+--      se quejara", cargo, y volvio a prenderlo. No hubo ningun error.
+--      Nadie se entero.
 --
---      La tabla NO tiene ningun indice propio. Eso es el ejercicio.
+--      Las cinco estan ahi ahora mismo y este script NO dice cuales
+--      son. Encontrarlas es la parte A del ejercicio.
 --
--- POR QUE v_temp_diaria SIGUE ESTANDO, Y SIGUE MAL --------------------
+-- LA PRIMERA PISTA ES EL CONTROL DE CARGA ----------------------------
 --
---   La parte C6 del ejercicio 8 preguntaba si convenia reemplazar la
---   vista mala o publicar la buena al lado. Aca esta la respuesta que
---   se tomo: **las dos**. v_temp_diaria_v2 es la buena y es la que hay
---   que usar; v_temp_diaria queda como estaba porque el tablero de la
---   finca la consulta todas las mananas y romperlo sin avisar no es
---   una opcion. Se deprecia, no se borra.
+--   Los numeros del final ya no son los de siempre. Vienen cambiando
+--   sin moverse desde la clase 4 y hoy tres de ellos cambiaron:
 --
---   Si les molesta verla ahi: esa incomodidad es exactamente la que
---   siente cualquiera que hereda una base con diez anos encima.
+--        siembras   10 -> 11
+--        labores    19 -> 21
+--        cosechas    9 -> 11
+--
+--   Eso es lo unico que la base tiene para avisar. Si el control se
+--   mira de reojo, las cinco filas pasan y se quedan para siempre.
 --
 -- LO QUE SIGUE IGUAL --------------------------------------------------
 --
---   Las 10 tablas del modelo y las 973 filas de lecturas no cambiaron.
---   lotes.hectareas sigue con enteros. El hueco del sensor 2 sigue ahi.
---   El 19 y el 20 de abril siguen con 7 y 6 lecturas.
+--   lecturas sigue en 973 y lecturas_historico en 105.120. Las siete
+--   vistas siguen ahi, v_temp_diaria incluida y todavia deprecada.
+--
+-- LO QUE NO TRAE ------------------------------------------------------
+--
+--   Ninguna tabla de auditoria. Ningun trigger. Si alguien borra una
+--   fila hoy, no queda absolutamente ningun rastro de que existio.
+--   Eso es lo que se construye en la parte C.
 -- =====================================================================
 
 PRAGMA foreign_keys = ON;
@@ -57,6 +59,8 @@ DROP VIEW  IF EXISTS v_lote_finca;
 DROP VIEW  IF EXISTS v_costo_siembra;
 DROP VIEW  IF EXISTS v_temp_diaria_v2;
 DROP VIEW  IF EXISTS v_hist_diaria;
+DROP TABLE IF EXISTS bitacora;
+DROP TRIGGER IF EXISTS tr_lecturas_borrado;
 
 DROP TABLE IF EXISTS lecturas_historico;
 
@@ -479,12 +483,60 @@ FROM t, sensores s;
 
 
 -- =====================================================================
--- VERIFICACION DE CARGA
--- Deben salir: 3, 6, 8, 10, 7, 19, 16, 6, 9, 973, 7, 105120
+-- LA CARGA DEL FIN DE SEMANA
 --
--- Los diez primeros son los de siempre y no se movieron.
--- El 7 son las vistas (las 2 de ayer + las 5 que construyeron).
--- El 105120 es lo nuevo, y es el tema del dia.
+-- Cinco filas que entraron por un CSV, con las claves foraneas
+-- desactivadas. No hubo error, no hubo aviso y no hay registro de
+-- quien lo hizo ni por que.
+--
+-- Se cargan asi a proposito: es exactamente como aparecen los datos
+-- huerfanos en una base real. Ningun motor te protege de un
+-- PRAGMA foreign_keys = OFF.
+--
+-- NO MIRAR DEMASIADO ESTE BLOQUE SI QUERES HACER LA PARTE A EN SERIO.
+-- =====================================================================
+
+PRAGMA foreign_keys = OFF;
+
+-- Una siembra que apunta a un lote que no existe.
+INSERT INTO siembras VALUES
+  (11, 99, 3, '2026-03-01', 3000, 'en curso');
+
+-- Una cosecha que apunta a una siembra que no existe.
+INSERT INTO cosechas VALUES
+  (10, 88, '2026-04-15', 2400, 'primera', 'mercado local');
+
+-- Una cosecha de la siembra 5, fechada ANTES de que se sembrara.
+-- (siembras.siembra_id = 5 tiene fecha_siembra = 2026-01-15)
+INSERT INTO cosechas VALUES
+  (11, 5, '2025-12-20', 800, 'primera', 'mercado local');
+
+-- Una labor identica a la labor 10: misma siembra, mismo tipo, misma
+-- fecha. No viola ningun UNIQUE porque no hay ninguno que lo impida.
+INSERT INTO labores VALUES
+  (22, 6, 'fertilizacion', '2026-03-17', 'Pedro Loor', 150.00, NULL);
+
+-- Una labor fechada en 2027.
+INSERT INTO labores VALUES
+  (23, 7, 'riego', '2027-02-10', 'Pedro Loor', 70.00, NULL);
+
+PRAGMA foreign_keys = ON;
+
+
+-- =====================================================================
+-- LOS INDICES DEL EJERCICIO 9
+-- =====================================================================
+CREATE INDEX ix_hist_sensor_fecha ON lecturas_historico (sensor_id, fecha_hora);
+CREATE INDEX ix_hist_fecha        ON lecturas_historico (fecha_hora);
+
+
+-- =====================================================================
+-- VERIFICACION DE CARGA
+-- Deben salir: 3, 6, 8, 11, 7, 21, 16, 6, 11, 973, 7, 105120, 2
+--
+-- Comparalo con el de ayer: 3, 6, 8, 10, 7, 19, 16, 6, 9, 973, 7, 105120
+-- Tres numeros se movieron. El ultimo es nuevo: son los indices que
+-- crearon ustedes en el ejercicio 9 (los 5 automaticos no se cuentan).
 -- =====================================================================
 SELECT 'fincas' AS tabla, COUNT(*) AS filas FROM fincas
 UNION ALL SELECT 'cultivos',     COUNT(*) FROM cultivos
@@ -497,336 +549,6 @@ UNION ALL SELECT 'sensores',     COUNT(*) FROM sensores
 UNION ALL SELECT 'cosechas',     COUNT(*) FROM cosechas
 UNION ALL SELECT 'lecturas',     COUNT(*) FROM lecturas
 UNION ALL SELECT 'VISTAS',       COUNT(*) FROM sqlite_master WHERE type = 'view'
-UNION ALL SELECT 'lecturas_historico', COUNT(*) FROM lecturas_historico;
-
--- =====================================================================
--- EJERCICIO PRÁCTICO 9 · Cien mil filas y un plan que dice SCAN
--- =====================================================================
-
--- =====================================================================
--- PARTE A · Mirar antes de tocar
--- =====================================================================
-
--- A1. Contar lo que hay
-SELECT COUNT(*) FROM lecturas_historico;
-SELECT sensor_id, COUNT(*) FROM lecturas_historico GROUP BY sensor_id;
-
--- A2. Índices que ya existen
-SELECT name, tbl_name FROM sqlite_master WHERE type = 'index';
-
-/*
-Comentario A2:
-1. Salieron de las restricciones UNIQUE y PRIMARY KEY declaradas en el CREATE TABLE. SQLite implementa estas restricciones creando automáticamente índices B-Tree subyacentes.
-2. Se creó con la restricción de tabla: UNIQUE (sensor_id, fecha_hora) en el CREATE TABLE de `lecturas`.
-3. Un UNIQUE necesita un índice porque para comprobar que un valor no esté duplicado en cada INSERT/UPDATE, el motor requeriría hacer un SCAN completo de la tabla O(N); el índice permite verificar la existencia en tiempo O(log N).
-*/
-
-/*
-Comentario A3:
-`lecturas_historico` no aparece en esa lista porque su clave primaria es `lectura_id INTEGER PRIMARY KEY`. En SQLite, esto define un alias directo del `rowid` (el B-Tree principal donde residen los datos de la tabla), por lo que no crea un índice B-Tree secundario separado.
-*/
-
-
--- =====================================================================
--- PARTE B · Medir, indexar, volver a medir
--- =====================================================================
-
--- B1. La consulta lenta
-WITH RECURSIVE dia(n) AS (
-    SELECT 0 
-    UNION ALL 
-    SELECT n + 1 FROM dia WHERE n < 29
-)
-SELECT n + 1 AS dia_de_junio,
-  (SELECT COUNT(*) FROM lecturas_historico l
-    WHERE l.sensor_id = 1
-      AND l.fecha_hora >= datetime('2026-06-01','+'||n||' days')
-      AND l.fecha_hora <  datetime('2026-06-01','+'||(n+1)||' days')) AS n_lecturas
-FROM dia;
-
-/*
-Comentario B1:
-Tiempo medido: ~0.280s (en local con .timer on) / Se sintió una pausa notable e inmediata en el navegador frente a las consultas instantáneas anteriores.
-*/
-
--- B2. EXPLAIN QUERY PLAN de la consulta lenta
-EXPLAIN QUERY PLAN
-WITH RECURSIVE dia(n) AS (
-    SELECT 0 
-    UNION ALL 
-    SELECT n + 1 FROM dia WHERE n < 29
-)
-SELECT n + 1 AS dia_de_junio,
-  (SELECT COUNT(*) FROM lecturas_historico l
-    WHERE l.sensor_id = 1
-      AND l.fecha_hora >= datetime('2026-06-01','+'||n||' days')
-      AND l.fecha_hora <  datetime('2026-06-01','+'||(n+1)||' days')) AS n_lecturas
-FROM dia;
-
-/*
-Comentario B2:
-SCAN significa que SQLite recorre secuencialmente todas las filas de la tabla de principio a fin, sin saltos directos.
-Al ejecutarse 30 veces la subconsulta (una por cada día) escaneando las 105.120 filas, SQLite lee en total: 30 * 105.120 = 3.153.600 filas.
-*/
-
--- B3. Creación del índice compuesto
-DROP INDEX IF EXISTS ix_hist_sensor_fecha;
-CREATE INDEX ix_hist_sensor_fecha
-    ON lecturas_historico (sensor_id, fecha_hora);
-
--- B4. Volver a correr y volver a medir
-WITH RECURSIVE dia(n) AS (
-    SELECT 0 
-    UNION ALL 
-    SELECT n + 1 FROM dia WHERE n < 29
-)
-SELECT n + 1 AS dia_de_junio,
-  (SELECT COUNT(*) FROM lecturas_historico l
-    WHERE l.sensor_id = 1
-      AND l.fecha_hora >= datetime('2026-06-01','+'||n||' days')
-      AND l.fecha_hora <  datetime('2026-06-01','+'||(n+1)||' days')) AS n_lecturas
-FROM dia;
-
-EXPLAIN QUERY PLAN
-WITH RECURSIVE dia(n) AS (
-    SELECT 0 
-    UNION ALL 
-    SELECT n + 1 FROM dia WHERE n < 29
-)
-SELECT n + 1 AS dia_de_junio,
-  (SELECT COUNT(*) FROM lecturas_historico l
-    WHERE l.sensor_id = 1
-      AND l.fecha_hora >= datetime('2026-06-01','+'||n||' days')
-      AND l.fecha_hora <  datetime('2026-06-01','+'||(n+1)||' days')) AS n_lecturas
-FROM dia;
-
-/*
-Comentario B4:
-El resultado no cambió en absoluto (siguen saliendo exactamente 30 filas con 48).
-Un índice no altera el resultado final de los datos; lo que cambió exactamente fue el camino y el costo computacional que utilizó el motor para encontrar ese resultado (pasando de recorrer 3.153.600 filas a buscar por rango en el árbol B-Tree).
-*/
-
-
--- =====================================================================
--- PARTE C · La costumbre de tres clases
--- =====================================================================
-
--- C1. Consulta habitual con DATE() en el WHERE
-SELECT DATE(fecha_hora) AS dia, COUNT(*) AS n, ROUND(AVG(valor),2) AS prom
-FROM lecturas_historico
-WHERE sensor_id = 1
-  AND DATE(fecha_hora) BETWEEN '2026-06-01' AND '2026-06-30'
-GROUP BY dia;
-
-EXPLAIN QUERY PLAN
-SELECT DATE(fecha_hora) AS dia, COUNT(*) AS n, ROUND(AVG(valor),2) AS prom
-FROM lecturas_historico
-WHERE sensor_id = 1
-  AND DATE(fecha_hora) BETWEEN '2026-06-01' AND '2026-06-30'
-GROUP BY dia;
-
-/*
-Comentario C2:
-1. Usó el índice solo para la condición `sensor_id = 1`. Para la condición sobre `fecha_hora` no pudo usar el índice porque la columna está encapsulada dentro de la función `DATE()`.
-2. Por lo tanto, está evaluando fila por fila las 17.520 lecturas del sensor 1 (todo el año) en lugar de limitarse a las 1.440 lecturas que corresponden a junio.
-*/
-
-/*
-Comentario C3:
-El índice guarda las entradas ordenadas por el valor exacto de `fecha_hora` ('2026-06-01 00:00:00', '2026-06-01 00:30:00', ...). Al envolver la columna en `DATE(fecha_hora)`, SQLite tendría que calcular la función sobre cada registro para saber si coincide, anulando el orden del árbol.
-Es igual a buscar en el índice alfabético de un libro: si el índice ordena por palabra completa, no podés saltar a la página correcta si la regla te pide "palabras cuya tercera letra sea una 'e'" sin leer todo el índice de arriba abajo.
-*/
-
--- C4. El arreglo sargable (rango directo sobre la columna)
-SELECT DATE(fecha_hora) AS dia, COUNT(*) AS n, ROUND(AVG(valor),2) AS prom
-FROM lecturas_historico
-WHERE sensor_id = 1
-  AND fecha_hora >= '2026-06-01'
-  AND fecha_hora <  '2026-07-01'
-GROUP BY dia;
-
-EXPLAIN QUERY PLAN
-SELECT DATE(fecha_hora) AS dia, COUNT(*) AS n, ROUND(AVG(valor),2) AS prom
-FROM lecturas_historico
-WHERE sensor_id = 1
-  AND fecha_hora >= '2026-06-01'
-  AND fecha_hora <  '2026-07-01'
-GROUP BY dia;
-
-/*
-Comentario C5:
-Si escribo `<= '2026-06-30'`, se omiten todas las lecturas del 30 de junio posteriores a la medianoche exacta (como '2026-06-30 00:30:00', '2026-06-30 12:00:00', etc.), porque alfabéticamente cualquier cadena que empiece con '2026-06-30 ' es mayor que el texto literal '2026-06-30'.
-*/
-
-/*
-Comentario C6:
-Porque la falta de sargabilidad degrada linealmente con el volumen de datos.
-Con un año procesa 17.520 filas en milisegundos, pero con diez años de mediciones procesará 175.200 filas por consulta para devolver el mismo mes.
-En sistemas concurrentes o dashboards concurrentes, evaluar miles de funciones fila por fila satura CPU e I/O de manera innecesaria.
-*/
-
-/*
-Comentario C7:
-Consulta del ejercicio 6:
-SELECT sensor_id, DATE(fecha_hora) AS dia, AVG(valor)
-FROM lecturas
-WHERE DATE(fecha_hora) = '2026-04-15'
-GROUP BY sensor_id, dia;
-
-Reescritura óptima hoy:
-SELECT sensor_id, DATE(fecha_hora) AS dia, AVG(valor)
-FROM lecturas
-WHERE fecha_hora >= '2026-04-15' 
-  AND fecha_hora <  '2026-04-16'
-GROUP BY sensor_id, dia;
-*/
-
-
--- =====================================================================
--- PARTE D · Cuándo el índice no alcanza
--- =====================================================================
-
--- D1. Prefijo izquierdo
-EXPLAIN QUERY PLAN
-SELECT COUNT(*) FROM lecturas_historico
-WHERE fecha_hora >= '2026-06-01' AND fecha_hora < '2026-07-01';
-
-/*
-Comentario D1:
-1. Dice SCAN porque el índice `ix_hist_sensor_fecha` está ordenado primero por `sensor_id` y luego por `fecha_hora`. Sin un filtro en `sensor_id`, las fechas están fragmentadas por cada sensor, impidiendo un salto directo por rango (regla del prefijo izquierdo).
-2. Dice COVERING INDEX porque todas las columnas requeridas para resolver la consulta (`fecha_hora`) existen dentro del árbol del índice; SQLite escanea el B-Tree del índice completo en lugar de la tabla principal, lo cual es más liviano pero sigue siendo un recorrido total O(N).
-*/
-
--- D2. Índice sobre fecha_hora
-DROP INDEX IF EXISTS ix_hist_fecha;
-CREATE INDEX ix_hist_fecha ON lecturas_historico (fecha_hora);
-
-EXPLAIN QUERY PLAN
-SELECT COUNT(*) FROM lecturas_historico
-WHERE fecha_hora >= '2026-06-01' AND fecha_hora < '2026-07-01';
-
-/*
-Comentario D2:
-Tener dos índices no está mal si responden a patrones de acceso diferentes y frecuentes (uno para filtros por sensor+fecha y otro puramente temporal).
-Empezaría a estar mal cuando la sobrecarga de escritura (INSERT, UPDATE, DELETE) y el espacio en disco consumido superen la ganancia en lectura, o cuando se generen índices redundantes.
-*/
-
--- D3. ORDER BY gratis
--- Paso 1: Con ambos índices existentes
-EXPLAIN QUERY PLAN
-SELECT fecha_hora, valor FROM lecturas_historico
-WHERE sensor_id = 1 ORDER BY fecha_hora LIMIT 10;
-
--- Paso 2: Sin ningún índice
-DROP INDEX IF EXISTS ix_hist_sensor_fecha;
-DROP INDEX IF EXISTS ix_hist_fecha;
-
-EXPLAIN QUERY PLAN
-SELECT fecha_hora, valor FROM lecturas_historico
-WHERE sensor_id = 1 ORDER BY fecha_hora LIMIT 10;
-
-/*
-Comentario D3 (Paso 2):
-SQLite realiza un escaneo completo de la tabla, filtra las 17.520 filas del sensor 1, las copia todas en una estructura temporal en memoria/disco (TEMP B-TREE) y las ordena completas por fecha_hora antes de poder extraer únicamente las 10 del LIMIT.
-*/
-
--- Paso 3: Solo con índice sobre fecha_hora
-DROP INDEX IF EXISTS ix_hist_fecha;
-CREATE INDEX ix_hist_fecha ON lecturas_historico (fecha_hora);
-
-EXPLAIN QUERY PLAN
-SELECT fecha_hora, valor FROM lecturas_historico
-WHERE sensor_id = 1 ORDER BY fecha_hora LIMIT 10;
-
-/*
-Comentario D3 (Paso 3):
-Dejó de usar el TEMP B-TREE porque al recorrer las filas a través de `ix_hist_fecha`, los registros ya se leen ordenados por `fecha_hora`.
-SQLite simplemente examina el índice en orden cronológico natural y devuelve las primeras 10 coincidencias donde `sensor_id = 1`.
-*/
-
--- Paso 4: Restaurar índice compuesto
-DROP INDEX IF EXISTS ix_hist_sensor_fecha;
-CREATE INDEX ix_hist_sensor_fecha ON lecturas_historico (sensor_id, fecha_hora);
-
--- D4. SEARCH que no sirve de mucho
-DROP INDEX IF EXISTS ix_hist_valor;
-CREATE INDEX ix_hist_valor ON lecturas_historico (valor);
-
-EXPLAIN QUERY PLAN 
-SELECT COUNT(*) FROM lecturas_historico WHERE valor > 28;
-
-SELECT COUNT(*) FROM lecturas_historico WHERE valor > 28;
-
-/*
-Comentario D4:
-1. No está bien resuelta desde el punto de vista de eficiencia de indexación. El predicado tiene baja selectividad (devuelve ~56.6% de la tabla).
-2. Tuvo que recorrer secuencialmente 59.495 entradas del índice.
-3. No alcanza con ver SEARCH; hay que evaluar la selectividad (cuántas filas descarta el filtro) y si el costo de recorrer el índice compensa frente a un escaneo secuencial en lecturas masivas.
-*/
-
--- D5. Borrado del índice de baja selectividad
-DROP INDEX IF EXISTS ix_hist_valor;
-
-/*
-Comentario D5:
-Se borra porque `valor` es una métrica continua con baja selectividad en consultas de rango amplio, generando sobrecarga de escritura y almacenamiento sin aportar un beneficio de búsqueda real.
-*/
-
-
--- =====================================================================
--- PARTE E · Lo que cuesta, y cierre
--- =====================================================================
-
-/*
-Comentario E1:
-Las tres monedas son:
-1. Espacio en almacenamiento (disco/RAM).
-2. Costo de mantenimiento en escrituras (INSERT / UPDATE / DELETE deben rebalancear el B-Tree).
-3. Sobrecarga al planificador de consultas (optimizar entre demasiados caminos posibles).
-
-En una tabla de telemetría IoT con inserciones constantes cada 30 minutos, la moneda más cara es el tiempo de CPU/I/O en las operaciones de escritura (INSERT), ya que cada medición entrante obliga a escribir en la tabla y en cada uno de sus árboles de índice.
-*/
-
-/*
-Comentario E2:
-El trabajo lo hace el índice (y el almacenamiento subyacente); la vista es únicamente una consulta con nombre que se expande sobre el motor.
-*/
-
-/*
-Comentario E3:
-1. ¿Cómo está escrita la consulta y qué plan de ejecución (EXPLAIN QUERY PLAN) genera el motor?
-2. ¿Los predicados en WHERE y JOIN son sargables o están bloqueados por funciones/conversiones de tipo?
-3. ¿Cuál es el volumen real de datos y qué selectividad tiene cada condición de filtrado?
-*/
-
-
--- =====================================================================
--- EXTRA (+5 pts): Análisis de otra consulta lenta
--- =====================================================================
-
--- Consulta de agregación por tipo de sensor sobre el histórico:
-EXPLAIN QUERY PLAN
-SELECT s.tipo, COUNT(*), AVG(l.valor)
-FROM lecturas_historico l
-JOIN sensores s ON s.sensor_id = l.sensor_id
-WHERE l.sensor_id IN (1, 3, 5)
-GROUP BY s.tipo;
-
--- Si creamos un índice sobre la tabla dimension 'sensores':
-DROP INDEX IF EXISTS ix_sensores_tipo;
-CREATE INDEX ix_sensores_tipo ON sensores(tipo);
-
-EXPLAIN QUERY PLAN
-SELECT s.tipo, COUNT(*), AVG(l.valor)
-FROM lecturas_historico l
-JOIN sensores s ON s.sensor_id = l.sensor_id
-WHERE l.sensor_id IN (1, 3, 5)
-GROUP BY s.tipo;
-
-DROP INDEX IF EXISTS ix_sensores_tipo;
-
-/*
-Explicación Extra:
-El índice `ix_sensores_tipo` sobre la tabla `sensores` NO ayuda a la consulta y el plan lo ignora por completo.
-Esto se debe a que la tabla `sensores` contiene únicamente 6 filas (cabe en una sola página de memoria), por lo que un SCAN directo sobre `sensores` por clave primaria `sensor_id` es órdenes de magnitud más rápido que acceder mediante un índice secundario sobre una tabla prácticamente atómica.
-*/
+UNION ALL SELECT 'lecturas_historico', COUNT(*) FROM lecturas_historico
+UNION ALL SELECT 'INDICES propios', COUNT(*) FROM sqlite_master
+       WHERE type = 'index' AND name NOT LIKE 'sqlite_%';

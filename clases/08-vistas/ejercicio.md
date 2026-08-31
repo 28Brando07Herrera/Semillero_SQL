@@ -248,7 +248,12 @@ SELECT ROUND(SUM(costo_total), 2) FROM v_costo_siembra;
 
 ---
 
-## Rúbrica (100 puntos)
+## Rúbrica (105 puntos, normalizados a 100)
+
+> **Corrección del 24 de agosto.** Esta tabla decía «100 puntos» y sus criterios suman **105**.
+> El error salió a la luz corrigiendo, y se arregla sin tocarle el peso a ningún criterio: cada
+> uno vale lo que dice acá, el subtotal se calcula sobre 105 y después se normaliza a 100.
+> Nadie pierde puntos por una suma mal hecha del enunciado.
 
 | Criterio | Pts |
 |---|---|
