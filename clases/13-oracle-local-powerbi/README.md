@@ -14,24 +14,34 @@
 
 > **Hoy no hay script nuevo.** Se usa el de la clase 12 tal cual: la novedad no está en los datos, está en dónde corren.
 
-## Descarga esto ANTES de que empiece la clase
+## Antes de que empiece la clase
 
-Son dos archivos y juntos pesan alrededor de **1.6 GB**. Si empiezas a bajarlos cuando arranque la clase, no terminas.
+**1. Abre Docker Desktop y comprueba que responde:**
 
-1. **Oracle Database 23ai Free (Windows x64)** — <https://www.oracle.com/database/free/get-started/>
-2. **Oracle Client for Microsoft Tools, 64-bit** — <https://www.oracle.com/database/technologies/appdev/ocmt.html>
+```
+docker version
+```
+
+Tienen que salir los dos bloques, `Client:` y `Server:`. Si sólo sale `Client:`, abre Docker Desktop desde el menú Inicio y espera a que diga **Engine running**.
+
+**2. Baja el driver de Power BI**, que ese sí es una descarga tuya (unos 100 MB):
+
+- **Oracle Client for Microsoft Tools, 64-bit** — <https://www.oracle.com/database/technologies/appdev/ocmt.html>
+
+> **La imagen de Oracle no la bajas tú**: la baja Docker con el comando del paso 2 de la clase. Son unos **2 GB**, así que si tienes buena conexión conviene adelantar ese comando antes de clase.
 
 ## Requisitos
 
 | | |
 |---|---|
 | Sistema | Windows 10 u 11, 64 bits |
-| Disco libre | **15 GB** |
+| Disco libre | **10 GB** |
 | RAM disponible | 2 GB |
-| Permisos | **administrador local** |
+| Docker Desktop | instalado y abierto |
 | Power BI Desktop | ya instalado, 64 bits |
+| Permisos de administrador | **sólo** para instalar el driver (paso 8) |
 
-> **¿No tienes permisos de administrador?** No existe una versión portable de Oracle. Hay un **Plan B** al final del [ejercicio](ejercicio.md): se hace la parte de diseño en FreeSQL y la conexión en pareja. Llega a 75 de 100 y no es castigo, es lo que se puede evaluar. Avisa por privado.
+> **Docker Desktop se instala por usuario y no pide administrador.** Si tu máquina está bloqueada, el motor de hoy igual lo puedes levantar. Donde sí te puede frenar es en el driver: para eso hay un **Plan B** al final del [ejercicio](ejercicio.md), se hace la conexión en pareja, llega a 75 de 100 y no es castigo. Avisa por privado.
 
 ## Por qué hoy sí hay que instalar
 
@@ -45,7 +55,7 @@ Es lo que hay entre tu Power BI y tus datos, y casi nadie las separa:
 
 | Capa | Qué es | Dónde vive |
 |---|---|---|
-| **1. El motor** | Oracle Database 23ai Free | escucha en el puerto `1521` |
+| **1. El motor** | Oracle Free, en un contenedor Docker | escucha en el puerto `1521` |
 | **2. El driver** | Oracle Client for Microsoft Tools (OCMT) | una biblioteca en tu Windows |
 | **3. La herramienta** | Power BI Desktop | ya la tienes |
 
@@ -106,6 +116,6 @@ En `entregas/apellido-nombre/`, por *pull request*, **dos archivos**:
 
 ## Nota sobre el material
 
-Las rutas, nombres de servicio y nombres de menú de Power BI **cambian entre versiones**. Los de este material corresponden a Oracle Database 23ai Free y a Power BI Desktop de 64 bits en Windows 11. Si algo en tu máquina se llama distinto, anótalo en la entrega: eso puntúa, igual que documentar una discrepancia del enunciado.
+Las rutas, nombres de servicio y nombres de menú de Power BI **cambian entre versiones**. Los de este material corresponden a la imagen `container-registry.oracle.com/database/free:latest` (hoy entrega **Oracle AI Database 26ai Free, 23.26.3.0.0**) y a Power BI Desktop de 64 bits en Windows 11. Si algo en tu máquina se llama distinto, anótalo en la entrega: eso puntúa, igual que documentar una discrepancia del enunciado.
 
 Los números de AgroDB (las 9 filas, los 30 550, el desglose por finca) sí están verificados contra el script publicado.

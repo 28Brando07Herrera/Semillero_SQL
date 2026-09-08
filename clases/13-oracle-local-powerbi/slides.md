@@ -55,13 +55,13 @@ Casi nadie las separa, y por eso casi nadie sabe dónde falló.
 
 | Capa | Qué es | Puerto / archivo |
 |---|---|---|
-| **1. El motor** | Oracle Database 23ai Free | escucha en `1521` |
+| **1. El motor** | Oracle AI Database Free, **en un contenedor** | escucha en `1521` |
 | **2. El driver** | Oracle Client for Microsoft Tools | una DLL en tu Windows |
 | **3. La herramienta** | Power BI Desktop | ya la tienes instalada |
 
 <br>
 
-> **El 80 % de los problemas de conexión están en la capa 2**, que es la única que nadie recuerda que existe. Hoy la instalamos a propósito y con nombre.
+> **El 80 % de los problemas de conexión están en la capa 2**, que es la única que nadie recuerda que existe. Y hoy más que nunca: como el motor vive en un contenedor, **en tu Windows no queda ni un archivo de Oracle**. La capa 2 empieza completamente vacía.
 
 ---
 
@@ -70,87 +70,103 @@ Casi nadie las separa, y por eso casi nadie sabe dónde falló.
 | | |
 |---|---|
 | Windows | 10 u 11, de 64 bits |
-| Disco libre | **15 GB** durante la instalación |
+| Disco libre | **10 GB** |
 | RAM | 2 GB disponibles |
-| Permisos | **administrador local** en la máquina |
+| Docker Desktop | instalado y **abierto** |
 | Power BI Desktop | ya instalado, de 64 bits |
+| Permisos de administrador | sólo para el **paso 8** |
 
 <br>
 
-**Dos descargas, y las dos deben estar bajando desde ahorita:**
+**Dos descargas. La primera la hace Docker solo:**
 
-1. Oracle Database 23ai Free (Windows x64) — **≈ 1.5 GB**
-2. Oracle Client for Microsoft Tools (64-bit) — **≈ 100 MB**
+1. La imagen de Oracle Free — **≈ 2 GB**, la baja el comando del paso 2
+2. Oracle Client for Microsoft Tools (64-bit) — **≈ 100 MB**, y **ese sí** lo bajas tú
 
-> Si no tienes permisos de administrador en esa computadora, no hay versión portable. Sigue la clase, toma nota, e instálalo en una máquina donde sí puedas.
+> **Docker Desktop se instala por usuario**, en tu `AppData`, y no pide administrador. El motor de hoy sí lo puedes levantar aunque tu máquina esté bloqueada. El driver del paso 8 es otra historia: si ahí te frenan, hay **Plan B** y se califica igual.
 
 ---
 
-# Paso 1 · Descargar el motor
+# Paso 1 · Comprobar que Docker está corriendo
 
-Ve a:
+Hoy **no vamos a instalar Oracle en Windows.** Lo vamos a levantar dentro de un contenedor.
 
-**<https://www.oracle.com/database/free/get-started/>**
+Abre PowerShell y escribe:
 
-<br>
-
-Busca **Oracle Database 23ai Free** y elige la descarga de **Microsoft Windows x64**. Es un archivo `.zip`.
-
-<br>
-
-> Puede pedirte una cuenta de Oracle. Es gratuita y es la misma que usaste para FreeSQL.
+```
+docker version
+```
 
 <br>
 
-> **No bajes** «Oracle Database 23ai Enterprise», ni «Free Graph», ni el «Client» a secas. El que quieres dice **Free** y **Database**.
+Tienen que salir **dos bloques**: `Client:` y `Server:`.
+
+<br>
+
+Si sólo sale `Client:` y abajo un error que habla de un *pipe*, el motor está apagado: abre **Docker Desktop** desde el menú Inicio, espera a que diga **Engine running**, y repite el comando.
+
+> Un contenedor es una caja con un Linux mínimo adentro. Oracle va a correr ahí, no en tu Windows. Por eso no hay `setup.exe`, no hay `services.msc` y no hay 20 minutos de instalador.
 
 ---
 
-# Paso 2 · Descomprimir y ejecutar
+# Paso 2 · Levantar el motor
 
-1. Descomprime el `.zip` en una carpeta **sin espacios ni acentos** en la ruta.
-   Por ejemplo: `C:\oracle23ai\`
-2. Adentro está `setup.exe`. **Clic derecho → Ejecutar como administrador.**
-3. El instalador te va a pedir **una sola cosa importante**: la contraseña de administrador de la base.
+Un solo comando, **todo en minúsculas**:
 
-<br>
-
-**Usa esta y anótala:** `Agrodb2026`
+```
+docker run -d --name oracle-free -p 1521:1521 -e ORACLE_PWD=Agrodb2026 container-registry.oracle.com/database/free:latest
+```
 
 <br>
 
-> **Esa contraseña no se recupera.** Si la pierdes, se reinstala. Anótala en el mismo archivo donde vas a hacer la entrega, en un comentario.
+Baja unos **2 GB** la primera vez y después el contenedor se prepara solo. Míralo trabajar:
 
-> La instalación tarda entre 10 y 20 minutos. Déjala correr y sigue viendo la clase.
+```
+docker logs -f oracle-free
+```
+
+<br>
+
+Está listo cuando aparezca:  `DATABASE IS READY TO USE!`
+
+> `Ctrl+C` sale del log **sin apagar nada**.
+> Y el nombre distingue mayúsculas: `Oracle-free` es un contenedor que no existe.
 
 ---
 
-# Paso 3 · Qué quedó instalado
+# Paso 3 · Qué quedó corriendo
 
-Cuando termine, en tu máquina hay tres cosas nuevas:
+No hay servicios de Windows que revisar. Hay **un contenedor**:
 
-| Qué | Cómo se llama | Cómo lo revisas |
+```
+docker ps
+```
+
+| Qué | Cómo se llama | Dónde lo ves |
 |---|---|---|
-| El servicio del motor | `OracleServiceFREE` | `services.msc` |
-| El *listener* | `OracleOraDB23Home1TNSListener` | `services.msc` |
-| La base | contenedor `FREE`, con la base `FREEPDB1` adentro | en un minuto |
+| El motor | contenedor `oracle-free` | columna `NAMES` |
+| El *listener* | `0.0.0.0:1521->1521/tcp` | columna `PORTS` |
+| La base | el CDB `FREE`, con `FREEPDB1` adentro | en un minuto |
 
 <br>
 
-Los dos servicios deben decir **En ejecución**. Si alguno está detenido, botón derecho → **Iniciar**.
+Para apagarlo y prenderlo **sin perder los datos**:
 
-<br>
+```
+docker stop oracle-free
+docker start oracle-free
+```
 
-> El *listener* es el que atiende el puerto `1521`. Es, literalmente, la razón por la que hoy instalamos algo.
+> Ese `->1521` de la columna `PORTS` es la razón por la que hoy hicimos todo esto: es la puerta por la que va a entrar Power BI.
 
 ---
 
 # Paso 4 · La primera conexión
 
-El instalador también te dejó `sqlplus`. Abre una terminal (`cmd` o PowerShell) y escribe:
+`sqlplus` está **adentro** del contenedor. Se entra así:
 
 ```
-sqlplus system/Agrodb2026@localhost:1521/FREEPDB1
+docker exec -it oracle-free sqlplus system/Agrodb2026@localhost:1521/FREEPDB1
 ```
 
 <br>
@@ -164,6 +180,8 @@ SELECT sys_context('USERENV','CON_NAME') AS donde_estoy FROM dual;
 <br>
 
 Debe decir **`FREEPDB1`**.
+
+> Ese `localhost` es el del contenedor, no el tuyo: desde adentro, Oracle está en su propia casa. Tu Windows llega al mismo lugar por el puerto `1521` que abriste en el paso 2.
 
 ---
 
@@ -216,11 +234,17 @@ CONNECT agro/Agro2026@localhost:1521/FREEPDB1
 
 # Paso 7 · Cargar AgroDB · punto de control
 
-Conectado como `agro`, y con el archivo del repo ya descargado:
+El script está en tu Windows y la base adentro del contenedor. Primero se copia, **en otra terminal**, desde la carpeta del repo:
+
+```
+docker cp datos/agrodb_oracle_clase12.sql oracle-free:/tmp/agrodb.sql
+```
+
+Y ya conectado como `agro`, se corre desde ahí:
 
 ```sql
 SET SERVEROUTPUT ON
-@C:\ruta\donde\lo\bajaste\agrodb_oracle_clase12.sql
+@/tmp/agrodb.sql
 ```
 
 <br>
@@ -229,9 +253,7 @@ Al final tienen que salir los **trece números de siempre**:
 
 **3, 6, 8, 10, 7, 19, 16, 6, 9, 8640, 0, 0, 23**
 
-<br>
-
-> Es el mismo script de ayer. Si esos trece números salen, tu Oracle local está bien instalado y tienes la misma base que tuviste en el navegador. **Mitad de la clase, lista.**
+> Es el mismo script de ayer. Si esos trece números salen, tu Oracle está bien levantado y tienes la misma base que tuviste en el navegador. **Mitad de la clase, lista.**
 
 ---
 
@@ -241,7 +263,7 @@ Power BI **no sabe hablar con Oracle por sí solo.**
 
 <br>
 
-Windows no trae el driver, y el motor que acabas de instalar tampoco se lo instala a Power BI.
+Windows no trae el driver, y hoy tu Oracle vive adentro de un contenedor Linux: **en tu Windows no quedó un solo archivo de Oracle.** La capa 2 está vacía del todo.
 
 <br>
 
@@ -251,8 +273,6 @@ Si intentas conectarte ahorita, vas a ver esto:
 No se pudo encontrar el proveedor de datos de Oracle.
 Es posible que no esté instalado.
 ```
-
-<br>
 
 > Y aquí es donde se pierde la tarde el que no sabe que existe la capa 2.
 
@@ -265,17 +285,15 @@ Se llama **Oracle Client for Microsoft Tools** (OCMT). Es el driver oficial para
 **<https://www.oracle.com/database/technologies/appdev/ocmt.html>**
 
 1. Baja la versión de **64 bits**. Tu Power BI Desktop es de 64 bits.
-2. Ejecútalo como administrador. No te pregunta casi nada.
+2. Ejecútalo **como administrador**.
 3. **Cierra Power BI Desktop por completo y vuelve a abrirlo.** Si no lo reinicias, el driver no aparece.
-
-<br>
 
 | Si instalas | Y tu Power BI es | Resultado |
 |---|---|---|
 | 64 bits | 64 bits | funciona |
 | 32 bits | 64 bits | *«proveedor no registrado»* |
 
-> Es el error número uno de esta conexión, y no dice nada sobre bits. Dice que el proveedor no existe.
+> **Este es el único paso de hoy que pide administrador**, y a diferencia del motor, aquí no hay forma de esquivarlo. Si tu máquina te lo bloquea: **Plan B**, la parte D se hace en pareja, y no pierdes puntos.
 
 ---
 
@@ -410,9 +428,11 @@ Da **Cargar**, y en el lienzo:
 
 | Mensaje | Qué pasó | Arreglo |
 |---|---|---|
-| `ORA-12541: TNS:no listener` | el motor no está prendido | inicia `OracleServiceFREE` y el listener en `services.msc` |
+| `docker: command not found` | Docker Desktop no está abierto | ábrelo y espera a **Engine running** |
+| `No such container: Oracle-free` | el nombre lleva mayúscula | es `oracle-free`, todo minúsculas |
+| `ORA-12541: TNS:no listener` | el contenedor está detenido | `docker start oracle-free` |
 | `ORA-12514` | el nombre de servicio está mal | es `FREEPDB1`, no `FREE` ni `XE` |
-| `ORA-01017` | usuario o contraseña | ojo: la contraseña **sí** distingue mayúsculas |
+| `ORA-01017` | usuario o contraseña | la contraseña **sí** distingue mayúsculas |
 | `ORA-65096` | te conectaste al contenedor | conéctate a `FREEPDB1` |
 | *«proveedor no registrado»* | falta el OCMT, o es de 32 bits | instala el de 64 y **reinicia Power BI** |
 | El navegador está vacío | `bi_agro` no tiene permiso | `GRANT SELECT` desde `agro` |

@@ -7,7 +7,7 @@
 
 Al terminar vas a tener, en tu máquina:
 
-1. **Oracle Database 23ai Free** instalado y prendido.
+1. **Oracle Free** corriendo en un contenedor de Docker, con su puerto abierto.
 2. **AgroDB** cargada, con los mismos trece números de control de ayer.
 3. Una **vista de reporte** y un **usuario de sólo lectura** que únicamente puede ver esa vista.
 4. **Power BI Desktop** conectado a esa base, con una gráfica de kilos por finca.
@@ -18,27 +18,33 @@ Al terminar vas a tener, en tu máquina:
 
 ## Antes de empezar
 
-**Revisa esto antes de descargar nada:**
+**Revisa esto antes de bajar nada:**
 
 | | |
 |---|---|
 | Windows 10 u 11 de 64 bits | |
-| **15 GB** de disco libre | |
+| **10 GB** de disco libre | |
 | 2 GB de RAM disponibles | |
-| **Permisos de administrador** en la máquina | |
+| **Docker Desktop** instalado y abierto | |
 | Power BI Desktop instalado, de 64 bits | |
+| Permisos de administrador | **sólo** para el driver de la parte D |
 
-> **Si no tienes permisos de administrador**, no te frustres: no existe una versión portable de Oracle. Ve directo al **Plan B**, hasta el final de este documento. Se califica igual.
+> **Docker Desktop se instala por usuario y no pide administrador**, así que el motor lo puedes levantar aunque tu máquina esté bloqueada. Si te frenan en el driver de la parte D, ve al **Plan B** que está hasta el final: se califica igual.
 
-**Empieza las dos descargas ahorita mismo**, antes de leer lo demás:
+**Comprueba Docker ahorita mismo**, antes de leer lo demás:
 
-1. **Oracle Database 23ai Free (Windows x64)** — <https://www.oracle.com/database/free/get-started/> — pesa alrededor de **1.5 GB**
-2. **Oracle Client for Microsoft Tools, 64-bit** — <https://www.oracle.com/database/technologies/appdev/ocmt.html> — pesa alrededor de **100 MB**
+```
+docker version
+```
 
-Y descarga también el script de la base, que es el mismo de ayer:
+Si salen los dos bloques (`Client:` y `Server:`), estás listo. Si sólo sale `Client:`, abre Docker Desktop desde el menú Inicio.
+
+**Y baja el driver**, que ese sí es tuyo:
+
+- **Oracle Client for Microsoft Tools, 64-bit** — <https://www.oracle.com/database/technologies/appdev/ocmt.html> — pesa alrededor de **100 MB**
+
+Descarga también el script de la base, que es el mismo de ayer:
 [`datos/agrodb_oracle_clase12.sql`](../../datos/agrodb_oracle_clase12.sql)
-
----
 
 ## Cómo se entrega
 
@@ -53,49 +59,58 @@ En `entregas/apellido-nombre/`, por *pull request*, **dos archivos**:
 
 ---
 
-## Parte A · Instalar el motor (40 min)
+## Parte A · Levantar el motor (40 min)
 
-### A1. Descomprime
-
-Descomprime el `.zip` de Oracle en una ruta **corta, sin espacios y sin acentos**:
+### A1. Comprueba que Docker responde
 
 ```
-C:\oracle23ai\
+docker version
 ```
 
-> Rutas como `C:\Users\Tu Nombre\Descargas\Instalación Oracle\` dan problemas. No vale la pena averiguar cuáles.
+Tienen que salir **dos** bloques: `Client:` y `Server:`. Si sólo sale `Client:` y abajo un error que menciona un *pipe*, el motor de Docker está apagado: abre **Docker Desktop** desde el menú Inicio, espera a que diga **Engine running**, y repite.
 
-### A2. Instala
+### A2. Levanta Oracle
 
-Entra a esa carpeta, busca `setup.exe`, **clic derecho → Ejecutar como administrador**.
-
-El instalador te va a pedir una contraseña de administrador de la base. **Usa exactamente esta:**
+Un solo comando, **todo en minúsculas**:
 
 ```
-Agrodb2026
+docker run -d --name oracle-free -p 1521:1521 -e ORACLE_PWD=Agrodb2026 container-registry.oracle.com/database/free:latest
 ```
 
-Todo lo demás déjalo como viene. Dale siguiente hasta el final.
+La contraseña de administrador de la base es la que va en `ORACLE_PWD`. **Usa exactamente esa:** `Agrodb2026`.
 
-> Tarda entre 10 y 20 minutos. Mientras tanto, lee las partes C y D de este documento, para saber a dónde vas.
+> La primera vez baja alrededor de **2 GB**. Mientras tanto, lee las partes C y D de este documento, para saber a dónde vas.
 
-### A3. Comprueba que quedó prendido
+### A3. Espera a que la base esté lista
 
-Abre `services.msc` (tecla Windows → escribe `services.msc` → Enter) y busca estos dos:
+```
+docker logs -f oracle-free
+```
 
-| Servicio | Debe decir |
-|---|---|
-| `OracleServiceFREE` | **En ejecución** |
-| `OracleOraDB23Home1TNSListener` | **En ejecución** |
+Se queda escribiendo. Está listo cuando aparezca:
 
-Si alguno está detenido: clic derecho → **Iniciar**.
+```
+DATABASE IS READY TO USE!
+```
+
+Ahí sales con `Ctrl+C`. **Eso no apaga nada**, sólo deja de mostrarte el log.
+
+Comprueba que el contenedor sigue de pie:
+
+```
+docker ps
+```
+
+En la columna `PORTS` tiene que decir `0.0.0.0:1521->1521/tcp`. Ese es tu *listener*.
+
+> Para apagarlo y prenderlo sin perder los datos: `docker stop oracle-free` y `docker start oracle-free`.
 
 ### A4. Conéctate por primera vez
 
-Abre una terminal (`cmd` o PowerShell) y escribe:
+`sqlplus` está adentro del contenedor:
 
 ```
-sqlplus system/Agrodb2026@localhost:1521/FREEPDB1
+docker exec -it oracle-free sqlplus system/Agrodb2026@localhost:1521/FREEPDB1
 ```
 
 Cuando veas `SQL>`, corre esto:
@@ -140,11 +155,17 @@ Debe decir **`AGRO`**, en mayúsculas.
 
 ### B3. Carga la base
 
-Escribe la ruta donde bajaste el script:
+El script está en tu Windows y la base adentro del contenedor, así que primero se copia. **En otra terminal**, parado en la carpeta del repo:
+
+```
+docker cp datos/agrodb_oracle_clase12.sql oracle-free:/tmp/agrodb.sql
+```
+
+Y de regreso en `sqlplus`, conectado como `agro`:
 
 ```sql
 SET SERVEROUTPUT ON
-@C:\ruta\donde\lo\bajaste\agrodb_oracle_clase12.sql
+@/tmp/agrodb.sql
 ```
 
 > ### ✅ Punto de control 2
@@ -310,12 +331,14 @@ Busca tu mensaje aquí antes de pedir ayuda:
 
 | Mensaje | Qué pasó | Qué haces |
 |---|---|---|
-| `ORA-12541: TNS:no listener` | el motor está apagado | `services.msc` → inicia `OracleServiceFREE` **y** el listener |
+| `docker: command not found` | Docker Desktop no está abierto | ábrelo y espera a **Engine running** |
+| `No such container` | escribiste `Oracle-free` con mayúscula | es `oracle-free`, todo en minúsculas |
+| `ORA-12541: TNS:no listener` | el contenedor está detenido | `docker start oracle-free` |
 | `ORA-12514` | el nombre de servicio está mal | escribe `FREEPDB1`, no `FREE`, no `XE`, no `ORCL` |
 | `ORA-01017: invalid credential` | usuario o contraseña | la contraseña **distingue mayúsculas**: es `Agrodb2026` |
 | `ORA-65096: common user...` | te conectaste al contenedor `FREE` | reconéctate a `FREEPDB1` |
 | `ORA-00942` al leer `agro.cosechas` como `bi_agro` | **está bien, eso queríamos** | pégalo en la entrega y sigue |
-| `'sqlplus' no se reconoce` | la terminal no encuentra el programa | ciérrala y abre una **nueva** (el instalador cambió el PATH) |
+| `'sqlplus' no se reconoce` | lo estás corriendo en tu Windows | `sqlplus` vive **adentro** del contenedor: entra con `docker exec` |
 | *«proveedor de datos de Oracle no encontrado»* | falta el OCMT, o instalaste el de 32 bits | instala el de **64 bits** y **reinicia Power BI** |
 | El navegador de Power BI sale vacío | a `bi_agro` le falta el `GRANT SELECT` | vuelve a C2, conectado como `agro` |
 | La tarjeta dice 9 y no 30550 | Power BI está contando | cambia el campo a **Suma** |
@@ -327,7 +350,7 @@ Busca tu mensaje aquí antes de pedir ayuda:
 
 ## Plan B · Si no puedes instalar
 
-Si no tienes permisos de administrador o la máquina no da:
+Si no pudiste instalar el driver de la parte D, o la máquina no da:
 
 1. Haz las partes **C1 y C3** completas en **FreeSQL**, con el script de ayer. La vista y la comprobación de las 9 filas y los 30 550 kilos se pueden hacer ahí perfectamente.
 2. En tu archivo, escribe un comentario que empiece con `PLAN B` explicando **qué te bloqueó exactamente**, con el mensaje o la pantalla que viste.

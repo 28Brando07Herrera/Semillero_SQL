@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 y 16)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -28,6 +28,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 clases/         una carpeta por sesión: guía docente, diapositivas y ejercicio
   resultados/   la página de notas que se publica en GitHub Pages
 datos/          scripts .sql que hay que ejecutar antes de cada práctica
+                (y desde la clase 15, también los CSV que lee Power BI)
 entregas/       una carpeta por alumno, creada vía pull request
 recursos/       chuletas de sintaxis, guías de entorno y material de consulta
 proyecto-final/ enunciado y rúbrica
@@ -53,6 +54,9 @@ proyecto-final/ enunciado y rúbrica
 | **11** | **24 ago** | **PL/SQL sobre Oracle · fila por fila es lento por lento** | **Oracle** | [clase](clases/11-plsql-oracle/) |
 | **12** | **25 ago** | **Datos que llegan de afuera · staging, `LOG ERRORS` y `MERGE`** | **Oracle** | [clase](clases/12-carga-externa/) |
 | **13** | **26 ago** | **Oracle en tu máquina y Power BI conectado** | **Oracle local + Power BI** | [clase](clases/13-oracle-local-powerbi/) |
+| **14** | **28 ago** | **Del reporte plano al modelo dimensional · hechos, dimensiones y la estrella** | **Oracle local + Power BI** | [clase](clases/14-modelo-dimensional/) |
+| **15** | **4 sep** | **La medida y el contexto · DAX, contexto de filtro y el denominador que nadie mira** | **Power BI (CSV)** | [clase](clases/15-dax-contexto/) |
+| **16** | **8 sep** | **Comparar contra el año pasado · inteligencia de tiempo y el año que todavía no termina** | **Power BI (CSV)** | [clase](clases/16-inteligencia-tiempo/) |
 
 ---
 
@@ -66,15 +70,19 @@ Desde la 12, el motor deja de ser la novedad y pasa a ser la herramienta: lo que
 
 Y en la 13 el curso sale del navegador: **Oracle se instala en la máquina de cada quien** y Power BI se conecta a él. No por gusto de instalar cosas, sino porque un servicio de navegador no expone un puerto, y una herramienta de BI no lee pantallas: se conecta a un servidor. La idea de esa clase es la que ordena todo lo que sigue: **un tablero no se conecta a una base, se conecta a lo que la base le deja ver.**
 
-> **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
+Y en la 14 se le da forma a lo que la 13 conectó. Ayer el tablero leyó **una vista plana**; hoy lee **un modelo**: los kilos en una tabla de hechos, la finca, el cultivo y la fecha en tablas de dimensión. Eso se llama **estrella**, y trae consigo el error más silencioso del curso: un calendario que no cubre marzo hace que el tablero diga **19 750** en vez de 30 550, con las nueve cosechas cargadas y sin un solo mensaje de error.
 
-Lo que sigue después: **Power BI** conectado a esta misma base, que es la capa de arriba. El motor primero, el tablero después.
+Y en la 15 el curso cruza del todo al otro lado: **no se prende Oracle**. La fuente son cuatro CSV, el modelo es el mismo, y lo que se aprende es a escribir **medidas** en DAX en vez de arrastrar campos. Cambiar la fuente entera sin que el tablero se entere no es una casualidad: es lo que se ganó construyendo la estrella en la 14. Y el error del día ya no es un número más chico, es peor: un promedio de **5 091,67** que está mal y que **se puede defender en una junta**.
+
+Y en la 16 llega el histórico: la campaña **2025** entera, y con ella la primera tabla de hechos del curso que cubre **dos años**. Por primera vez en once clases el 30 550 deja de ser el total y pasa a ser el total de 2026, intacto adentro de 77 550. Con dos años ya se puede escribir la comparación más pedida del mundo —contra el año pasado—, y la tarjeta dice que la cosecha **cayó 35 %**. Estamos en septiembre y 2026 tiene cosechas hasta el 30 de abril: se comparó **cuatro meses contra doce**. Lo nuevo es el arreglo: la misma medida, **sin cambiar un carácter**, pasa a **+30 %** cuando se recorta el contexto. La medida nunca estuvo mal; contestaba bien una pregunta que nadie hizo.
+
+> **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las trece clases, es esta:
+Si hay una sola cosa que llevarse de las dieciséis clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -88,6 +96,9 @@ Si hay una sola cosa que llevarse de las trece clases, es esta:
 | 11 | dos `INSERT` que fallaron adentro de un `WHEN OTHERS THEN NULL` | nada |
 | 12 | una carga que terminó «bien» con ocho filas rechazadas | nada |
 | 13 | un tablero en modo Importar mostrando los datos de la semana pasada | nada |
+| 14 | una dimensión de tiempo que no cubría marzo, y 10 800 kilos que se evaporaron | nada |
+| 15 | un promedio dividido entre seis cultivos cuando sólo cuatro habían cosechado | nada |
+| 16 | una caída del 35 % que comparaba cuatro meses contra doce | nada |
 
 ---
 
