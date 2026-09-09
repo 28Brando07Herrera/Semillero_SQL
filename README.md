@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 y 16)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 17)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -57,6 +57,7 @@ proyecto-final/ enunciado y rúbrica
 | **14** | **28 ago** | **Del reporte plano al modelo dimensional · hechos, dimensiones y la estrella** | **Oracle local + Power BI** | [clase](clases/14-modelo-dimensional/) |
 | **15** | **4 sep** | **La medida y el contexto · DAX, contexto de filtro y el denominador que nadie mira** | **Power BI (CSV)** | [clase](clases/15-dax-contexto/) |
 | **16** | **8 sep** | **Comparar contra el año pasado · inteligencia de tiempo y el año que todavía no termina** | **Power BI (CSV)** | [clase](clases/16-inteligencia-tiempo/) |
+| **17** | **9 sep** | **La meta que no sabe de cultivos · dos tablas de hechos, dos granularidades y una medida que se calla** | **Power BI (CSV)** | [clase](clases/17-dos-hechos/) |
 
 ---
 
@@ -76,13 +77,15 @@ Y en la 15 el curso cruza del todo al otro lado: **no se prende Oracle**. La fue
 
 Y en la 16 llega el histórico: la campaña **2025** entera, y con ella la primera tabla de hechos del curso que cubre **dos años**. Por primera vez en once clases el 30 550 deja de ser el total y pasa a ser el total de 2026, intacto adentro de 77 550. Con dos años ya se puede escribir la comparación más pedida del mundo —contra el año pasado—, y la tarjeta dice que la cosecha **cayó 35 %**. Estamos en septiembre y 2026 tiene cosechas hasta el 30 de abril: se comparó **cuatro meses contra doce**. Lo nuevo es el arreglo: la misma medida, **sin cambiar un carácter**, pasa a **+30 %** cuando se recorta el contexto. La medida nunca estuvo mal; contestaba bien una pregunta que nadie hizo.
 
+Y en la 17 el modelo deja de tener **un** hecho al centro. Llega `h_meta` —la meta que la gerencia fijó para 2026, **47 000 kilos**, los mismos que se cosecharon en 2025— y llega con dos cosas que `h_cosecha` no tiene: se capturó **por mes**, no por día, y **no sabe de cultivos**, porque las metas se fijan por finca. Partida por finca, la medida funciona y la columna suma su propio total. Partida por cultivo —la misma medida, cambiando nada más la dimensión de las filas— **la meta dice 24 440 en las seis filas**, Banano y Café aparecen con meta sin haber cosechado un kilo en dos años, y los porcentajes **suman 125,00 exacto**, así que el error pasa la revisión obvia. Lo nuevo es el arreglo: no es una función más lista ni un contexto más chico, es **enseñarle a la medida a no contestar**. Once clases diciendo *qué avisó — nada*, y hoy el aviso aparece porque lo escribimos nosotros, con un `BLANK()`.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las dieciséis clases, es esta:
+Si hay una sola cosa que llevarse de las diecisiete clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -99,6 +102,7 @@ Si hay una sola cosa que llevarse de las dieciséis clases, es esta:
 | 14 | una dimensión de tiempo que no cubría marzo, y 10 800 kilos que se evaporaron | nada |
 | 15 | un promedio dividido entre seis cultivos cuando sólo cuatro habían cosechado | nada |
 | 16 | una caída del 35 % que comparaba cuatro meses contra doce | nada |
+| 17 | una meta mensual por finca repartida entre cultivos que no existen en ella | nada — **hasta que la medida aprendió a callarse** |
 
 ---
 
