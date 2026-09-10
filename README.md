@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 17)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 18)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -58,6 +58,7 @@ proyecto-final/ enunciado y rúbrica
 | **15** | **4 sep** | **La medida y el contexto · DAX, contexto de filtro y el denominador que nadie mira** | **Power BI (CSV)** | [clase](clases/15-dax-contexto/) |
 | **16** | **8 sep** | **Comparar contra el año pasado · inteligencia de tiempo y el año que todavía no termina** | **Power BI (CSV)** | [clase](clases/16-inteligencia-tiempo/) |
 | **17** | **9 sep** | **La meta que no sabe de cultivos · dos tablas de hechos, dos granularidades y una medida que se calla** | **Power BI (CSV)** | [clase](clases/17-dos-hechos/) |
+| **18** | **10 sep** | **Lo que cada quien puede ver · seguridad a nivel de fila y un filtro que no llega a donde creías** | **Power BI (CSV)** | [clase](clases/18-seguridad-filas/) |
 
 ---
 
@@ -79,13 +80,15 @@ Y en la 16 llega el histórico: la campaña **2025** entera, y con ella la prime
 
 Y en la 17 el modelo deja de tener **un** hecho al centro. Llega `h_meta` —la meta que la gerencia fijó para 2026, **47 000 kilos**, los mismos que se cosecharon en 2025— y llega con dos cosas que `h_cosecha` no tiene: se capturó **por mes**, no por día, y **no sabe de cultivos**, porque las metas se fijan por finca. Partida por finca, la medida funciona y la columna suma su propio total. Partida por cultivo —la misma medida, cambiando nada más la dimensión de las filas— **la meta dice 24 440 en las seis filas**, Banano y Café aparecen con meta sin haber cosechado un kilo en dos años, y los porcentajes **suman 125,00 exacto**, así que el error pasa la revisión obvia. Lo nuevo es el arreglo: no es una función más lista ni un contexto más chico, es **enseñarle a la medida a no contestar**. Once clases diciendo *qué avisó — nada*, y hoy el aviso aparece porque lo escribimos nosotros, con un `BLANK()`.
 
+Y en la 18 el tablero se le manda por primera vez a **alguien**: el gerente de La Unión, con el requisito de que vea su finca y nada más. Eso es un **rol**, y la primera versión es la obvia —el filtro en `h_cosecha`, porque ahí están los kilos—. Funciona: viendo como el gerente, los kilos dicen 2 100. Pero la meta dice **24 440**, la de toda la empresa, el cumplimiento **8,59 %** en vez de **42,00 %**, y la tabla por finca le enseña **el presupuesto de las otras dos**. La seguridad también es un filtro, y viaja solo por las relaciones: desde `h_cosecha` no llega a `h_meta`. Lo atrapa el `[Filas de meta]` de ayer, que no se mueve con el rol, y se arregla subiendo la condición a `dim_finca`. En la clase 13 Oracle contestó `ORA-00942`; hoy nadie contestó nada.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las diecisiete clases, es esta:
+Si hay una sola cosa que llevarse de las dieciocho clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -103,6 +106,7 @@ Si hay una sola cosa que llevarse de las diecisiete clases, es esta:
 | 15 | un promedio dividido entre seis cultivos cuando sólo cuatro habían cosechado | nada |
 | 16 | una caída del 35 % que comparaba cuatro meses contra doce | nada |
 | 17 | una meta mensual por finca repartida entre cultivos que no existen en ella | nada — **hasta que la medida aprendió a callarse** |
+| 18 | un rol puesto en la tabla de cosechas que le enseñó al gerente de una finca la meta de toda la empresa | nada — **pero el `[Filas de meta]` de ayer lo atrapó** |
 
 ---
 
