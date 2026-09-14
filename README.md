@@ -116,4 +116,4 @@ Si llevás veinte minutos trabado en el mismo error: escribís la duda como come
 
 ## Y una regla para el material
 
-El enunciado también se audita. Van dos errores encontrados corrigiendo —las «6 filas» del ejercicio 3 y la rúbrica del 8 que sumaba 105 diciendo 100—, y los dos están anotados en la [página de resultados](https://negatix092.github.io/Semillero_SQL/resultados.html) con nombre y apellido. Si un número del enunciado no te cierra, **no lo fuerces: documentá la discrepancia.** Eso puntúa.
+El enunciado también se audita. Van cinco errores encontrados corrigiendo —las «6 filas» del ejercicio 3, la rúbrica del 8 que sumaba 105 diciendo 100, el eje del punto de control 3 del 16, y en la clase 11 el `SQLERRM` de las diapositivas y las «cuatro de cinco» del A1—, y los cinco están anotados en la [página de resultados](https://negatix092.github.io/Semillero_SQL/resultados.html) con nombre y apellido. Si un número del enunciado no te cierra, **no lo fuerces: documentá la discrepancia.** Eso puntúa.

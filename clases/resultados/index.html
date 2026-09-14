@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Resultados · Ejercicios 3 a 10</title>
+<title>Resultados · Ejercicios 3 a 12 y 14 a 16</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root {
@@ -20,6 +20,11 @@
     --series-6:       #7c7327;  /* Ejercicio 8 */
     --series-7:       #a8456a;  /* Ejercicio 9 */
     --series-8:       #2d6a6a;  /* Ejercicio 10 */
+    --series-9:       #3558a8;  /* Ejercicio 14 */
+    --series-10:      #8e4a9e;  /* Ejercicio 15 */
+    --series-11:      #d06a2a;  /* Ejercicio 16 */
+    --series-12:      #9b2d20;  /* Ejercicio 11 */
+    --series-13:      #5b6f7d;  /* Ejercicio 12 */
     --accent:         #f2a104;
     --radius:         10px;
   }
@@ -42,6 +47,11 @@
       --series-6:       #a89a34;
       --series-7:       #cf6a90;
       --series-8:       #4f9a9a;
+      --series-9:       #6f8fdc;
+      --series-10:      #b57ec4;
+      --series-11:      #e08a4f;
+      --series-12:      #d0604f;
+      --series-13:      #93a7b5;
     }
   }
   :root[data-theme="dark"] {
@@ -61,6 +71,12 @@
     --series-5:       #9184c4;
     --series-6:       #a89a34;
     --series-7:       #cf6a90;
+    --series-8:       #4f9a9a;
+    --series-9:       #6f8fdc;
+    --series-10:      #b57ec4;
+    --series-11:      #e08a4f;
+    --series-12:      #d0604f;
+    --series-13:      #93a7b5;
   }
 
   * { box-sizing: border-box; }
@@ -99,7 +115,7 @@
   .card p { font-size: .92rem; }
 
   /* ---------- KPI row ---------- */
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
   .kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
   .kpi .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .3rem; }
   .kpi .value { font-size: 2.1rem; font-weight: 650; line-height: 1.1; }
@@ -124,19 +140,19 @@
   .chart-scroll { overflow-x: auto; }
   /* .plot aporta el aire de arriba para la etiqueta de las columnas de 100;
      .cols queda sin padding para que grilla y barras midan contra lo mismo */
-  .plot { padding-top: 1.7rem; min-width: 900px; }
+  .plot { padding-top: 1.7rem; min-width: 1350px; }
   .cols { display: flex; align-items: flex-end; gap: 1.3rem; height: 260px;
           border-bottom: 1px solid var(--baseline); position: relative; padding: 0 .25rem; }
   .gridline { position: absolute; left: 0; right: 0; border-top: 1px solid var(--grid); pointer-events: none; }
   .gridline span { position: absolute; left: 0; top: -.75em; font-size: .72rem; color: var(--muted);
                    background: var(--surface-1); padding-right: .4rem; font-variant-numeric: tabular-nums; }
   .group { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 100%; position: relative; z-index: 1; }
-  .bar { position: relative; width: 20px; border-radius: 4px 4px 0 0; cursor: default;
+  .bar { position: relative; width: 16px; border-radius: 4px 4px 0 0; cursor: default;
          transition: filter .12s ease; }
   .bar:hover, .bar:focus-visible { filter: brightness(1.12); outline: none; }
   .bar .val { position: absolute; top: -1.35em; left: 50%; transform: translateX(-50%);
               font-size: .68rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-  .xlabels { display: flex; gap: 1.3rem; min-width: 900px; padding: .5rem .25rem 0; }
+  .xlabels { display: flex; gap: 1.3rem; min-width: 1350px; padding: .5rem .25rem 0; }
   .xlabels div { flex: 1; text-align: center; font-size: .85rem; color: var(--text-secondary); }
 
   /* ---------- barras horizontales de rubrica ---------- */
@@ -174,11 +190,14 @@
 
 <div class="wrap">
 <header>
-  <h1>Resultados · Ejercicios 3 a 10</h1>
+  <h1>Resultados · Ejercicios 3 a 12 y 14 a 16</h1>
   <p class="sub">
-    Semillero SQL · AgroDB. Cada entrega se <strong>ejecutó</strong> contra su script base en
-    SQLite y se comparó contra los puntos de control del enunciado, además de corregirse
-    con la rúbrica. Las notas se muestran con alias: cada uno sabe cuál es el suyo.
+    Semillero SQL · AgroDB. Del 3 al 10, cada entrega se <strong>ejecutó</strong> contra su
+    script base en SQLite; el 11, el 12 y el 14, contra Oracle, en un esquema aparte para cada
+    quien. El 15 y el 16 son DAX y no se pueden ejecutar fuera de Power BI: ahí cada número
+    anotado se comparó contra los valores verificados de la clase, y la captura sirvió de
+    evidencia. Todo se corrigió además con la rúbrica. Las notas se muestran con alias: cada uno
+    sabe cuál es el suyo. La clase 13 se dedicó a migrar el entorno y no tuvo entrega.
   </p>
 </header>
 
@@ -208,6 +227,11 @@
       <span><i class="swatch" style="background:var(--series-6)"></i> Ej. 8 · vistas</span>
       <span><i class="swatch" style="background:var(--series-7)"></i> Ej. 9 · índices</span>
       <span><i class="swatch" style="background:var(--series-8)"></i> Ej. 10 · calidad y auditoría</span>
+      <span><i class="swatch" style="background:var(--series-12)"></i> Ej. 11 · PL/SQL en Oracle</span>
+      <span><i class="swatch" style="background:var(--series-13)"></i> Ej. 12 · carga externa</span>
+      <span><i class="swatch" style="background:var(--series-9)"></i> Ej. 14 · modelo dimensional</span>
+      <span><i class="swatch" style="background:var(--series-10)"></i> Ej. 15 · DAX y contexto</span>
+      <span><i class="swatch" style="background:var(--series-11)"></i> Ej. 16 · inteligencia de tiempo</span>
     </div>
     <div class="chart-scroll">
       <div class="plot"><div class="cols" id="cols"></div></div>
@@ -218,7 +242,7 @@
   <div id="vista-tabla" hidden>
     <div class="tabla-scroll">
       <table>
-        <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Ej. 5</th><th class="num">Ej. 6</th><th class="num">Ej. 7</th><th class="num">Ej. 8</th><th class="num">Ej. 9</th><th class="num">Ej. 10</th><th class="num">Promedio</th><th class="num">Δ 9−8</th></tr></thead>
+        <thead><tr><th>Alias</th><th class="num">Ej. 3</th><th class="num">Ej. 4</th><th class="num">Ej. 5</th><th class="num">Ej. 6</th><th class="num">Ej. 7</th><th class="num">Ej. 8</th><th class="num">Ej. 9</th><th class="num">Ej. 10</th><th class="num">Ej. 11</th><th class="num">Ej. 12</th><th class="num">Ej. 14</th><th class="num">Ej. 15</th><th class="num">Ej. 16</th><th class="num">Promedio</th><th class="num">Δ 15−14</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -241,11 +265,72 @@
       <button type="button" data-ej="7" aria-pressed="false">Ej. 7</button>
       <button type="button" data-ej="8" aria-pressed="false">Ej. 8</button>
       <button type="button" data-ej="9" aria-pressed="false">Ej. 9</button>
-      <button type="button" data-ej="10" aria-pressed="true">Ej. 10</button>
+      <button type="button" data-ej="10" aria-pressed="false">Ej. 10</button>
+      <button type="button" data-ej="11" aria-pressed="false">Ej. 11</button>
+      <button type="button" data-ej="12" aria-pressed="false">Ej. 12</button>
+      <button type="button" data-ej="14" aria-pressed="false">Ej. 14</button>
+      <button type="button" data-ej="15" aria-pressed="false">Ej. 15</button>
+      <button type="button" data-ej="16" aria-pressed="true">Ej. 16</button>
     </div>
   </div>
   <div class="rows" id="rubrica"></div>
   <p class="hint" id="rubrica-nota" style="margin:1.2rem 0 0"></p>
+</section>
+
+<section class="card">
+  <h2>Del 14 al 16: el SQL corrió en las cinco; lo que costó fue lo que se pegó</h2>
+  <p class="hint" style="margin-bottom:.8rem">Nadie perdió puntos por no saber escribir la consulta.</p>
+  <p style="margin:0 0 .8rem">
+    El ejercicio 14 se corrigió ejecutando cada entrega en Oracle, en un esquema aparte, y con
+    una foto del estado de la base después de cada sentencia. Las cinco pasaron de verdad por el
+    <strong>19 750</strong>, encontraron los tres huérfanos y terminaron en <strong>30 550</strong>
+    con la clave foránea creada. No hubo un solo error que no fuera el <code>ORA-02298</code> que
+    el ejercicio pedía provocar.
+  </p>
+  <p style="margin:0 0 .8rem">
+    Los puntos se fueron en dos lugares, y los dos tienen la misma raíz. Uno, <strong>las
+    capturas del modelo</strong>: una no llegó, otra traía las relaciones que Power BI adivinó sin
+    que nadie las revisara —dos uno a uno entre dimensiones, una inactiva y la de cultivo sin
+    dibujar— y otra era de una base que no es AgroDB. Dos, <strong>los resultados pegados</strong>:
+    en el 14, en el 15 y en el 16 aparecieron números que la consulta o la medida no devuelve.
+    Tres huérfanos equivocados, un reparto de cosechas por finca que no es el de AgroDB, y un enero
+    y un febrero que Power BI no puede dar.
+  </p>
+  <p style="margin:0" class="aviso">
+    Es la regla de la clase 8, y aquí vale doble: <strong>un resultado que no salió de tu
+    pantalla no es un resultado, es una predicción</strong>. Cuando la predicción acierta, no se
+    nota. Cuando falla, es lo único que se nota.
+  </p>
+</section>
+
+<section class="card">
+  <h2>El 11 y el 12: Oracle contestó lo mismo en las cinco; lo anotado, no</h2>
+  <p class="hint" style="margin-bottom:.8rem">Cada entrega corrió en su propio esquema, sentencia por sentencia, con una foto del estado de la base después de cada una.</p>
+  <p style="margin:0 0 .8rem">
+    En el 12, las cinco entregas pasaron de verdad por todos los números de la clase:
+    <strong>8 652</strong> lecturas y <strong>8</strong> rechazos en la primera carga,
+    <strong>28</strong> rechazos después de la segunda corrida, <strong>8 654</strong> después del
+    <code>MERGE</code> y mayo en <strong>14 filas con 2 121.7</strong>, idéntico las dos veces.
+    La segunda corrida está entendida.
+  </p>
+  <p style="margin:0 0 .8rem">
+    Los puntos se fueron donde había que <strong>leer</strong> el resultado. En B3, los
+    <code>ORA-00001</code> de la primera carga son dos: la línea 18, que repite la 17, y la
+    <strong>línea 20</strong>, que es la lectura del 30 de abril a las 23:30 y ya estaba cargada.
+    Y en B4 la reconciliación con <code>NOT EXISTS</code> no ve justo esas dos, porque su sensor y
+    su hora ya existen en <code>lecturas</code>. Tres entregas no llegaron a la 20 en ninguna de
+    las dos preguntas.
+  </p>
+  <p style="margin:0 0 .8rem">
+    En el 11, las cinco explicaron la diferencia entre C1 y C2 con filas —1 555 200 contra
+    8 640—, que era lo importante, pero ninguna anotó los tiempos que el enunciado pedía, y eso se
+    descontó igual a todos. Y hubo un resultado anotado que el motor no da: sin <code>TRIM</code>,
+    la línea 11 del 12 sigue diciendo «convierte».
+  </p>
+  <p style="margin:0" class="aviso">
+    La regla sigue siendo la de la clase 8: <strong>el número que se anota tiene que haber salido
+    de la pantalla</strong>. Correr el archivo no alcanza si después se contesta de memoria.
+  </p>
 </section>
 
 <section class="card">
@@ -290,9 +375,33 @@
     un error mío de suma. En el tooltip de las columnas del ejercicio 8 se ve el subtotal real
     sobre 105 y la nota normalizada.
   </p>
+  <p style="margin:0 0 .8rem" class="aviso">
+    Y un tercero, en el <strong>ejercicio 16</strong>. El punto de control 3 dice que el gráfico
+    con eje <code>h_cosecha[fecha]</code> «dibuja solo los meses con cosecha». Pero la parte A manda
+    apagar la fecha/hora automática, y sin esa jerarquía el eje de una columna de fecha va
+    <strong>por día</strong>: en 2026 hay <strong>8 fechas</strong> con cosecha, no 2 meses. Lo
+    destapó la captura de una entrega, con el eje corriendo del 22 de marzo al 26 de abril.
+  </p>
+  <p style="margin:0 0 .8rem">
+    No se le descontó a nadie. La idea de esa diapositiva sigue en pie —el eje del hecho esconde
+    los meses vacíos—; lo que estaba mal era el número de puntos que el enunciado hacía esperar.
+  </p>
+  <p style="margin:0 0 .8rem" class="aviso">
+    Y dos más en la <strong>clase 11</strong>, que salieron al ejecutar sus entregas. El A1 del
+    ejercicio dice que de las cinco sentencias de SQLite «se rompen cuatro». En Oracle 23ai, que es
+    el de FreeSQL, <code>SELECT 1;</code> y <code>DROP TABLE IF EXISTS</code> sí corren: se rompen
+    <strong>dos</strong>. Y las diapositivas enseñan <code>SQLERRM</code> dentro de un
+    <code>INSERT</code>, que no compila (<code>ORA-00984</code>): hay que guardarlo antes en una
+    variable. Cuatro entregas lo copiaron tal cual.
+  </p>
+  <p style="margin:0 0 .8rem">
+    A nadie se le descontó por ninguno de los dos: en el A1 se revisó la versión Oracle de cada
+    sentencia y no cuántas fallaban, y en D4 se evaluó el resto del procedimiento.
+  </p>
   <p style="margin:0">
-    Es el segundo error del material que aparece corrigiendo, después del «6 filas» del ejercicio 3.
-    Van dos a cero: <strong>los enunciados también se auditan</strong>.
+    Con estos van cinco errores del material que aparecen corrigiendo: el «6 filas» del ejercicio 3,
+    la suma del 8, el eje del 16 y los dos de la clase 11. <strong>Los enunciados también se
+    auditan</strong>.
   </p>
 </section>
 
@@ -374,6 +483,7 @@
 <footer>
   Curso de SQL · AgroDB · ejercicios 3 y 4 corregidos el 17 de agosto · ejercicio 5, el 18 ·
   ejercicios 6 y 7, el 19 · ejercicios 8 y 9 y las recorrecciones de A-5, el 24 de agosto de 2026 ·
+  ejercicios 11, 12, 14, 15 y 16, el 10 de septiembre de 2026 ·
   <a href="index.html">volver al índice</a>
 </footer>
 </div>
@@ -392,25 +502,27 @@ const USAR_ALIAS = true;
 // ej7 = null  ->  no hay entrega valida todavia; se dibuja como "—" y no
 // entra en el promedio ni en la media del curso.
 const ALUMNOS = [
-  { alias: "A-1", nombre: "Brando Herrera",   ej3: 100, ej4: 100, ej5:  97, ej6: 100, ej7:  100, ej8: 100, ej9:  97 , ej10: 100 },
-  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100, ej5: 100, ej6: 100, ej7:  100, ej8:  93, ej9: 100 , ej10: 100 },
-  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98, ej5:  90, ej6: 100, ej7:  100, ej8:  95, ej9:  99 , ej10: 100 },
-  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59, ej5:  99, ej6:  80, ej7:   89, ej8:  73, ej9: 100 , ej10: 100 },
-  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  98, ej5:  95, ej6: 100, ej7: null, ej8:  98, ej9: 100 , ej10: 100 },
+  { alias: "A-1", nombre: "Brando Herrera",   ej3: 100, ej4: 100, ej5:  97, ej6: 100, ej7:  100, ej8: 100, ej9:  97 , ej10: 100, ej11: 89, ej12: 91, ej14: 93, ej15: 98, ej16:   96 },
+  { alias: "A-2", nombre: "Carlos Verdezoto", ej3:  97, ej4: 100, ej5: 100, ej6: 100, ej7:  100, ej8:  93, ej9: 100 , ej10: 100, ej11: 88, ej12: 84, ej14: 96, ej15: 99, ej16: null },
+  { alias: "A-3", nombre: "Axel Cortez",      ej3:  71, ej4:  98, ej5:  90, ej6: 100, ej7:  100, ej8:  95, ej9:  99 , ej10: 100, ej11: 95, ej12: 98, ej14: 96, ej15: 96, ej16:   97 },
+  { alias: "A-4", nombre: "Byron Yaguar",     ej3: 100, ej4:  59, ej5:  99, ej6:  80, ej7:   89, ej8:  73, ej9: 100 , ej10: 100, ej11: 87, ej12: 71, ej14: 70, ej15: 40, ej16:   38 },
+  { alias: "A-5", nombre: "Daniel Troya",     ej3:  78, ej4:  98, ej5:  95, ej6: 100, ej7: null, ej8:  98, ej9: 100 , ej10: 100, ej11: 93, ej12: 92, ej14: 95, ej15: 95, ej16: null },
 ];
 
 // Base de la rubrica por ejercicio. El enunciado del 8 dice "100 puntos"
 // y sus criterios suman 105: se respeta el peso publicado de cada
 // criterio y el subtotal se normaliza a 100. Ver la tarjeta de arriba.
-const BASE = { 3: 100, 4: 100, 5: 100, 6: 100, 7: 100, 8: 105, 9: 100, 10: 100 };
+const BASE = { 3: 100, 4: 100, 5: 100, 6: 100, 7: 100, 8: 105, 9: 100, 10: 100, 11: 100, 12: 100, 14: 100, 15: 100, 16: 100 };
 
-// Punto extra de la rubrica (va aparte de los criterios; el total topea en 100)
+// Punto extra de la rubrica (va aparte de los criterios; el total topea en 100).
+// Los enunciados 14, 15 y 16 no definen punto extra: van en 0.
+// En el 11 y el 12 el extra es parcial cuando no se midio (ver docente/retroalimentacion_ej11_ej12_docente.md).
 const EXTRA = {
-  "A-1": { 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5, 9: 0, 10: 5 },
-  "A-2": { 3: 3, 4: 5, 5: 5, 6: 5, 7: 5, 8: 0, 9: 3, 10: 5 },
-  "A-3": { 3: 2, 4: 5, 5: 5, 6: 5, 7: 5, 8: 2, 9: 4, 10: 5 },
-  "A-4": { 3: 4, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 5, 10: 5 },
-  "A-5": { 3: 4, 4: 5, 5: 5, 6: 5, 7: 0, 8: 5, 9: 5, 10: 5 },
+  "A-1": { 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5, 9: 0, 10: 5, 11: 3, 12: 0, 14: 0, 15: 0, 16: 0 },
+  "A-2": { 3: 3, 4: 5, 5: 5, 6: 5, 7: 5, 8: 0, 9: 3, 10: 5, 11: 0, 12: 0, 14: 0, 15: 0, 16: 0 },
+  "A-3": { 3: 2, 4: 5, 5: 5, 6: 5, 7: 5, 8: 2, 9: 4, 10: 5, 11: 2, 12: 4, 14: 0, 15: 0, 16: 0 },
+  "A-4": { 3: 4, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 5, 10: 5, 11: 0, 12: 0, 14: 0, 15: 0, 16: 0 },
+  "A-5": { 3: 4, 4: 5, 5: 5, 6: 5, 7: 0, 8: 5, 9: 5, 10: 5, 11: 2, 12: 0, 14: 0, 15: 0, 16: 0 },
 };
 
 // Detalle por criterio, para el tooltip. [criterio, obtenido, maximo]
@@ -457,6 +569,41 @@ const DETALLE = {
            10: [["A1–A3 el control",13,15],["A4 las tres invisibles",20,20],["A5–A6 kg/ha y NULL",10,10],["Parte B el CHECK",10,10],["C1–C4 la bitácora",20,20],["C5–C6 UPDATE OF",4,5],["C7 el quien",10,10],["Parte D",5,5],["Cierre",5,5]] },
 };
 
+// Ejercicios 14, 15 y 16 (bloque Power BI). null = sin entrega.
+const DETALLE_PBI = {
+  "A-1": { 14: [["A · vista plana",10,10],["B · dimensiones",20,20],["C · hecho",20,20],["D · la trampa del 19 750",27,30],["E · Power BI y modelo",7,10],["F · cierre",9,10]],
+           15: [["A · CSV y relaciones",10,10],["B · primeras medidas",15,15],["C · medida vs columna",15,15],["D · contexto de filtro",20,20],["E · el 5 091,67",30,30],["F · cierre",8,10]],
+           16: [["A · dos años y tabla de fechas",10,10],["B · el eje de tiempo",14,15],["C · el acumulado",15,15],["D · el año pasado",20,20],["E · el −35 % y el +30 %",27,30],["F · cierre",10,10]] },
+  "A-2": { 14: [["A · vista plana",10,10],["B · dimensiones",20,20],["C · hecho",20,20],["D · la trampa del 19 750",30,30],["E · Power BI y modelo",6,10],["F · cierre",10,10]],
+           15: [["A · CSV y relaciones",10,10],["B · primeras medidas",15,15],["C · medida vs columna",14,15],["D · contexto de filtro",20,20],["E · el 5 091,67",30,30],["F · cierre",10,10]],
+           16: null },
+  "A-3": { 14: [["A · vista plana",10,10],["B · dimensiones",20,20],["C · hecho",20,20],["D · la trampa del 19 750",27,30],["E · Power BI y modelo",10,10],["F · cierre",9,10]],
+           15: [["A · CSV y relaciones",10,10],["B · primeras medidas",15,15],["C · medida vs columna",15,15],["D · contexto de filtro",20,20],["E · el 5 091,67",26,30],["F · cierre",10,10]],
+           16: [["A · dos años y tabla de fechas",10,10],["B · el eje de tiempo",15,15],["C · el acumulado",15,15],["D · el año pasado",20,20],["E · el −35 % y el +30 %",27,30],["F · cierre",10,10]] },
+  "A-4": { 14: [["A · vista plana",7,10],["B · dimensiones",18,20],["C · hecho",17,20],["D · la trampa del 19 750",16,30],["E · Power BI y modelo",3,10],["F · cierre",9,10]],
+           15: [["A · CSV y relaciones",2,10],["B · primeras medidas",8,15],["C · medida vs columna",0,15],["D · contexto de filtro",8,20],["E · el 5 091,67",20,30],["F · cierre",2,10]],
+           16: [["A · dos años y tabla de fechas",5,10],["B · el eje de tiempo",1,15],["C · el acumulado",5,15],["D · el año pasado",9,20],["E · el −35 % y el +30 %",14,30],["F · cierre",4,10]] },
+  "A-5": { 14: [["A · vista plana",10,10],["B · dimensiones",20,20],["C · hecho",20,20],["D · la trampa del 19 750",30,30],["E · Power BI y modelo",5,10],["F · cierre",10,10]],
+           15: [["A · CSV y relaciones",8,10],["B · primeras medidas",15,15],["C · medida vs columna",15,15],["D · contexto de filtro",20,20],["E · el 5 091,67",27,30],["F · cierre",10,10]],
+           16: null },
+};
+Object.keys(DETALLE_PBI).forEach(a => Object.assign(DETALLE[a], DETALLE_PBI[a]));
+
+// Ejercicios 11 y 12 (bloque Oracle), corregidos ejecutando cada entrega el 10/09.
+const DETALLE_ORACLE = {
+  "A-1": { 11: [["A · lo que se rompe",13,15],["B · el primer bloque",14,15],["C · fila por fila",27,30],["D · el error ignorado",19,20],["E · el quién",8,15],["F · cierre",5,5]],
+           12: [["A · el archivo",10,10],["B · LOG ERRORS",17,25],["C · la segunda corrida",30,30],["D · el bucle y FORALL",19,20],["E · SQL concatenado",10,10],["F · cierre",5,5]] },
+  "A-2": { 11: [["A · lo que se rompe",13,15],["B · el primer bloque",14,15],["C · fila por fila",27,30],["D · el error ignorado",15,20],["E · el quién",15,15],["F · cierre",4,5]],
+           12: [["A · el archivo",9,10],["B · LOG ERRORS",17,25],["C · la segunda corrida",27,30],["D · el bucle y FORALL",19,20],["E · SQL concatenado",8,10],["F · cierre",4,5]] },
+  "A-3": { 11: [["A · lo que se rompe",14,15],["B · el primer bloque",13,15],["C · fila por fila",27,30],["D · el error ignorado",19,20],["E · el quién",15,15],["F · cierre",5,5]],
+           12: [["A · el archivo",10,10],["B · LOG ERRORS",25,25],["C · la segunda corrida",28,30],["D · el bucle y FORALL",19,20],["E · SQL concatenado",8,10],["F · cierre",4,5]] },
+  "A-4": { 11: [["A · lo que se rompe",12,15],["B · el primer bloque",12,15],["C · fila por fila",27,30],["D · el error ignorado",16,20],["E · el quién",15,15],["F · cierre",5,5]],
+           12: [["A · el archivo",6,10],["B · LOG ERRORS",14,25],["C · la segunda corrida",25,30],["D · el bucle y FORALL",14,20],["E · SQL concatenado",9,10],["F · cierre",3,5]] },
+  "A-5": { 11: [["A · lo que se rompe",13,15],["B · el primer bloque",13,15],["C · fila por fila",27,30],["D · el error ignorado",18,20],["E · el quién",15,15],["F · cierre",5,5]],
+           12: [["A · el archivo",10,10],["B · LOG ERRORS",24,25],["C · la segunda corrida",28,30],["D · el bucle y FORALL",18,20],["E · SQL concatenado",8,10],["F · cierre",4,5]] },
+};
+Object.keys(DETALLE_ORACLE).forEach(a => Object.assign(DETALLE[a], DETALLE_ORACLE[a]));
+
 const CRITERIOS = {
   3: ["Diagnóstico","Las 4 tablas","Tabla puente","Migración","Prueba de fuego","Consultas","Cierre"],
   4: ["Diagnóstico","Arreglos","CASCADE","Fusión urea","Verificación","Cierre"],
@@ -466,10 +613,59 @@ const CRITERIOS = {
   8: ["Parte A","B1 el * 1.0","B2 composición","B3–B4 IF NOT EXISTS","C1–C5 el tablero","C6 el reemplazo","C7 auditada OK","D1–D3 los límites","D4 fan-out heredado","Cierre"],
   9: ["Parte A","B1–B2 el plan SCAN","B3–B4 el índice","C1–C4 la trampa del DATE()","C5–C7 el < y la escala","D1–D2 prefijo izquierdo","D3 ORDER BY gratis","D4 el SEARCH inútil","Cierre"],
   10: ["A1–A3 el control","A4 las tres invisibles","A5–A6 kg/ha y NULL","Parte B el CHECK","C1–C4 la bitácora","C5–C6 UPDATE OF","C7 el quien","Parte D","Cierre"],
+  11: ["A · lo que se rompe","B · el primer bloque","C · fila por fila","D · el error ignorado","E · el quién","F · cierre"],
+  12: ["A · el archivo","B · LOG ERRORS","C · la segunda corrida","D · el bucle y FORALL","E · SQL concatenado","F · cierre"],
+  14: ["A · vista plana","B · dimensiones","C · hecho","D · la trampa del 19 750","E · Power BI y modelo","F · cierre"],
+  15: ["A · CSV y relaciones","B · primeras medidas","C · medida vs columna","D · contexto de filtro","E · el 5 091,67","F · cierre"],
+  16: ["A · dos años y tabla de fechas","B · el eje de tiempo","C · el acumulado","D · el año pasado","E · el −35 % y el +30 %","F · cierre"],
 };
 
 const NOTA_RUBRICA = {
-  10: "El mejor resultado de ejecución del curso: las cinco entregas corren completas de arriba " +
+  11: "Se corrigió ejecutando en Oracle: cada entrega corrió en su propio esquema, después del script de la " +
+      "clase, sentencia por sentencia. «C · fila por fila» tiene un descuento parejo de 3 puntos: el enunciado " +
+      "pedía anotar el tiempo que imprimen C1 y C2 y ninguna entrega lo hizo; las cuentas de filas, en cambio, " +
+      "están bien en las cinco. «E · el quién» perdió puntos en una sola entrega, cuyo trigger no compila " +
+      "(usa INSERTING dentro del VALUES, ORA-00984): su E3 nunca escribió las tres filas que pegó. No se " +
+      "descontó el procedimiento de D4 que no compila por copiar el SQLERRM de las diapositivas, ni haber " +
+      "listado cuatro sentencias rotas en A1: los dos errores son del material (ver la tarjeta de abajo). Una " +
+      "sola entrega compila ese procedimiento, y es la que resolvió la bitácora con PRAGMA AUTONOMOUS_TRANSACTION.",
+  12: "Las cinco entregas llegan a todos los números de control: 8 652 y 8 rechazos, 28 después de la segunda " +
+      "corrida, 8 654 y mayo en 14 filas con 2 121.7 las dos veces. «B · LOG ERRORS» es el criterio más flojo, " +
+      "y está en dos preguntas de leer el resultado: en B3, los ORA-00001 son dos —la línea 18 y la 20, que es " +
+      "la lectura del 30 de abril a las 23:30 y ya estaba cargada— y en B4 la reconciliación no ve justo esas " +
+      "dos. Tres entregas no identificaron la 20. En E, tres entregas dejaron comentada la llamada con " +
+      "'1 OR 1=1' y pegaron el error sin provocarlo. Solo una escribió la fila de la clase 12 como en el README, " +
+      "con «qué avisó: nada». Una sola entrega hizo el extra completo; otra lo intentó, pero su INSERT al " +
+      "staging falla (ORA-00904) y el benchmark midió cero filas sin que se notara.",
+  14: "Se corrigió ejecutando en Oracle: cada entrega corrió en su propio esquema, primero " +
+      "el script de la clase y después la entrega sentencia por sentencia, con una foto del estado de la base " +
+      "después de cada una. Las cinco pasaron de verdad por el 19 750, encontraron los tres huérfanos y " +
+      "terminaron en 30 550 con la clave foránea creada, sin un solo error que no fuera el ORA-02298 que el " +
+      "ejercicio pedía provocar. Por eso las diferencias no están en el SQL. " +
+      "«E · Power BI y modelo» es el criterio más flojo, por tres motivos distintos: una entrega no subió la " +
+      "captura del modelo; otra la subió con las relaciones que adivinó Power BI —dos uno a uno entre " +
+      "dimensiones, una inactiva y la de cultivo sin dibujar—, que era justo lo que E3 pedía revisar una por " +
+      "una; y otra subió la captura de un modelo que no es AgroDB. En «D · la trampa del 19 750» pesó la " +
+      "evidencia: una entrega dejó comentado el primer ALTER y nunca provocó el error, y otra pegó como " +
+      "huérfanas las cosechas 2, 5 y 8, cuando su propia consulta, corrida, devuelve la 1, la 3 y la 8.",
+  15: "DAX no se puede ejecutar fuera de Power BI, así que aquí la evidencia son las capturas: cada número " +
+      "anotado se comparó contra los valores verificados de la clase, y las capturas sirvieron para " +
+      "comprobar que el número salió en pantalla. Cuatro de las cinco entregas llegaron completas, con los " +
+      "seis números del segmentador, el 100 % provocado y el 5 091,67 atrapado con el 6 contra 4. " +
+      "«E · el 5 091,67» salió muy bien: el par de medidas de una línea está entendido. Lo que se perdió fue " +
+      "puntual: una entrega nombró como sobrantes a «Aguacate Hass y Mango Tommy» —son Banano y Café, y el " +
+      "Mango sí cosechó—, otra no dijo cuáles eran, y otra dejó la última pregunta con el título y sin " +
+      "respuesta. «C · medida vs columna» queda abajo del resto por una sola entrega que no trae la parte C.",
+  16: "La pregunta de la clase era E7: la misma medida dio −35,00 % y +30,00 %, ¿cuál de las dos está mal? " +
+      "La respuesta es que ninguna —contestan preguntas distintas—, y una sola entrega lo escribió así. Otra " +
+      "contestó que está mal la de −35 %, aunque explicó bien por qué la de +30 % es la que sirve. Las tres " +
+      "entregas provocaron el −35,00 % y lo dejaron en +30,00 % sin tocar una fórmula, con captura. " +
+      "«B · el eje de tiempo» es el criterio más flojo por una entrega que no trae la parte B; en ese " +
+      "criterio no se descontó el punto de control 3, que tiene un error del enunciado (ver la tarjeta de " +
+      "abajo). Un aviso para todos: en la columna que baja sola, enero y febrero de 2026 dan −100,00 %, porque " +
+      "el acumulado de 2026 está vacío contra 2 000 y 5 800. Si en una entrega aparecen otros números ahí, no " +
+      "salieron de Power BI. Dos entregas del 16 todavía no llegan.",
+  10:"El mejor resultado de ejecución del curso: las cinco entregas corren completas de arriba " +
       "abajo sin un solo error, y las cinco cierran en 30 550 kg con foreign_key_check en cero. " +
       "Se ejecutaron las cinco contra datos/agrodb_clase10.sql en SQLite; no se leyeron los números " +
       "que cada quien anotó. El descuento que se repitió fue A2: la pregunta era cuál de los dos " +
@@ -483,7 +679,7 @@ const NOTA_RUBRICA = {
      "Lo que costó fue la migración y su verificación (D2): dos entregas no reprodujeron los costos originales, " +
      "y en un caso el propio enunciado avisaba con 11 filas en «REVISAR».",
   4: "«Verificación» es la parte E: los conteos finales y las dos demos. Es la más floja del ejercicio y no por " +
-     "dificultad — es la que se saltea cuando se acaba el tiempo. Justamente ahí estaba el error que a una entrega " +
+     "dificultad — es la que se salta cuando se acaba el tiempo. Justamente ahí estaba el error que a una entrega " +
      "le habría avisado que los insumos duplicados seguían en el catálogo. " +
      "Actualizado el 24 de agosto: A-5 volvió a entregar y pasó de 38 a 98. Su entrega original llegó como base de " +
      "datos y no como script; la corrección tiene las seis consultas de diagnóstico, los arreglos en transacción y " +
@@ -528,7 +724,7 @@ const NOTA_RUBRICA = {
      "se animaron a declararla correcta —que era el punto: encontrar que algo está bien también es un resultado. " +
      "«D1–D3 los límites» es el criterio más flojo del ejercicio y no por dificultad: cuatro entregas " +
      "contestaron los tres límites en comentario sin ejecutar nada. El error del INSERT sobre una vista está " +
-     "bien transcripto en tres de ellas y en la cuarta figura como «error esperado (o similar, depende de " +
+     "bien transcrito en tres de ellas y en la cuarta figura como «error esperado (o similar, depende de " +
      "SQLite)» — que es exactamente lo contrario de la regla del día. " +
      "«D4 fan-out heredado» tampoco cerró: dos entregas no construyeron v_costo_mal y contestaron de memoria; " +
      "una la construyó y se equivocó al decir qué siembras faltaban (dijo 3 y 8, son la 9 y la 10); y una la " +
@@ -556,13 +752,18 @@ const NOTA_RUBRICA = {
 //  RENDER
 // ===================================================================
 const etiqueta = a => USAR_ALIAS ? a.alias : a.nombre;
-const EJS = ["ej3", "ej4", "ej5", "ej6", "ej7", "ej8", "ej9", "ej10"];
+const EJS = ["ej3", "ej4", "ej5", "ej6", "ej7", "ej8", "ej9", "ej10", "ej11", "ej12", "ej14", "ej15", "ej16"];
 const SERIES = [
   ["ej3", 3, "var(--series-1)", "Ejercicio 3"], ["ej4", 4, "var(--series-2)", "Ejercicio 4"],
   ["ej5", 5, "var(--series-3)", "Ejercicio 5"], ["ej6", 6, "var(--series-4)", "Ejercicio 6"],
   ["ej7", 7, "var(--series-5)", "Ejercicio 7"], ["ej8", 8, "var(--series-6)", "Ejercicio 8"],
   ["ej9", 9, "var(--series-7)", "Ejercicio 9"],
   ["ej10", 10, "var(--series-8)", "Ejercicio 10"],
+  ["ej11", 11, "var(--series-12)", "Ejercicio 11"],
+  ["ej12", 12, "var(--series-13)", "Ejercicio 12"],
+  ["ej14", 14, "var(--series-9)", "Ejercicio 14"],
+  ["ej15", 15, "var(--series-10)", "Ejercicio 15"],
+  ["ej16", 16, "var(--series-11)", "Ejercicio 16"],
 ];
 const prom = a => {
   const v = EJS.map(k => a[k]).filter(x => x !== null && x !== undefined);
@@ -577,11 +778,14 @@ const media = k => {
   return v.reduce((s, x) => s + x, 0) / v.length;
 };
 $("#kpis").innerHTML = [
-  { label: "Entregas ej. 9 y 10", value: "5 y 5", note: "las diez corren de punta a punta" },
-  { label: "Promedio ej. 9", value: media("ej9").toFixed(1), note: "índices · sobre 100" },
-  { label: "Promedio ej. 10", value: media("ej10").toFixed(1), note: "calidad y auditoría · sobre 100" },
-  { label: "Promedio del curso", value: (ALUMNOS.reduce((s, a) => s + prom(a), 0) / ALUMNOS.length).toFixed(1), note: "ejercicios 3 a 10" },
-  { label: "Ejercicios sin entregar", value: "1", note: "el 7 de A-5, por segunda vez" },
+  { label: "Entregas ej. 14 · 15 · 16", value: "5 · 5 · 3", note: "las cinco del 14 corren en Oracle sin un error" },
+  { label: "Promedio ej. 11", value: media("ej11").toFixed(1), note: "PL/SQL en Oracle · sobre 100" },
+  { label: "Promedio ej. 12", value: media("ej12").toFixed(1), note: "carga externa · las cinco llegan a 8 654" },
+  { label: "Promedio ej. 14", value: media("ej14").toFixed(1), note: "modelo dimensional · sobre 100" },
+  { label: "Promedio ej. 15", value: media("ej15").toFixed(1), note: "DAX y contexto · sobre 100" },
+  { label: "Promedio ej. 16", value: media("ej16").toFixed(1), note: "inteligencia de tiempo · 3 entregas" },
+  { label: "Promedio del curso", value: (ALUMNOS.reduce((s, a) => s + prom(a), 0) / ALUMNOS.length).toFixed(1), note: "ejercicios 3 a 12 y 14 a 16" },
+  { label: "Ejercicios sin entregar", value: String(ALUMNOS.reduce((s, a) => s + EJS.filter(k => a[k] === null).length, 0)), note: "el 7 de A-5, y el 16 de A-2 y A-5" },
 ].map(k => `<div class="kpi"><div class="label">${k.label}</div>
    <div class="value">${k.value}</div><div class="note">${k.note}</div></div>`).join("");
 
@@ -661,8 +865,8 @@ function pintarTabla() {
       const v = a[k];
       return `<td class="num">${v === null || v === undefined ? "—" : v}</td>`;
     }).join("");
-    const hay = a.ej9 !== null && a.ej8 !== null;
-    const d = hay ? a.ej9 - a.ej8 : null;
+    const hay = a.ej15 != null && a.ej14 != null;
+    const d = hay ? a.ej15 - a.ej14 : null;
     const signo = d > 0 ? "+" : "";
     return `<tr><td>${etiqueta(a)}</td>${celdas}
       <td class="num">${prom(a).toFixed(1)}</td><td class="num">${hay ? signo + d : "—"}</td></tr>`;
@@ -730,5 +934,5 @@ document.querySelectorAll("[data-ej]").forEach(btn => btn.addEventListener("clic
 
 pintarColumnas();
 pintarTabla();
-pintarRubrica(9);
+pintarRubrica(16);   // el mismo que el boton marcado arriba (antes pintaba el 9 con el 10 marcado)
 </script>
