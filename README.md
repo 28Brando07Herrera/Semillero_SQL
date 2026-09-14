@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 18)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 19)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -59,6 +59,7 @@ proyecto-final/ enunciado y rúbrica
 | **16** | **8 sep** | **Comparar contra el año pasado · inteligencia de tiempo y el año que todavía no termina** | **Power BI (CSV)** | [clase](clases/16-inteligencia-tiempo/) |
 | **17** | **9 sep** | **La meta que no sabe de cultivos · dos tablas de hechos, dos granularidades y una medida que se calla** | **Power BI (CSV)** | [clase](clases/17-dos-hechos/) |
 | **18** | **10 sep** | **Lo que cada quien puede ver · seguridad a nivel de fila y un filtro que no llega a donde creías** | **Power BI (CSV)** | [clase](clases/18-seguridad-filas/) |
+| **19** | **14 sep** | **Un rol para todos · seguridad dinámica, y una tabla de permisos que no protegía nada** | **Power BI (CSV)** | [clase](clases/19-seguridad-dinamica/) |
 
 ---
 
@@ -82,13 +83,15 @@ Y en la 17 el modelo deja de tener **un** hecho al centro. Llega `h_meta` —la 
 
 Y en la 18 el tablero se le manda por primera vez a **alguien**: el gerente de La Unión, con el requisito de que vea su finca y nada más. Eso es un **rol**, y la primera versión es la obvia —el filtro en `h_cosecha`, porque ahí están los kilos—. Funciona: viendo como el gerente, los kilos dicen 2 100. Pero la meta dice **24 440**, la de toda la empresa, el cumplimiento **8,59 %** en vez de **42,00 %**, y la tabla por finca le enseña **el presupuesto de las otras dos**. La seguridad también es un filtro, y viaja solo por las relaciones: desde `h_cosecha` no llega a `h_meta`. Lo atrapa el `[Filas de meta]` de ayer, que no se mueve con el rol, y se arregla subiendo la condición a `dim_finca`. En la clase 13 Oracle contestó `ORA-00942`; hoy nadie contestó nada.
 
+Y en la 19 se pasa de tres roles escritos a mano a **uno solo para todos**: llega `seguridad.csv`, una tabla con un correo y una finca por permiso, y el rol pregunta quién está mirando con `USERPRINCIPALNAME()`. La primera versión pone la condición donde está el correo, en la tabla de permisos, y sí filtra: la lista de permisos baja a una fila. Pero el gerente de La Unión lee **30 550** kilos y **125,00 %**, y un practicante que no está en la tabla **ve la empresa entera**. La tabla de permisos es una tabla más, y el filtro no sube de ella a `dim_finca`. La condición va en la dimensión y **consulta** la tabla: con `LOOKUPVALUE` funciona para los gerentes y **truena con el regional**, que tiene dos fincas —el único error con mensaje de la semana, y el bueno—, y con `IN` y `CALCULATETABLE` el regional ve sus dos fincas, **113,23 %**, y el practicante no ve nada.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las dieciocho clases, es esta:
+Si hay una sola cosa que llevarse de las diecinueve clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -107,6 +110,7 @@ Si hay una sola cosa que llevarse de las dieciocho clases, es esta:
 | 16 | una caída del 35 % que comparaba cuatro meses contra doce | nada |
 | 17 | una meta mensual por finca repartida entre cultivos que no existen en ella | nada — **hasta que la medida aprendió a callarse** |
 | 18 | un rol puesto en la tabla de cosechas que le enseñó al gerente de una finca la meta de toda la empresa | nada — **pero el `[Filas de meta]` de ayer lo atrapó** |
+| 19 | un rol puesto en la tabla de permisos que le dejó la empresa entera a cada gerente, y a quien no tenía ningún permiso | nada — **el único error con mensaje fue el del arreglo a medias** |
 
 ---
 
