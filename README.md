@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 20)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 21)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -61,6 +61,7 @@ proyecto-final/ enunciado y rúbrica
 | **18** | **10 sep** | **Lo que cada quien puede ver · seguridad a nivel de fila y un filtro que no llega a donde creías** | **Power BI (CSV)** | [clase](clases/18-seguridad-filas/) |
 | **19** | **14 sep** | **Un rol para todos · seguridad dinámica, y una tabla de permisos que no protegía nada** | **Power BI (CSV)** | [clase](clases/19-seguridad-dinamica/) |
 | **20** | **15 sep** | **El Top 3 que tenía dos · rankings con `RANKX`, y un podio que competía contra lo que no se veía** | **Power BI (CSV)** | [clase](clases/20-ranking-top-n/) |
+| **21** | **16 sep** | **El total que se comió el faltante · totales de medidas con `SUMX`, y una fila de total que no era la suma de nada** | **Power BI (CSV)** | [clase](clases/21-totales-sumx/) |
 
 ---
 
@@ -88,13 +89,15 @@ Y en la 19 se pasa de tres roles escritos a mano a **uno solo para todos**: lleg
 
 Y en la 20 nadie se esconde de nadie: la pregunta es la más vieja de los tableros, **¿quiénes son los primeros?** Un Top 3 es un filtro sobre un lugar, y el lugar se calcula con `RANKX`. La primera versión pone **a los cuatro cultivos en primer lugar**, porque en cada fila la carrera tiene un solo corredor; con `ALL` los lugares salen bien, y callando los vacíos queda un Top 3 de **28 450** kilos. Pero en cuanto el gerente marca **perenne** en un segmentador, el Top 3 **se queda con dos filas**: Mango en 1, Guayaba en **3**, y el Cacao fuera. `ALL` quitó también el filtro del segmentador, y el maíz, escondido en la pantalla, **siguió compitiendo y se quedó con el segundo lugar**. Con `ALLSELECTED` el ranking compite contra lo que se está viendo y el Top 3 suma **20 750**. Las dos medidas están bien: contestan preguntas distintas, y **el tablero no dice cuál escogiste**.
 
+Y en la 21 la pregunta es la más inocente de todas: **la última fila de la tabla**. La gerencia paga bono por cada kilo arriba de la meta y apoyo por cada kilo abajo, y las dos medidas son de una línea: `MAX( 0 , [Kilos] - [Meta] )`. Por finca salen bien —El Guayabo **4 810**, Santa Rosa **4 200**, La Unión **2 900** de faltante—, pero el total dice **6 110** de bono y **0** de faltante, cuando la columna suma 9 010 y 2 900. La fila del total **no suma las filas**: vuelve a hacer la cuenta con toda la empresa, y ahí el faltante de La Unión **se compensa** con el bono de las otras dos. Con el año completo las tres fincas están abajo de la meta y el total cuadra, así que la prueba de siempre no lo atrapa. `SUMX` sobre las fincas lo arregla, y en cuanto el gerente lo pide **por mes** vuelve a pasar: la columna suma **18 450** y el total dice 9 010. Las tres cifras salen de la misma línea, recorrida de tres maneras, y **cuál es el bono lo decide la regla, no DAX**.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veinte clases, es esta:
+Si hay una sola cosa que llevarse de las veintiún clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -115,6 +118,7 @@ Si hay una sola cosa que llevarse de las veinte clases, es esta:
 | 18 | un rol puesto en la tabla de cosechas que le enseñó al gerente de una finca la meta de toda la empresa | nada — **pero el `[Filas de meta]` de ayer lo atrapó** |
 | 19 | un rol puesto en la tabla de permisos que le dejó la empresa entera a cada gerente, y a quien no tenía ningún permiso | nada — **el único error con mensaje fue el del arreglo a medias** |
 | 20 | un Top 3 de cultivos perennes que salió con dos filas, porque el ranking competía contra el maíz que el segmentador escondía | nada — **y el `ALL` que lo causó fue el mismo que arregló el primer intento** |
+| 21 | un faltante de 2 900 kilos que la fila del total borró, porque restó la meta de la empresa contra la cosecha de la empresa | nada — **el total estaba bien calculado: la suma era la que nadie hizo** |
 
 ---
 
