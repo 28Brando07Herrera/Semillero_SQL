@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 21)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 22)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -62,6 +62,7 @@ proyecto-final/ enunciado y rúbrica
 | **19** | **14 sep** | **Un rol para todos · seguridad dinámica, y una tabla de permisos que no protegía nada** | **Power BI (CSV)** | [clase](clases/19-seguridad-dinamica/) |
 | **20** | **15 sep** | **El Top 3 que tenía dos · rankings con `RANKX`, y un podio que competía contra lo que no se veía** | **Power BI (CSV)** | [clase](clases/20-ranking-top-n/) |
 | **21** | **16 sep** | **El total que se comió el faltante · totales de medidas con `SUMX`, y una fila de total que no era la suma de nada** | **Power BI (CSV)** | [clase](clases/21-totales-sumx/) |
+| **22** | **17 sep** | **La meta que nadie marcó · tablas desconectadas con `SELECTEDVALUE`, y un segmentador que el tablero no obedecía** | **Power BI (CSV)** | [clase](clases/22-tablas-desconectadas/) |
 
 ---
 
@@ -91,13 +92,15 @@ Y en la 20 nadie se esconde de nadie: la pregunta es la más vieja de los tabler
 
 Y en la 21 la pregunta es la más inocente de todas: **la última fila de la tabla**. La gerencia paga bono por cada kilo arriba de la meta y apoyo por cada kilo abajo, y las dos medidas son de una línea: `MAX( 0 , [Kilos] - [Meta] )`. Por finca salen bien —El Guayabo **4 810**, Santa Rosa **4 200**, La Unión **2 900** de faltante—, pero el total dice **6 110** de bono y **0** de faltante, cuando la columna suma 9 010 y 2 900. La fila del total **no suma las filas**: vuelve a hacer la cuenta con toda la empresa, y ahí el faltante de La Unión **se compensa** con el bono de las otras dos. Con el año completo las tres fincas están abajo de la meta y el total cuadra, así que la prueba de siempre no lo atrapa. `SUMX` sobre las fincas lo arregla, y en cuanto el gerente lo pide **por mes** vuelve a pasar: la columna suma **18 450** y el total dice 9 010. Las tres cifras salen de la misma línea, recorrida de tres maneras, y **cuál es el bono lo decide la regla, no DAX**.
 
+Y en la 22 la gerencia pregunta **qué pasa si sube la meta**, y los niveles —del 100 al 150 %— no están en ningún CSV: se escriben a mano en una tabla que **no se relaciona con nada**. Un segmentador sobre ella no mueve ni un número, porque el filtro viaja por las relaciones; hace falta una medida que **pregunte** qué quedó marcado, y eso es `SELECTEDVALUE`. Nivel por nivel funciona: al 130 la empresa cae a **96,15 %**. Pero el gerente marca **130 y 150** para compararlos, y la tabla dice **125,00 %**, la meta de siempre: con dos valores `SELECTEDVALUE` devuelve **el alternativo**, y el alternativo era 100, un nivel que nadie marcó. En la matriz con los seis niveles pasa lo mismo en la columna Total, que dice **5 000** donde las columnas suman 37 500. El arreglo es el de la 17 con otra función: con `HASONEVALUE`, la medida **se calla** cuando no sabe qué nivel usar.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veintiún clases, es esta:
+Si hay una sola cosa que llevarse de las veintidós clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -119,6 +122,7 @@ Si hay una sola cosa que llevarse de las veintiún clases, es esta:
 | 19 | un rol puesto en la tabla de permisos que le dejó la empresa entera a cada gerente, y a quien no tenía ningún permiso | nada — **el único error con mensaje fue el del arreglo a medias** |
 | 20 | un Top 3 de cultivos perennes que salió con dos filas, porque el ranking competía contra el maíz que el segmentador escondía | nada — **y el `ALL` que lo causó fue el mismo que arregló el primer intento** |
 | 21 | un faltante de 2 900 kilos que la fila del total borró, porque restó la meta de la empresa contra la cosecha de la empresa | nada — **el total estaba bien calculado: la suma era la que nadie hizo** |
+| 22 | un simulador con la meta al 130 % y al 150 % marcadas que calculó con la de 100 %, porque así decía el valor alternativo | nada — **el nivel que usó lo habíamos escrito nosotros, para cuando nadie marcara nada** |
 
 ---
 
