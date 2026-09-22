@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 23)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 24)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -64,6 +64,7 @@ proyecto-final/ enunciado y rúbrica
 | **21** | **16 sep** | **El total que se comió el faltante · totales de medidas con `SUMX`, y una fila de total que no era la suma de nada** | **Power BI (CSV)** | [clase](clases/21-totales-sumx/) |
 | **22** | **17 sep** | **La meta que nadie marcó · tablas desconectadas con `SELECTEDVALUE`, y un segmentador que el tablero no obedecía** | **Power BI (CSV)** | [clase](clases/22-tablas-desconectadas/) |
 | **23** | **21 sep** | **El rojo que sí cumplía · formato condicional y KPI, y un semáforo que pintaba según los demás** | **Power BI (CSV)** | [clase](clases/23-formato-condicional-kpi/) |
+| **24** | **22 sep** | **Diez números para la gerencia · mini proyecto autoguiado: el tablero completo desde un `.pbix` vacío** | **Power BI (CSV)** | [clase](clases/24-mini-proyecto-tablero/) |
 
 ---
 
@@ -97,13 +98,15 @@ Y en la 22 la gerencia pregunta **qué pasa si sube la meta**, y los niveles —
 
 Y en la 23 no se escribe casi ninguna medida: se **pinta**. La gerencia no quiere leer números, quiere ver **quién cumple, en verde o en rojo**, y un **KPI** arriba del tablero. El degradado y una regla de 5 000 kilos salen bien, y la regla de «verde si cumple» se escribe con el tipo que parece obvio para una columna en porcentaje: **Porcentaje**. La Unión sale en rojo, El Guayabo en verde, y **Santa Rosa, al 142,00 %, en rojo**. En una regla, Porcentaje no es el valor: es la posición **dentro del rango** entre el mínimo y el máximo de la tabla, y Santa Rosa está en el **91,78 %**. Con perenne marcado se pone verde **sin que su número cambie**. El arreglo es que el color lo diga **una medida**, con Valor del campo. Y el KPI hace lo mismo con el tiempo: dice **19 750** contra 8 300, **+137,95 %**, junto a una tarjeta con 30 550, porque enseña **el último punto de su eje**, que es abril. Con `TOTALYTD` enseña el año: **30 550 contra 24 440, +25,00 %**. Un color también es una cuenta, y **se audita como cualquier medida**.
 
+Y en la 24 no hay tema nuevo: hay **un proyecto**, autoguiado, de hora y media a dos horas. Un `.pbix` vacío, los seis CSV de la 19, y el tablero completo que la gerencia lleva pidiendo diez clases: las **seis relaciones dibujadas a mano** en la vista de modelo, el semáforo, el KPI del año y un rol dinámico probado **como gerente, como regional y como practicante**, más el alta de un permiso sin abrir el rol. No hay trampa nueva porque están todas las anteriores esperando en el mismo lienzo, así que la calificación es **un checklist de diez números** que solo salen si se esquivaron: el total en **125,00 %** y no en 65,00 %, Santa Rosa verde, el KPI en **30 550** y no en 19 750, el gerente de La Unión en **42,00 %**, el regional en **113,23 %** y el practicante sin nada.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veintitrés clases, es esta:
+Si hay una sola cosa que llevarse de las veinticuatro clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -127,6 +130,7 @@ Si hay una sola cosa que llevarse de las veintitrés clases, es esta:
 | 21 | un faltante de 2 900 kilos que la fila del total borró, porque restó la meta de la empresa contra la cosecha de la empresa | nada — **el total estaba bien calculado: la suma era la que nadie hizo** |
 | 22 | un simulador con la meta al 130 % y al 150 % marcadas que calculó con la de 100 %, porque así decía el valor alternativo | nada — **el nivel que usó lo habíamos escrito nosotros, para cuando nadie marcara nada** |
 | 23 | un semáforo que pintó de rojo a una finca al 142 % de su meta, porque «Porcentaje» comparaba contra el rango, y un KPI que enseñó abril como si fuera el año | nada — **los números estaban bien: lo que mentía era el color** |
+| 24 | ninguna trampa nueva: un tablero armado desde cero, con las de las clases 14 a 23 esperándolo en el mismo lienzo | nada — **por eso el checklist son diez números, no diez palomitas** |
 
 ---
 
