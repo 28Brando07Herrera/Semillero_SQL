@@ -65,6 +65,7 @@ proyecto-final/ enunciado y rúbrica
 | **22** | **17 sep** | **La meta que nadie marcó · tablas desconectadas con `SELECTEDVALUE`, y un segmentador que el tablero no obedecía** | **Power BI (CSV)** | [clase](clases/22-tablas-desconectadas/) |
 | **23** | **21 sep** | **El rojo que sí cumplía · formato condicional y KPI, y un semáforo que pintaba según los demás** | **Power BI (CSV)** | [clase](clases/23-formato-condicional-kpi/) |
 | **24** | **22 sep** | **Diez números para la gerencia · mini proyecto autoguiado: el tablero completo desde un `.pbix` vacío** | **Power BI (CSV)** | [clase](clases/24-mini-proyecto-tablero/) |
+| **25** | **23 sep** | **Examen práctico · 90 minutos en un formulario: SQL sobre AgroDB y Power BI sobre los CSV de la 19, y cada opción incorrecta es una trampa del curso** | **SQLite + Power BI (CSV)** | [clase](clases/25-examen-practico/) |
 
 ---
 
