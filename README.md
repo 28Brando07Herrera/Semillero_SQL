@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 24)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 26)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -66,6 +66,7 @@ proyecto-final/ enunciado y rúbrica
 | **23** | **21 sep** | **El rojo que sí cumplía · formato condicional y KPI, y un semáforo que pintaba según los demás** | **Power BI (CSV)** | [clase](clases/23-formato-condicional-kpi/) |
 | **24** | **22 sep** | **Diez números para la gerencia · mini proyecto autoguiado: el tablero completo desde un `.pbix` vacío** | **Power BI (CSV)** | [clase](clases/24-mini-proyecto-tablero/) |
 | **25** | **23 sep** | **Examen práctico · 90 minutos en un formulario: SQL sobre AgroDB y Power BI sobre los CSV de la 19, y cada opción incorrecta es una trampa del curso** | **SQLite + Power BI (CSV)** | [clase](clases/25-examen-practico/) |
+| **26** | **24 sep** | **Los kilos que llegaron en otro mes · relaciones inactivas y `USERELATIONSHIP`, y una fecha que el modelo tenía pero no usaba** | **Power BI (CSV)** | [clase](clases/26-relaciones-inactivas/) |
 
 ---
 
@@ -101,13 +102,15 @@ Y en la 23 no se escribe casi ninguna medida: se **pinta**. La gerencia no quier
 
 Y en la 24 no hay tema nuevo: hay **un proyecto**, autoguiado, de hora y media a dos horas. Un `.pbix` vacío, los seis CSV de la 19, y el tablero completo que la gerencia lleva pidiendo diez clases: las **seis relaciones dibujadas a mano** en la vista de modelo, el semáforo, el KPI del año y un rol dinámico probado **como gerente, como regional y como practicante**, más el alta de un permiso sin abrir el rol. No hay trampa nueva porque están todas las anteriores esperando en el mismo lienzo, así que la calificación es **un checklist de diez números** que solo salen si se esquivaron: el total en **125,00 %** y no en 65,00 %, Santa Rosa verde, el KPI en **30 550** y no en 19 750, el gerente de La Unión en **42,00 %**, el regional en **113,23 %** y el practicante sin nada.
 
+Y en la 26 `h_cosecha` llega con **dos fechas**: la del corte y la de la entrega, que es cuando finanzas cobra. Entre las mismas dos tablas puede haber varias relaciones pero solo una activa, así que la de `fecha_entrega` queda **punteada**. La medida obvia de «kilos entregados» —un `SUM`— sale **idéntica** a `[Kilos]`, **30 550**, porque el mes llega por la relación activa, la del corte, y el nombre de la medida no elige el camino. Con `USERELATIONSHIP` dice **21 050**: enero gana el cacao que se cortó en diciembre y abril pierde el maíz que se entregó en mayo. Y el atajo de activar la otra relación hace que el `SUM` funcione, pero mueve todo lo demás sin tocar una medida: la empresa baja de 125,00 % a **86,13 %**.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veinticuatro clases, es esta:
+Si hay una sola cosa que llevarse de las veintiséis clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -132,6 +135,7 @@ Si hay una sola cosa que llevarse de las veinticuatro clases, es esta:
 | 22 | un simulador con la meta al 130 % y al 150 % marcadas que calculó con la de 100 %, porque así decía el valor alternativo | nada — **el nivel que usó lo habíamos escrito nosotros, para cuando nadie marcara nada** |
 | 23 | un semáforo que pintó de rojo a una finca al 142 % de su meta, porque «Porcentaje» comparaba contra el rango, y un KPI que enseñó abril como si fuera el año | nada — **los números estaban bien: lo que mentía era el color** |
 | 24 | ninguna trampa nueva: un tablero armado desde cero, con las de las clases 14 a 23 esperándolo en el mismo lienzo | nada — **por eso el checklist son diez números, no diez palomitas** |
+| 26 | una columna de «kilos entregados» idéntica a la de cosechados, porque la relación con la fecha de entrega estaba dibujada pero inactiva | nada — **la relación estaba; la medida nunca la pidió** |
 
 ---
 
