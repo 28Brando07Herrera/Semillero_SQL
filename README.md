@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 27)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 28)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -68,6 +68,7 @@ proyecto-final/ enunciado y rúbrica
 | **25** | **23 sep** | **Examen práctico · 90 minutos en un formulario: SQL sobre AgroDB y Power BI sobre los CSV de la 19, y cada opción incorrecta es una trampa del curso** | **SQLite + Power BI (CSV)** | [clase](clases/25-examen-practico/) |
 | **26** | **24 sep** | **Los kilos que llegaron en otro mes · relaciones inactivas y `USERELATIONSHIP`, y una fecha que el modelo tenía pero no usaba** | **Power BI (CSV)** | [clase](clases/26-relaciones-inactivas/) |
 | **27** | **25 sep** | **La fecha al revés · Power Query y la configuración regional, y un botón de «Quitar errores» que quitó filas** | **Power BI (CSV)** | [clase](clases/27-power-query-fechas/) |
+| **28** | **28 sep** | **Cada cosecha, dos veces · Combinar consultas en Power Query, y una llave a la que le faltaba la calidad** | **Power BI (CSV)** | [clase](clases/28-combinar-consultas/) |
 
 ---
 
@@ -107,13 +108,15 @@ Y en la 26 `h_cosecha` llega con **dos fechas**: la del corte y la de la entrega
 
 Y en la 27 se abre por primera vez la puerta por donde entran los datos: **Power Query**. Desde mayo las fincas pesan en básculas digitales, y el sistema de las básculas exporta un CSV con las fechas en **mes/día/año**. En español, `05/07/2026` se lee **5 de julio**. Tres fechas no existen —no hay mes 14— y salen como `Error`; el botón obvio, **Quitar errores**, deja la columna **100 % válida** y se lleva **3 500 kg**. Las otras siete se leyeron con la misma regla: seis **al revés** sin quejarse, y una bien por casualidad. Mayo a agosto dice **10 000** en vez de **16 700**, El Guayabo sale en **17,75 %** de su meta, y un cacao del 2 de julio aterriza el **7 de febrero** y mueve el número de control de enero–abril a **30 950**. El arreglo es escribir la regla **en el paso**: **Usar configuración regional → Inglés (Estados Unidos)**, y todo regresa a **16 700** y **30 550**.
 
+Y en la 28 la gerencia pide **dinero**: comercial manda `precios.csv`, el precio por kilo de cada cultivo **según su calidad**, y hay que llevarlo a cada cosecha con **Combinar consultas**, el `JOIN` de la clase 1 con botones. La combinación obvia es por `cultivo_id`: Power Query dice **«coincide con 25 de 25»** y los ingresos salen en **28 080**, a los cincuenta y tantos centavos por kilo que esperaba comercial. Pero `h_cosecha` pasó de 25 a **46 filas**, el control dice **51 300** y La Unión está en **84,00 %** sin cortar un kilo más: cada cosecha de mango encontró **dos** precios. Es el *fan-out* de la clase 5. El segundo arreglo obvio, **Quitar duplicados**, devuelve el **30 550** y pasa todas las pruebas, y cobra el mango de segunda a precio de primera: **18 110**. La llave de `precios` es **el cultivo y la calidad**, y con las dos, **17 120**.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veintiséis clases, es esta:
+Si hay una sola cosa que llevarse de las veintiocho clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -140,6 +143,7 @@ Si hay una sola cosa que llevarse de las veintiséis clases, es esta:
 | 24 | ninguna trampa nueva: un tablero armado desde cero, con las de las clases 14 a 23 esperándolo en el mismo lienzo | nada — **por eso el checklist son diez números, no diez palomitas** |
 | 26 | una columna de «kilos entregados» idéntica a la de cosechados, porque la relación con la fecha de entrega estaba dibujada pero inactiva | nada — **la relación estaba; la medida nunca la pidió** |
 | 27 | un archivo de mayo a agosto que, con los errores quitados, dejó la columna 100 % válida, seis fechas al revés y un cacao de julio en febrero | nada — **los tres `Error` eran el único aviso, y el botón los borró** |
+| 28 | una combinación por cultivo que duplicó 21 cosechas, y un `Quitar duplicados` que las devolvió a 25 con el precio equivocado | nada — **«coincide con 25 de 25» era verdad: contaba parejas, no cuántas** |
 
 ---
 
