@@ -1,0 +1,215 @@
+# Ejercicio práctico 18 · Mándale el tablero al gerente de La Unión sin enseñarle lo de los demás
+
+- **Alumno:** Cortez Cardozo Axel Josue
+- **Entrega:** `entregas/cortez-axel/Ejercicio18_Cortez_Axel.md`, `entregas/cortez-axel/clase18-ver-como.png`
+
+---
+
+## Parte A · La foto sin seguridad
+
+### A1. Punto de control 1 (Tabla por finca sin rol)
+
+| Finca | `[Kilos]` | `[Cosechas]` | `[Meta]` | `[Filas de meta]` | `[Cumplimiento]` |
+|---|---|---|---|---|---|
+| Agricola La Union | 2 100 | 2 | 5 000 | 4 | **42,00 %** |
+| Finca El Guayabo | 14 250 | 3 | 9 440 | 4 | **150,95 %** |
+| Hacienda Santa Rosa | 14 200 | 4 | 10 000 | 4 | **142,00 %** |
+| **Total** | **30 550** | **9** | **24 440** | **12** | **125,00 %** |
+
+### A2. Columnas con información de las otras fincas
+Contienen información de las demás fincas las filas de Finca El Guayabo y Hacienda Santa Rosa en todas sus columnas métricas, así como la fila de Total general que agrega los resultados consolidados de toda la empresa.
+
+---
+
+## Parte B · El rol obvio
+
+### B1. Rol Gerente La Union (primera versión en tabla de hechos)
+
+```dax
+Tabla:     h_cosecha
+Condición: [finca_id] = 3
+```
+
+Viendo como Gerente La Union, [Kilos]: 2100
+
+### B2. Punto de control 2 (Tarjetas con Ver como)
+
+| Medida | Viendo como Gerente La Union |
+|---|---|
+| `[Kilos]` | **2 100** |
+| `[Cosechas]` | **2** |
+| `[Meta]` | **24 440** |
+| `[Cumplimiento]` | **8,59 %** |
+
+### B3. Mensaje de error o advertencia de Power BI
+Ninguno. Power BI no mostró errores ni alertas; ejecutó los cálculos normalmente y desplegó 8,59 % como un resultado aparentemente válido.
+
+### B4. Evaluación preliminar del rol
+Sí, si únicamente se hubieran revisado las tarjetas de volumen (Kilos y Cosechas) se habría dado por bueno erróneamente porque ambas coinciden con la operación real de La Unión.
+
+### B5. Explicación del 8,59 %
+El 8,59 % resulta de dividir los 2 100 kg cosechados por La Unión entre los 24 440 kg de la meta total de toda la empresa en ese período. Ese mismo 8,59 % apareció en la clase 17 en la fila de Cacao al dividir sus 2 100 kg contra la meta global no filtrada.
+
+---
+
+## Parte C · La fuga
+
+### C1. Punto de control 3 (Tabla por finca con rol en h_cosecha)
+
+| Finca | `[Kilos]` | `[Cosechas]` | `[Meta]` | `[Filas de meta]` | `[Cumplimiento]` |
+|---|---|---|---|---|---|
+| Agricola La Union | 2 100 | 2 | 5 000 | 4 | 42,00 % |
+| Finca El Guayabo | *(vacío)* | *(vacío)* | **9 440** | **4** | *(vacío)* |
+| Hacienda Santa Rosa | *(vacío)* | *(vacío)* | **10 000** | **4** | *(vacío)* |
+| **Total** | **2 100** | **2** | **24 440** | **12** | **8,59 %** |
+
+### C2. Fuga de información visible para el gerente
+El gerente de La Unión tiene en pantalla los nombres de sus competidores internos (Finca El Guayabo y Hacienda Santa Rosa), sus metas individuales en kg (9 440 y 10 000) y el conteo de registros presupuestarios mensuales (4 en cada una).
+
+### C3. Razón de aparición de las otras fincas
+Aparecen porque la medida `[Meta]` devuelve valores no vacíos para esas fincas desde la tabla `h_meta`, la cual no está afectada por el filtro de seguridad de `h_cosecha`.
+
+### C4. Opciones en el segmentador de fincas
+El segmentador ofrece 3 opciones (las tres fincas de la empresa).
+
+### C5. Punto de control 4 (Comparación de filas de control)
+
+| Medida | Sin rol | Viendo como Gerente La Union |
+|---|---|---|
+| `[Cosechas]` | 9 | **2** |
+| `[Filas de meta]` | 12 | **12** |
+
+### C6. Mecánica relacional del fallo de filtrado
+El rol filtra las filas de `h_cosecha`, pero los filtros viajan desde las dimensiones hacia los hechos siguiendo la dirección de las relaciones. No existe propagación de filtro desde `h_cosecha` hacia `dim_finca`, ni de `dim_finca` hacia `h_meta`, dejando a `h_meta` completamente desprotegida.
+
+### C7. Regla de detección
+Si un rol de seguridad filtra una tabla de hechos pero otra tabla de hechos mantiene su conteo de filas intacto en el total, la seguridad no está cubriendo el modelo completo.
+
+---
+
+## Parte D · Los otros dos gerentes
+
+### D1. Roles para El Guayabo y Santa Rosa en h_cosecha
+
+```dax
+Tabla:     h_cosecha
+Condición: [finca_id] = 2
+```
+
+Viendo como Gerente El Guayabo, [Cumplimiento]: 58,31 %
+
+```dax
+Tabla:     h_cosecha
+Condición: [finca_id] = 1
+```
+
+Viendo como Gerente Santa Rosa, [Cumplimiento]: 58,10 %
+
+#### Punto de control 5
+
+| Viendo como… | `[Cumplimiento]` | Lo que debería ver (parte A) |
+|---|---|---|
+| Gerente La Union | **8,59 %** | 42,00 % |
+| Gerente El Guayabo | **58,31 %** | 150,95 % |
+| Gerente Santa Rosa | **58,10 %** | 142,00 % |
+
+### D2. Suma de porcentajes distorsionados
+8,59 % + 58,31 % + 58,10 % = **125,00 %**. Coincide con el cumplimiento general de la empresa y con la suma de los porcentajes por cultivo de la clase 17, aprobando de forma engañosa las revisiones superficiales.
+
+### D3. Impacto en la toma de decisiones
+Al ver 58,31 % en lugar de su 150,95 % real, el gerente creerá que está en grave incumplimiento operativo y podría sobreexplotar recursos o acelerar cosechas de manera innecesaria.
+
+### D4. Selección múltiple de roles
+`[Kilos]` suma los kilos de las fincas involucradas (los roles de seguridad operan bajo lógica de unión disyuntiva OR, sumando permisos en lugar de intersectarlos).
+
+---
+
+## Parte E · El rol en la dimensión
+
+### E1. Definición de roles en dim_finca
+
+```dax
+Tabla:     dim_finca
+Condición: [finca] = "Agricola La Union"
+```
+
+Viendo como Gerente La Union, [Kilos]: 2100
+
+```dax
+Tabla:     dim_finca
+Condición: [finca] = "Finca El Guayabo"
+```
+
+Viendo como Gerente El Guayabo, [Kilos]: 14250
+
+```dax
+Tabla:     dim_finca
+Condición: [finca] = "Hacienda Santa Rosa"
+```
+
+Viendo como Gerente Santa Rosa, [Kilos]: 14200
+
+### E2. Punto de control 6 (Tabla por finca con rol en dim_finca)
+
+| Finca | `[Kilos]` | `[Cosechas]` | `[Meta]` | `[Filas de meta]` | `[Cumplimiento]` |
+|---|---|---|---|---|---|
+| Agricola La Union | 2 100 | 2 | **5 000** | **4** | **42,00 %** |
+| **Total** | **2 100** | **2** | **5 000** | **4** | **42,00 %** |
+
+### E3. Validez de la tarjeta de kilos
+La tarjeta de kilos por sí sola no prueba que el rol sea seguro, ya que solo valida el filtrado sobre una tabla de hechos y oculta fugas en las demás dimensiones o hechos relacionados.
+
+### E4. Punto de control 7 (Validación de los tres gerentes)
+
+| Viendo como… | `[Meta]` | `[Filas de meta]` | `[Cumplimiento]` |
+|---|---|---|---|
+| Gerente La Union | 5 000 | 4 | **42,00 %** |
+| Gerente El Guayabo | 9 440 | 4 | **150,95 %** |
+| Gerente Santa Rosa | 10 000 | 4 | **142,00 %** |
+
+### E5. Escalabilidad frente a nuevas tablas de hechos
+Al estar en `dim_finca`, el filtro de seguridad se propagará automáticamente hacia `h_jornales` a través de la relación existente sin requerir cambios. Si estuviera en `h_cosecha`, la nueva tabla `h_jornales` quedaría totalmente desprotegida y expuesta.
+
+---
+
+## Parte F · Lo que el rol no deja ver, tampoco lo ve DAX
+
+### F1. Medida Participacion
+
+```dax
+Participacion = DIVIDE( [Kilos] , CALCULATE( [Kilos] , ALL( dim_finca ) ) )
+```
+
+Resultado sin rol: 100,00 % en el total
+
+#### Punto de control 8
+
+| Finca | `[Participacion]` sin rol |
+|---|---|
+| Agricola La Union | **6,87 %** |
+| Finca El Guayabo | **46,64 %** |
+| Hacienda Santa Rosa | **46,48 %** |
+| **Total** | **100,00 %** |
+
+### F2. Punto de control 9 (Participación con rol de seguridad activo)
+
+| Finca | `[Participacion]` viendo como Gerente La Union |
+|---|---|
+| Agricola La Union | **100,00 %** |
+| **Total** | **100,00 %** |
+
+### F3. Por qué ALL no recupera los datos de las otras fincas
+`ALL` remueve los filtros visuales dentro del contexto de evaluación de DAX, pero la seguridad a nivel de fila (RLS) actúa antes, a nivel de consulta física en el motor; para el usuario con rol, las filas de las demás fincas simplemente no existen en la memoria del modelo.
+
+### F4. Solución organizativa para requerimientos de cuota global
+No se soluciona modificando la fórmula DAX. La dirección del negocio debe decidir a nivel de gobierno de datos si los gerentes tienen autorización para conocer el consolidado global de la compañía; de ser así, se requiere diseñar métricas desvinculadas de la dimensión protegida o habilitar un rol de acceso específico.
+
+---
+
+## Parte G · Preguntas de cierre
+
+1. **Regla de ubicación de roles RLS:** Los roles de seguridad deben implementarse en las tablas de dimensiones, ya que los filtros se propagan en cascada hacia todas las tablas de hechos relacionadas de forma natural.
+2. **Seguridad en base de datos vs seguridad en el modelo:** La base de datos aplica restricciones a nivel de acceso de esquemas y rechaza la consulta con un error de permisos; el modelo tabular ejecuta la consulta con éxito ocultando el contexto relacional, produciendo cálculos aritméticamente válidos pero conceptualmente falsos.
+3. **Validación integral de roles:** Se debe colocar la dimensión protegida en las filas de una tabla para verificar que solo figure la entidad autorizada, y una medida de conteo de filas como `COUNTROWS` sobre cada tabla de hechos; una simple tarjeta de suma escalar no sirve para validar la seguridad.
+4. **Relación entre los errores de las clases 17 y 18:** Es exactamente el mismo error conceptual: una falla de propagación de filtros donde una tabla de hechos no recibe el contexto adecuado y evalúa la totalidad de sus registros, ya sea por falta de relación física o por una mala ubicación del rol de seguridad.
+5. **Medida detectora transversal:** `COUNTROWS( h_meta )` (o `[Filas de meta]`), que evidenció un valor constante de 12 registros cuando el contexto debía estar segmentado.
