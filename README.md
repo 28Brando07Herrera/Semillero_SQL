@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 28)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 29)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -69,6 +69,7 @@ proyecto-final/ enunciado y rúbrica
 | **26** | **24 sep** | **Los kilos que llegaron en otro mes · relaciones inactivas y `USERELATIONSHIP`, y una fecha que el modelo tenía pero no usaba** | **Power BI (CSV)** | [clase](clases/26-relaciones-inactivas/) |
 | **27** | **25 sep** | **La fecha al revés · Power Query y la configuración regional, y un botón de «Quitar errores» que quitó filas** | **Power BI (CSV)** | [clase](clases/27-power-query-fechas/) |
 | **28** | **28 sep** | **Cada cosecha, dos veces · Combinar consultas en Power Query, y una llave a la que le faltaba la calidad** | **Power BI (CSV)** | [clase](clases/28-combinar-consultas/) |
+| **29** | **29 sep** | **La finca que se llamaba Total · Anular dinamización en Power Query, y un total de la hoja que se sumó otra vez** | **Power BI (CSV)** | [clase](clases/29-anular-dinamizacion/) |
 
 ---
 
@@ -110,13 +111,15 @@ Y en la 27 se abre por primera vez la puerta por donde entran los datos: **Power
 
 Y en la 28 la gerencia pide **dinero**: comercial manda `precios.csv`, el precio por kilo de cada cultivo **según su calidad**, y hay que llevarlo a cada cosecha con **Combinar consultas**, el `JOIN` de la clase 1 con botones. La combinación obvia es por `cultivo_id`: Power Query dice **«coincide con 25 de 25»** y los ingresos salen en **28 080**, a los cincuenta y tantos centavos por kilo que esperaba comercial. Pero `h_cosecha` pasó de 25 a **46 filas**, el control dice **51 300** y La Unión está en **84,00 %** sin cortar un kilo más: cada cosecha de mango encontró **dos** precios. Es el *fan-out* de la clase 5. El segundo arreglo obvio, **Quitar duplicados**, devuelve el **30 550** y pasa todas las pruebas, y cobra el mango de segunda a precio de primera: **18 110**. La llave de `precios` es **el cultivo y la calidad**, y con las dos, **17 120**.
 
+Y en la 29 planeación cambia de sistema y deja de mandar `h_meta`: manda **su hoja**, una fila por finca y una columna por mes, con el correo de que son las mismas metas de siempre, 47 000 kg. Para que el modelo la use hay que **anular la dinamización**: se marcan las columnas que se quedan, `finca_id` y `finca`, y cada celda se vuelve una fila. La hoja trae dos totales. La **columna** Total se vuelve un «mes» que se llama `Total` y da **cuatro `Error`** al pasar a fecha: esta vez el aviso se lee y se filtra por su nombre. La **fila** Total no da ninguno: entra como **una finca más**, con doce meses válidos, y la tabla de control saca una fila `(En blanco)` con **24 440** y baja a la empresa de 125,00 % a **62,50 %**, con cada finca exacta. El segundo arreglo obvio, un **filtro en el objeto visual**, regresa la tabla a **125,00 %** y pasa la prueba del número viejo, porque la prueba se hizo en esa misma tabla: la tarjeta de al lado dice **48 880** y marzo sale en **78,26 %** en vez de 156,52 %. Quitando la fila en Power Query quedan **36 filas**, **24 440**, y el año en **47 000**: el Total de la hoja servía para comprobar, no para cargar.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veintiocho clases, es esta:
+Si hay una sola cosa que llevarse de las veintinueve clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -144,6 +147,7 @@ Si hay una sola cosa que llevarse de las veintiocho clases, es esta:
 | 26 | una columna de «kilos entregados» idéntica a la de cosechados, porque la relación con la fecha de entrega estaba dibujada pero inactiva | nada — **la relación estaba; la medida nunca la pidió** |
 | 27 | un archivo de mayo a agosto que, con los errores quitados, dejó la columna 100 % válida, seis fechas al revés y un cacao de julio en febrero | nada — **los tres `Error` eran el único aviso, y el botón los borró** |
 | 28 | una combinación por cultivo que duplicó 21 cosechas, y un `Quitar duplicados` que las devolvió a 25 con el precio equivocado | nada — **«coincide con 25 de 25» era verdad: contaba parejas, no cuántas** |
+| 29 | una hoja de metas con su fila de Total, que entró como una finca más y dejó a la empresa en 62,50 %, y un filtro del objeto visual que la escondió de una sola tabla | nada — **la columna Total sí dio `Error`; la fila Total tenía fechas válidas** |
 
 ---
 
