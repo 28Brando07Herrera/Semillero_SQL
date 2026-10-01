@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 29)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 30)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -70,6 +70,7 @@ proyecto-final/ enunciado y rúbrica
 | **27** | **25 sep** | **La fecha al revés · Power Query y la configuración regional, y un botón de «Quitar errores» que quitó filas** | **Power BI (CSV)** | [clase](clases/27-power-query-fechas/) |
 | **28** | **28 sep** | **Cada cosecha, dos veces · Combinar consultas en Power Query, y una llave a la que le faltaba la calidad** | **Power BI (CSV)** | [clase](clases/28-combinar-consultas/) |
 | **29** | **29 sep** | **La finca que se llamaba Total · Anular dinamización en Power Query, y un total de la hoja que se sumó otra vez** | **Power BI (CSV)** | [clase](clases/29-anular-dinamizacion/) |
+| **30** | **1 oct** | **Todo lo que cae en la carpeta · Combinar los archivos de una carpeta en Power Query: una copia que se sumó y un mes que perdió sus kilos** | **Power BI (CSV)** | [clase](clases/30-combinar-carpeta/) |
 
 ---
 
@@ -113,13 +114,15 @@ Y en la 28 la gerencia pide **dinero**: comercial manda `precios.csv`, el precio
 
 Y en la 29 planeación cambia de sistema y deja de mandar `h_meta`: manda **su hoja**, una fila por finca y una columna por mes, con el correo de que son las mismas metas de siempre, 47 000 kg. Para que el modelo la use hay que **anular la dinamización**: se marcan las columnas que se quedan, `finca_id` y `finca`, y cada celda se vuelve una fila. La hoja trae dos totales. La **columna** Total se vuelve un «mes» que se llama `Total` y da **cuatro `Error`** al pasar a fecha: esta vez el aviso se lee y se filtra por su nombre. La **fila** Total no da ninguno: entra como **una finca más**, con doce meses válidos, y la tabla de control saca una fila `(En blanco)` con **24 440** y baja a la empresa de 125,00 % a **62,50 %**, con cada finca exacta. El segundo arreglo obvio, un **filtro en el objeto visual**, regresa la tabla a **125,00 %** y pasa la prueba del número viejo, porque la prueba se hizo en esa misma tabla: la tarjeta de al lado dice **48 880** y marzo sale en **78,26 %** en vez de 156,52 %. Quitando la fila en Power Query quedan **36 filas**, **24 440**, y el año en **47 000**: el Total de la hoja servía para comprobar, no para cargar.
 
+Y en la 30 la báscula deja de mandar `h_cosecha.csv` y deja **un archivo por mes** en una carpeta compartida. **Combinar archivos** sobre la carpeta arma una sola consulta: toma un **archivo de ejemplo**, le aplica sus pasos a cada archivo y anota en **`Source.Name`** de dónde salió cada fila, así que el mes que viene entra solo al Actualizar. Pero la carpeta **se lee entera**: una copia de abril que dejó Windows entra como un mes más y la tabla de control salta a **50 300** y **205,81 %**. `Source.Name` dice de dónde salió, **Quitar duplicados** no quita ni una fila porque ese nombre las hace distintas, y se filtra el archivo. Con el control otra vez en 125,00 %, los dos años dicen **74 700** en vez de 77 550: julio de 2025 se pesó con la báscula de repuesto, que escribe **`kg_neto`**, y como las columnas salen **del archivo de ejemplo**, sus dos cosechas entraron con los kilos vacíos y **sin un `Error`**. El arreglo que funcionó el martes, quitar los `null`, deja la columna 100 % válida y se lleva **dos cosechas**. Renombrando en **Transformar archivo de ejemplo**, con `MissingField.Ignore`, quedan **77 550** en **25** cosechas: el control de enero–abril nunca vio julio, porque julio no estaba en enero–abril.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las veintinueve clases, es esta:
+Si hay una sola cosa que llevarse de las treinta clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -148,6 +151,7 @@ Si hay una sola cosa que llevarse de las veintinueve clases, es esta:
 | 27 | un archivo de mayo a agosto que, con los errores quitados, dejó la columna 100 % válida, seis fechas al revés y un cacao de julio en febrero | nada — **los tres `Error` eran el único aviso, y el botón los borró** |
 | 28 | una combinación por cultivo que duplicó 21 cosechas, y un `Quitar duplicados` que las devolvió a 25 con el precio equivocado | nada — **«coincide con 25 de 25» era verdad: contaba parejas, no cuántas** |
 | 29 | una hoja de metas con su fila de Total, que entró como una finca más y dejó a la empresa en 62,50 %, y un filtro del objeto visual que la escondió de una sola tabla | nada — **la columna Total sí dio `Error`; la fila Total tenía fechas válidas** |
+| 30 | una carpeta que se leyó entera, con una copia de abril adentro, y un julio con otro encabezado que entró sin kilos y que el control de enero–abril nunca vio | nada — **la copia la atrapó el número viejo; julio, solo el de los dos años** |
 
 ---
 
