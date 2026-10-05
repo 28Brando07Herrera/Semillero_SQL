@@ -5,7 +5,7 @@ Todo el material del curso está aquí: diapositivas, scripts, ejercicios y entr
 
 **Diapositivas online:** https://negatix092.github.io/Semillero_SQL/
 **Notas y correcciones:** https://negatix092.github.io/Semillero_SQL/resultados.html
-**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 30)
+**Entorno de trabajo:** [sqliteonline.com](https://sqliteonline.com) (SQLite, clases 1 a 10) · [freesql.com](https://freesql.com) (Oracle, desde la clase 11) · Oracle local + Power BI (desde la clase 13) · Power BI sobre CSV, sin motor (clases 15 a 31)
 **¿Preferís trabajar en tu máquina?** [SQLite local](recursos/entorno-local-sqlite.md) · [Oracle local](recursos/entorno-local-oracle.md) — los dos opcionales
 
 ---
@@ -71,6 +71,8 @@ proyecto-final/ enunciado y rúbrica
 | **28** | **28 sep** | **Cada cosecha, dos veces · Combinar consultas en Power Query, y una llave a la que le faltaba la calidad** | **Power BI (CSV)** | [clase](clases/28-combinar-consultas/) |
 | **29** | **29 sep** | **La finca que se llamaba Total · Anular dinamización en Power Query, y un total de la hoja que se sumó otra vez** | **Power BI (CSV)** | [clase](clases/29-anular-dinamizacion/) |
 | **30** | **1 oct** | **Todo lo que cae en la carpeta · Combinar los archivos de una carpeta en Power Query: una copia que se sumó y un mes que perdió sus kilos** | **Power BI (CSV)** | [clase](clases/30-combinar-carpeta/) |
+| **31** | **2 oct** | **El promedio de los promedios · Agrupar por en Power Query: una llave de más que partió cosechas y un promedio guardado que no se podía volver a promediar** | **Power BI (CSV)** | [clase](clases/31-agrupar-por/) |
+| **P2** | **5–9 oct** | **Proyecto integrador · El cierre de septiembre: una semana, cuatro puntos de control y un tablero armado con los archivos como llegaron** | **Power BI (CSV)** | [proyecto](clases/32-proyecto-integrador/) |
 
 ---
 
@@ -116,13 +118,17 @@ Y en la 29 planeación cambia de sistema y deja de mandar `h_meta`: manda **su h
 
 Y en la 30 la báscula deja de mandar `h_cosecha.csv` y deja **un archivo por mes** en una carpeta compartida. **Combinar archivos** sobre la carpeta arma una sola consulta: toma un **archivo de ejemplo**, le aplica sus pasos a cada archivo y anota en **`Source.Name`** de dónde salió cada fila, así que el mes que viene entra solo al Actualizar. Pero la carpeta **se lee entera**: una copia de abril que dejó Windows entra como un mes más y la tabla de control salta a **50 300** y **205,81 %**. `Source.Name` dice de dónde salió, **Quitar duplicados** no quita ni una fila porque ese nombre las hace distintas, y se filtra el archivo. Con el control otra vez en 125,00 %, los dos años dicen **74 700** en vez de 77 550: julio de 2025 se pesó con la báscula de repuesto, que escribe **`kg_neto`**, y como las columnas salen **del archivo de ejemplo**, sus dos cosechas entraron con los kilos vacíos y **sin un `Error`**. El arreglo que funcionó el martes, quitar los `null`, deja la columna 100 % válida y se lleva **dos cosechas**. Renombrando en **Transformar archivo de ejemplo**, con `MissingField.Ignore`, quedan **77 550** en **25** cosechas: el control de enero–abril nunca vio julio, porque julio no estaba en enero–abril.
 
+Y en la 31 la báscula baja un nivel más: ya no manda una fila por cosecha sino **una por camión**, `pesadas.csv`, con los mismos kilos de siempre y una pregunta de logística: **¿cuánto lleva en promedio un camión?** Cargadas tal cual, los kilos salen bien y `[Cosechas]` dice **19**, porque `COUNTROWS` cuenta camiones. **Agrupar por** —el `GROUP BY` con botones— regresa a una cosecha por fila, pero solo se queda con las **llaves** y las **agregaciones**: Básico deja dos columnas, y agrupar por todo lo que no son kilos mete **`camion`** en las llaves, parte las cosechas que usaron dos placas en **36** filas y deja `[Cosechas repetidas]` en **5**, con el control en 125,00 % todo el tiempo. Con las cinco llaves de la cosecha quedan **25** filas, y con ellas la trampa: la columna `carga_promedio` ya estaba calculada, y `AVERAGE` sobre ella dice **1 500,00**, cuando 30 550 kilos en 19 camiones son **1 607,89**. Es el promedio de los promedios: una cosecha de un camión pesa igual que una de cuatro, y La Unión, con un camión por cosecha, no lo enseña. El segundo arreglo obvio, `[Kilos]` entre `[Cosechas]`, da **3 394,44**, que son kilos por cosecha. Lo que hacía falta se guardó al agrupar: el recuento de camiones, que se **suma**.
+
+Y esta semana, del 5 al 9 de octubre, no hay tema nuevo: hay **un proyecto**. La dirección presenta el cierre al 30 de septiembre y manda los archivos **como le llegaron**: la carpeta de la báscula, la báscula digital, los precios de comercial y la hoja de planeación, con una cuarta finca que la empresa compró en enero. Los datos son nuevos y ningún número viejo sirve. El enunciado ya no dice qué botón apretar: dice qué tiene que existir al final de cada día, publica una o dos **anclas** para calibrar y deja el resto en **preguntas ciegas**, que se contestan con lo que salga en pantalla y regresan al día siguiente con un «cuadra» o un «no cuadra», sin el porqué. Lo que más vale es la **bitácora**: cada cosa rara, con la prueba que la delató.
+
 > **Nota de idioma:** el material de la clase 13 en adelante está redactado en español de México. Las clases 1 a 12 conservan la redacción original.
 
 ---
 
 ## El hilo del curso
 
-Si hay una sola cosa que llevarse de las treinta clases, es esta:
+Si hay una sola cosa que llevarse de las treinta y una clases, es esta:
 
 **Los errores que dan error son los baratos.**
 
@@ -152,6 +158,7 @@ Si hay una sola cosa que llevarse de las treinta clases, es esta:
 | 28 | una combinación por cultivo que duplicó 21 cosechas, y un `Quitar duplicados` que las devolvió a 25 con el precio equivocado | nada — **«coincide con 25 de 25» era verdad: contaba parejas, no cuántas** |
 | 29 | una hoja de metas con su fila de Total, que entró como una finca más y dejó a la empresa en 62,50 %, y un filtro del objeto visual que la escondió de una sola tabla | nada — **la columna Total sí dio `Error`; la fila Total tenía fechas válidas** |
 | 30 | una carpeta que se leyó entera, con una copia de abril adentro, y un julio con otro encabezado que entró sin kilos y que el control de enero–abril nunca vio | nada — **la copia la atrapó el número viejo; julio, solo el de los dos años** |
+| 31 | una tabla agrupada por cosecha que guardó el promedio de cada una, y una carga por camión que promedió esos promedios: 1 500,00 en vez de 1 607,89 | nada — **cada fila estaba bien; lo que estaba mal era resumir un resumen** |
 
 ---
 

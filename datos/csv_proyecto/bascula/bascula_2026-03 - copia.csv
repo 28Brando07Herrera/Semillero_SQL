@@ -1,0 +1,5 @@
+cosecha_id,finca_id,cultivo_id,fecha,fecha_entrega,calidad,kg
+30,1,1,2026-03-05,2026-03-07,primera,4500
+31,2,2,2026-03-13,2026-03-15,primera,2400
+32,4,4,2026-03-18,2026-03-20,segunda,3900
+33,3,3,2026-03-26,2026-04-22,primera,1200

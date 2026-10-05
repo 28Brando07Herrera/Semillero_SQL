@@ -1,0 +1,3 @@
+cosecha_id,finca_id,cultivo_id,fecha,fecha_entrega,calidad,kg_neto
+16,1,1,2025-08-05,2025-08-07,primera,2200
+17,2,2,2025-08-20,2025-08-22,segunda,1250
