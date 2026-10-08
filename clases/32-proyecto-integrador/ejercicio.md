@@ -1,6 +1,6 @@
 # Proyecto integrador · El cierre de septiembre
 
-**Del lunes 5 al viernes 9 de octubre · Individual · Solo Power BI Desktop · Cuatro puntos de control (lunes a jueves) y la entrega final el viernes**
+**Del lunes 5 al viernes 9 de octubre · Individual · Solo Power BI Desktop · Cuatro puntos de control (lunes a jueves), y el viernes la entrega final con una presentación de 20 minutos**
 
 ---
 
@@ -26,7 +26,7 @@ Tampoco hay enunciado paso a paso. En las clases, el ejercicio te decía qué bo
 | **Martes 6** | 2 · Los hechos | `h_cosecha` armada en Power Query, con su precio | 15 |
 | **Miércoles 7** | 3 · Las metas y el modelo | `h_meta`, las relaciones y las medidas base | 15 |
 | **Jueves 8** | 4 · El análisis y la seguridad | ranking, bono, escenario, semáforo, KPI y el rol | 15 |
-| **Viernes 9** | La entrega | el tablero terminado, el informe para la dirección y la bitácora | 45 |
+| **Viernes 9** | La entrega | el tablero terminado, **tu presentación ante la dirección** y la bitácora | 45 |
 
 Suman **100**.
 
@@ -85,7 +85,7 @@ En `entregas/apellido-nombre/`, por *pull request*. **Un PR por día**, con esto
 | Martes | `Proyecto_PC2_Apellido_Nombre.md` · `proyecto-pc2-hechos.png` · `proyecto-pc2-pasos.png` |
 | Miércoles | `Proyecto_PC3_Apellido_Nombre.md` · `proyecto-pc3-modelo.png` · `proyecto-pc3-control.png` |
 | Jueves | `Proyecto_PC4_Apellido_Nombre.md` · `proyecto-pc4-gerente.png` · `proyecto-pc4-regional.png` · `proyecto-pc4-practicante.png` |
-| Viernes | `Proyecto_Final_Apellido_Nombre.md` · `proyecto-final-1-resumen.png` · `proyecto-final-2-analisis.png` · `proyecto-final-3-auditoria.png` |
+| Viernes | `Proyecto_Final_Apellido_Nombre.pptx` (**antes de la sesión**) · `Proyecto_Final_Apellido_Nombre.md` · `proyecto-final-1-resumen.png` · `proyecto-final-2-analisis.png` · `proyecto-final-3-auditoria.png` |
 
 > El `.pbix` no se entrega: el repositorio lo ignora a propósito. **Guárdalo**: si una captura no se entiende, te voy a pedir que lo abras.
 
@@ -252,21 +252,40 @@ Tres páginas, tres capturas:
 
 Se califica que **se lea**: títulos que digan el periodo, unidades, nada de `Suma de kg`, y que una persona que no tomó el curso entienda la página Resumen en un minuto.
 
-### El informe para la dirección (10 puntos)
+### La presentación ante la dirección (10 puntos)
 
-En `Proyecto_Final_Apellido_Nombre.md`, **máximo una página**, para alguien que no sabe qué es DAX:
+El viernes, en el horario de clase, **cada quien presenta su cierre**. Haz de cuenta que enfrente está la dirección: gente que no sabe qué es DAX y que va a tomar decisiones con lo que digas.
 
-1. **El cierre en una línea**: cuánto, contra cuánto.
-2. **Tres hallazgos**, cada uno con su número y una recomendación. Un hallazgo es algo que **no se ve en la tarjeta del total**.
-3. **Una advertencia**: un número del tablero que se puede leer mal, y cómo hay que leerlo.
+- **En PowerPoint**, archivo `Proyecto_Final_Apellido_Nombre.pptx`, subido en tu *pull request* **antes de que empiece la sesión**.
+- **Máximo 20 minutos por persona, contando las preguntas.** Apunta a 15 de exposición y deja 5. A los 20 se corta, vayas donde vayas.
+- **Máximo 10 láminas.** El orden de las presentaciones se sortea al empezar.
+
+Lo que tiene que llevar, en este orden:
+
+| # | Lámina | Qué lleva |
+|---|---|---|
+| 1 | **El cierre en una línea** | cuánto, contra cuánto, y en qué periodo |
+| 2 | **El tablero** | la página Resumen, en captura o en vivo |
+| 3 a 5 | **Tres hallazgos**, uno por lámina | cada uno con su número y una recomendación. Un hallazgo es algo que **no se ve en la tarjeta del total** |
+| 6 | **Una advertencia** | un número del tablero que se puede leer mal, y cómo hay que leerlo |
+| 7 y 8 | **Dos filas de tu bitácora** | qué traía el archivo, **cómo te diste cuenta** y qué número daba mal |
+| 9 | **Por qué creerle a este tablero** | la página Auditoría: qué pruebas tiene y qué dicen |
+
+Tres reglas para las láminas:
+
+- **Un número por lámina, grande, con su unidad y su periodo.** Las fórmulas no van: van en el `.md`.
+- **No leas la lámina.** Si lo que dices es lo que está escrito, sobra una de las dos cosas.
+- **En las preguntas te voy a pedir que abras el `.pbix`** y me enseñes de dónde sale un número, y te voy a preguntar por una fila de tu bitácora que no hayas presentado. Tenlo abierto.
+
+Los 10 puntos: el cierre en una línea (2), los tres hallazgos con número y recomendación (2 cada uno) y la advertencia (2). Las láminas 7 a 9 y tus respuestas cuentan para la bitácora y el tablero, que se califican ahí mismo.
 
 ### La bitácora completa (15 puntos)
 
-La de los cuatro días, junta y revisada, con las cinco columnas. Aquí entra también lo que corregiste después de mis «no cuadra».
+En `Proyecto_Final_Apellido_Nombre.md`. La de los cuatro días, junta y revisada, con las cinco columnas. Aquí entra también lo que corregiste después de mis «no cuadra».
 
 ### Las medidas y el rol (5 puntos)
 
-Todas las medidas y la condición del rol, en bloques de código, cada una con **una línea** que diga qué pregunta contesta.
+En el mismo `.md`. Todas las medidas y la condición del rol, en bloques de código, cada una con **una línea** que diga qué pregunta contesta.
 
 ---
 
@@ -301,7 +320,7 @@ Y la regla del material: **si un número de este enunciado no te cierra, no lo f
 | **PC3 · miércoles:** las tres anclas (3), las cinco ciegas (2 cada una) y la bitácora del día con sus capturas (2) | 15 |
 | **PC4 · jueves:** el ancla (3), las cinco ciegas (2 cada una) y la bitácora del día con sus capturas (2) | 15 |
 | **Final · el tablero:** tres páginas que se leen | 15 |
-| **Final · el informe:** el cierre, tres hallazgos y una advertencia | 10 |
+| **Final · la presentación:** el cierre, tres hallazgos y una advertencia, en 20 minutos | 10 |
 | **Final · la bitácora completa:** cada hallazgo con su prueba | 15 |
 | **Final · las medidas y el rol**, con su pregunta | 5 |
 

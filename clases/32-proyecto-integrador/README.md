@@ -1,7 +1,7 @@
 # Proyecto integrador · El cierre de septiembre
 **Del lunes 5 al viernes 9 de octubre**
 
-**Una semana, individual.** El lunes hay **50 minutos de explicación**; de martes a jueves el horario de clase es para trabajar y resolver dudas, y el viernes se entrega. Solo Power BI Desktop: **esta semana tampoco se prende Oracle.**
+**Una semana, individual.** El lunes hay **50 minutos de explicación**; de martes a jueves el horario de clase es para trabajar y resolver dudas, y el viernes **cada quien presenta su cierre**: PowerPoint, 20 minutos máximo. Solo Power BI Desktop: **esta semana tampoco se prende Oracle.**
 
 ## Material
 
@@ -35,7 +35,7 @@ No hay tema nuevo: todo se vio entre la clase 14 y la 30. Lo que cambia es que *
 | Martes 6 | 2 · Los hechos | `h_cosecha` armada en Power Query, con su precio | 15 |
 | Miércoles 7 | 3 · Las metas y el modelo | `h_meta`, las relaciones y las medidas base | 15 |
 | Jueves 8 | 4 · El análisis y la seguridad | ranking, bono, escenario, semáforo, KPI y el rol | 15 |
-| Viernes 9 | La entrega | el tablero, el informe para la dirección y la bitácora | 45 |
+| Viernes 9 | La entrega | el tablero, **la presentación ante la dirección** y la bitácora | 45 |
 
 ## Cómo funciona un punto de control
 

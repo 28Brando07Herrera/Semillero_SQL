@@ -100,7 +100,7 @@ Si en tu tablero aparece un 30 550, un 24 440 o un 125,00 %, abriste la carpeta 
 | **Martes 6** | 2 · Los hechos | `h_cosecha`, con su precio | 15 |
 | **Miércoles 7** | 3 · Las metas y el modelo | `h_meta`, relaciones y medidas base | 15 |
 | **Jueves 8** | 4 · El análisis y la seguridad | podio, bono, escenario, semáforo, KPI, rol | 15 |
-| **Viernes 9** | La entrega | tablero, informe y bitácora | 45 |
+| **Viernes 9** | La entrega | tablero, **presentación** y bitácora | 45 |
 
 Unas **dos horas** por etapa. Un solo `.pbix` para toda la semana.
 
@@ -205,7 +205,7 @@ En vivo, juntos, y es lo único que hacemos juntos:
 | Qué | Vale | Qué se califica |
 |---|---|---|
 | **El tablero**, tres páginas | 15 | que **se lea**: Resumen, Análisis y **Auditoría** |
-| **El informe** para la dirección | 10 | el cierre, **tres hallazgos** y una advertencia, en una página |
+| **La presentación** ante la dirección | 10 | el cierre, **tres hallazgos** y una advertencia: PowerPoint, **20 minutos máximo** |
 | **La bitácora** completa | 15 | cada hallazgo **con su prueba** |
 | Las medidas y el rol | 5 | cada una con la pregunta que contesta |
 
